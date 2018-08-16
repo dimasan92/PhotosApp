@@ -25,18 +25,19 @@
         <item name="android:textSize">@dimen/settings_subtitle_text_size</item>
     </style>
 
-    <style name="RedThemeButtonStyle">
+    <style name="ThemeButtonStyle">
         <item name="android:layout_margin">@dimen/settings_margin</item>
+    </style>
+
+    <style name="RedThemeButtonStyle" parent="ThemeButtonStyle">
         <item name="android:background">@color/colorPrimaryRedTheme</item>
     </style>
 
-    <style name="BlueThemeButtonStyle">
-        <item name="android:layout_margin">@dimen/settings_margin</item>
+    <style name="BlueThemeButtonStyle" parent="ThemeButtonStyle">
         <item name="android:background">@color/colorPrimaryBlueTheme</item>
     </style>
 
-    <style name="GreenThemeButtonStyle">
-        <item name="android:layout_margin">@dimen/settings_margin</item>
+    <style name="GreenThemeButtonStyle" parent="ThemeButtonStyle">
         <item name="android:background">@color/colorPrimaryGreenTheme</item>
     </style>
 </resources>
