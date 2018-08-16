@@ -1,5 +1,5 @@
 <resources>
-
+    <!--Themes-->
     <style name="RedAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimaryRedTheme</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkRedTheme</item>
@@ -12,4 +12,20 @@
         <item name="colorAccent">@color/colorAccentBlueTheme</item>
     </style>
 
+    <!--Styles-->
+    <style name="SettingsSubtitleStyle">
+        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textSize">@dimen/settings_subtitle_text_size</item>
+    </style>
+
+    <style name="RedThemeButtonStyle">
+        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:background">@color/colorPrimaryRedTheme</item>
+    </style>
+
+    <style name="BlueThemeButtonStyle">
+        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:background">@color/colorPrimaryBlueTheme</item>
+    </style>
 </resources>
