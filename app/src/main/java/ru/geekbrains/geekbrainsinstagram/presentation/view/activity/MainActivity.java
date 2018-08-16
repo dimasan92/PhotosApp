@@ -1,6 +1,7 @@
-package ru.geekbrains.geekbrainsinstagram;
+package ru.geekbrains.geekbrainsinstagram.presentation.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ru.geekbrains.geekbrainsinstagram.R;
 
 import android.os.Bundle;
 
