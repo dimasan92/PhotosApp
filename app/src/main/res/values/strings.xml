@@ -5,6 +5,7 @@
 
     <string name="btn_red_theme">Red Theme</string>
     <string name="btn_blue_theme">Blue Theme</string>
+    <string name="btn_green_theme">Green Theme</string>
 
     <string name="menu_item_settings">Settings</string>
 </resources>

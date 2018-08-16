@@ -24,4 +24,11 @@
         android:layout_height="wrap_content"
         android:text="@string/btn_blue_theme" />
 
+    <Button
+        android:id="@+id/btn_green_theme"
+        style="@style/GreenThemeButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_green_theme" />
+
 </LinearLayout>

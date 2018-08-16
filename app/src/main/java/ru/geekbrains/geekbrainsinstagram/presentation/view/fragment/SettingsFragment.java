@@ -22,6 +22,8 @@ public class SettingsFragment extends Fragment {
     Button mBtnRedTheme;
     @BindView(R.id.btn_blue_theme)
     Button mBtnBlueTheme;
+    @BindView(R.id.btn_green_theme)
+    Button mBtnGreenTheme;
 
     private Consumer<Integer> mThemeObserver;
 
@@ -50,5 +52,10 @@ public class SettingsFragment extends Fragment {
     @OnClick(R.id.btn_blue_theme)
     void changeToBlueTheme() {
         Single.just(R.style.BlueAppTheme).subscribe(mThemeObserver).dispose();
+    }
+
+    @OnClick(R.id.btn_green_theme)
+    void changeToGreenTheme() {
+        Single.just(R.style.GreenAppTheme).subscribe(mThemeObserver).dispose();
     }
 }

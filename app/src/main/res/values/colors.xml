@@ -10,6 +10,11 @@
     <color name="colorPrimaryLightBlueTheme">#BBDEFB</color>
     <color name="colorAccentBlueTheme">#FF5722</color>
 
+    <color name="colorPrimaryGreenTheme">#4CAF50</color>
+    <color name="colorPrimaryDarkGreenTheme">#388E3C</color>
+    <color name="colorPrimaryLightGreenTheme">#C8E6C9</color>
+    <color name="colorAccentGreenTheme">#FFC107</color>
+
     <color name="colorIcons">#FFFFFF</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>

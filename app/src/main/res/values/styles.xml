@@ -12,6 +12,12 @@
         <item name="colorAccent">@color/colorAccentBlueTheme</item>
     </style>
 
+    <style name="GreenAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryGreenTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenTheme</item>
+        <item name="colorAccent">@color/colorAccentGreenTheme</item>
+    </style>
+
     <!--Styles-->
     <style name="SettingsSubtitleStyle">
         <item name="android:layout_margin">@dimen/settings_margin</item>
@@ -27,5 +33,10 @@
     <style name="BlueThemeButtonStyle">
         <item name="android:layout_margin">@dimen/settings_margin</item>
         <item name="android:background">@color/colorPrimaryBlueTheme</item>
+    </style>
+
+    <style name="GreenThemeButtonStyle">
+        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:background">@color/colorPrimaryGreenTheme</item>
     </style>
 </resources>
