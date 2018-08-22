@@ -6,23 +6,55 @@ import android.widget.FrameLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import javax.inject.Inject;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import io.reactivex.functions.Consumer;
+import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
+import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
+import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
 public class MainActivity extends AppCompatActivity {
 
+    @Inject
+    Navigator navigator;
+
     private DrawerLayout drawerLayout;
+
+    private Consumer<Integer> mThemeObserver = theme -> {
+        if (theme != SettingsPrefsUtils.getCurrentTheme(getApplicationContext())) {
+            SettingsPrefsUtils.saveCurrentTheme(getApplicationContext(), theme);
+            recreate();
+        }
+    };
+
+    private NavigationView.OnNavigationItemSelectedListener drawerListener = menuItem -> {
+        switch (menuItem.getItemId()) {
+            case R.id.nav_main:
+                break;
+            case R.id.nav_theme_chooser:
+                navigator.navigateToColorChooser();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(SettingsPrefsUtils.getCurrentTheme(getApplicationContext()));
         setContentView(R.layout.activity_main);
 
-        setupView();
+        setupComponent();
+        setupActivityView();
+        navigator.initializeView();
     }
 
     @Override
@@ -34,12 +66,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupView() {
+    private void setupComponent() {
+        MainApplication.getApp()
+                .getComponentsManager()
+                .getActivityComponent(this)
+                .inject(this);
+    }
+
+    private void setupActivityView() {
         Toolbar toolbar = setupToolbar();
         setupDrawer(toolbar);
 
         NavigationView navigationView = findViewById(R.id.main_navigator);
-        navigationView.setNavigationItemSelectedListener(drawerListener());
+        navigationView.setNavigationItemSelectedListener(drawerListener);
     }
 
     private Toolbar setupToolbar() {
@@ -61,18 +100,5 @@ public class MainActivity extends AppCompatActivity {
                 toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    private NavigationView.OnNavigationItemSelectedListener drawerListener() {
-        return menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.nav_main:
-                    break;
-                case R.id.nav_theme_chooser:
-                    break;
-            }
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        };
     }
 }

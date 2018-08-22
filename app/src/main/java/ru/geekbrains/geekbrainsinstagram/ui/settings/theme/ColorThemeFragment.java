@@ -1,5 +1,6 @@
 package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,18 +11,15 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
+import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
 public final class ColorThemeFragment extends BaseFragment implements ColorThemeContract.View {
 
     @Inject
     ColorThemeContract.Presenter presenter;
-
-    private Consumer<Integer> mThemeObserver;
 
     public static ColorThemeFragment newInstance() {
         return new ColorThemeFragment();
@@ -30,6 +28,8 @@ public final class ColorThemeFragment extends BaseFragment implements ColorTheme
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainApplication.getApp().getComponentsManager().getFragmentComponent(getActivity())
+                .inject(this);
         presenter.setView(this);
     }
 
@@ -52,17 +52,19 @@ public final class ColorThemeFragment extends BaseFragment implements ColorTheme
     }
 
     @Override
-    protected void inject(FragmentComponent fragmentComponent) {
-        fragmentComponent.inject(this);
-    }
-
-    public void addThemeObserver(Consumer<Integer> observer) {
-        mThemeObserver = observer;
+    public void recreateActivity() {
+        if (getActivity() == null) {
+            return;
+        }
+        getActivity().recreate();
     }
 
     @Override
-    public Consumer<Integer> getThemeObserver() {
-        return mThemeObserver;
+    public Context getAppContext() {
+        if (getActivity() == null) {
+            return null;
+        }
+        return getActivity().getApplicationContext();
     }
 
     private void setListeners(View view) {

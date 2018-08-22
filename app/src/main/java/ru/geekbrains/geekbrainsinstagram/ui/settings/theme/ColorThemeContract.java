@@ -1,13 +1,16 @@
 package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
 
-import io.reactivex.functions.Consumer;
+import android.content.Context;
+
 import ru.geekbrains.geekbrainsinstagram.base.BaseContract;
 
 public interface ColorThemeContract {
 
     interface View extends BaseContract.View {
 
-        Consumer<Integer> getThemeObserver();
+        void recreateActivity();
+
+        Context getAppContext();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
