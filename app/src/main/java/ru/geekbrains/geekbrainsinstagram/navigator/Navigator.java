@@ -38,6 +38,7 @@ public final class Navigator {
     private void initFragment(Fragment fragment) {
         fragmentManager.beginTransaction()
                 .add(R.id.main_fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 }

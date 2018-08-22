@@ -20,19 +20,12 @@ import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
-public class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity {
 
     @Inject
     Navigator navigator;
 
     private DrawerLayout drawerLayout;
-
-    private Consumer<Integer> mThemeObserver = theme -> {
-        if (theme != SettingsPrefsUtils.getCurrentTheme(getApplicationContext())) {
-            SettingsPrefsUtils.saveCurrentTheme(getApplicationContext(), theme);
-            recreate();
-        }
-    };
 
     private NavigationView.OnNavigationItemSelectedListener drawerListener = menuItem -> {
         switch (menuItem.getItemId()) {
