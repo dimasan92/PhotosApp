@@ -6,7 +6,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
 public final class ColorThemePresenter extends BasePresenter<ColorThemeContract.View>
         implements ColorThemeContract.Presenter {

@@ -13,13 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
-import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
 public final class MainActivity extends AppCompatActivity implements MainContract.View {
 
