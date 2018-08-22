@@ -30,6 +30,7 @@ public final class MainActivity extends AppCompatActivity implements MainContrac
     private NavigationView.OnNavigationItemSelectedListener drawerListener = menuItem -> {
         switch (menuItem.getItemId()) {
             case R.id.nav_main:
+                navigator.navigateToCameraGallery();
                 break;
             case R.id.nav_theme_chooser:
                 navigator.navigateToColorChooser();
