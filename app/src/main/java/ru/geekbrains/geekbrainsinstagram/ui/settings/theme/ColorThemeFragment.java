@@ -28,7 +28,7 @@ public final class ColorThemeFragment extends BaseFragment implements ColorTheme
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainApplication.getApp().getComponentsManager().getFragmentComponent(getActivity())
+        MainApplication.getApp().getComponentsManager().getFragmentComponent()
                 .inject(this);
         presenter.setView(this);
     }
@@ -57,14 +57,6 @@ public final class ColorThemeFragment extends BaseFragment implements ColorTheme
             return;
         }
         getActivity().recreate();
-    }
-
-    @Override
-    public Context getAppContext() {
-        if (getActivity() == null) {
-            return null;
-        }
-        return getActivity().getApplicationContext();
     }
 
     private void setListeners(View view) {

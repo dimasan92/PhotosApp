@@ -11,15 +11,19 @@ import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemeFragment;
 @ActivityScope
 public final class Navigator {
 
-    private final FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
     @Inject
-    public Navigator(FragmentManager fragmentManager) {
+    public Navigator() {
+    }
+
+    public void setFragmentManager(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     public void initializeView() {
         Fragment fragment = fragmentManager.findFragmentById(R.id.main_fragment_container);
+
 
         if (fragment == null) {
 //            fragment = ColorThemeFragment.newInstance();

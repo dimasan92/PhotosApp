@@ -1,7 +1,9 @@
 package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
 
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
+import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
@@ -9,7 +11,8 @@ import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 public final class ColorThemePresenter extends BasePresenter<ColorThemeContract.View>
         implements ColorThemeContract.Presenter {
 
-    private final Subject<Integer> themeSubject = PublishSubject.create();
+    @Inject
+    ChangeThemeUseCase changeThemeUseCase;
 
     @Override
     public void viewIsReady() {
@@ -30,13 +33,14 @@ public final class ColorThemePresenter extends BasePresenter<ColorThemeContract.
         applyTheme(R.style.GreenAppTheme);
     }
 
-    private void applyTheme(int theme){
-        if(view.getAppContext() == null){
-            return;
-        }
-        if (theme != SettingsPrefsUtils.getCurrentTheme(view.getAppContext())) {
-            SettingsPrefsUtils.saveCurrentTheme(view.getAppContext(), theme);
-            view.recreateActivity();
-        }
+    private void applyTheme(int theme) {
+        disposables.add(
+                changeThemeUseCase.execute(theme)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(shouldRecreate -> {
+                            if (shouldRecreate) {
+                                view.recreateActivity();
+                            }
+                        }));
     }
 }

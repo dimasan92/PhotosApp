@@ -13,7 +13,7 @@ public final class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
-        componentsManager = new ComponentsManager();
+        componentsManager = new ComponentsManager(getApplicationContext());
     }
 
     public static MainApplication getApp() {

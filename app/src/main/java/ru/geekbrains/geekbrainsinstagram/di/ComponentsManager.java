@@ -1,13 +1,13 @@
 package ru.geekbrains.geekbrainsinstagram.di;
 
-import javax.inject.Inject;
+import android.content.Context;
+
 import javax.inject.Singleton;
 
-import androidx.fragment.app.FragmentActivity;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.activity.module.ActivityModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
+import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.module.FragmentModule;
 
@@ -18,25 +18,27 @@ public final class ComponentsManager {
     private ActivityComponent activityComponent;
     private FragmentComponent fragmentComponent;
 
-    public ComponentsManager(){
-        initApplicationComponent();
+    public ComponentsManager(Context context) {
+        initApplicationComponent(context);
     }
 
-    private void initApplicationComponent() {
-        applicationComponent = DaggerApplicationComponent.create();
+    private void initApplicationComponent(Context context) {
+        applicationComponent = DaggerApplicationComponent.builder()
+                .utilsModule(new UtilsModule(context))
+                .build();
     }
 
-    public ActivityComponent getActivityComponent(FragmentActivity activity) {
+    public ActivityComponent getActivityComponent() {
         if (activityComponent == null) {
             activityComponent = applicationComponent
-                    .getActivityComponent(new ActivityModule(activity));
+                    .getActivityComponent();
         }
         return activityComponent;
     }
 
-    public FragmentComponent getFragmentComponent(FragmentActivity activity) {
-        if (fragmentComponent == null){
-            fragmentComponent = getActivityComponent(activity)
+    public FragmentComponent getFragmentComponent() {
+        if (fragmentComponent == null) {
+            fragmentComponent = activityComponent
                     .getFragmentComponent(new FragmentModule());
         }
         return fragmentComponent;

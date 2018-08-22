@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
@@ -44,15 +45,16 @@ public final class MainActivity extends AppCompatActivity implements MainContrac
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupComponent();
+        setTheme(presenter.setupTheme());
         super.onCreate(savedInstanceState);
-        setTheme(SettingsPrefsUtils.getCurrentTheme(getApplicationContext()));
+        presenter.setView(this);
+        navigator.setFragmentManager(getSupportFragmentManager());
         setContentView(R.layout.activity_main);
 
-        setupComponent();
         setupActivityView();
         navigator.initializeView();
 
-        presenter.setView(this);
         presenter.viewIsReady();
     }
 
@@ -68,8 +70,7 @@ public final class MainActivity extends AppCompatActivity implements MainContrac
     private void setupComponent() {
         MainApplication.getApp()
                 .getComponentsManager()
-                .getActivityComponent(this)
-                .inject(this);
+                .getActivityComponent().inject(this);
     }
 
     private void setupActivityView() {
