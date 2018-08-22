@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.util.PrefUtils;
 import ru.geekbrains.domain.repository.SettingsRepository;
 
-public class SettingsRepositoryImpl implements SettingsRepository {
+public final class SettingsRepositoryImpl implements SettingsRepository {
 
     private final PrefUtils prefUtils;
 
