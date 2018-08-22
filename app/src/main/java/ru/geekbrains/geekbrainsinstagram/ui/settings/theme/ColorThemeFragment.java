@@ -6,14 +6,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
-public class ColorThemeFragment extends Fragment {
+public final class ColorThemeFragment extends BaseFragment {
+
+    @Inject
+    ColorThemeContract.Presenter presenter;
 
     private Consumer<Integer> mThemeObserver;
 
@@ -30,6 +36,11 @@ public class ColorThemeFragment extends Fragment {
         setListeners(view);
 
         return view;
+    }
+
+    @Override
+    protected void inject(FragmentComponent fragmentComponent) {
+        fragmentComponent.inject(this);
     }
 
     private void setListeners(View view) {
