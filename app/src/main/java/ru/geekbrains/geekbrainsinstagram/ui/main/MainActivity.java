@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.ButterKnife;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.SettingsActivity;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
@@ -21,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         mCurrentTheme = SettingsPrefsUtils.getCurrentTheme(getApplicationContext());
         setTheme(mCurrentTheme);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
     }
 
     @Override

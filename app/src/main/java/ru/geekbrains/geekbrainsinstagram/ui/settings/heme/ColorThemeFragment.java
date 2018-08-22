@@ -9,21 +9,11 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.R;
 
 public class ColorThemeFragment extends Fragment {
-
-    @BindView(R.id.btn_red_theme)
-    Button mBtnRedTheme;
-    @BindView(R.id.btn_blue_theme)
-    Button mBtnBlueTheme;
-    @BindView(R.id.btn_green_theme)
-    Button mBtnGreenTheme;
 
     private Consumer<Integer> mThemeObserver;
 
@@ -36,26 +26,27 @@ public class ColorThemeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_color_theme, container, false);
-        ButterKnife.bind(this, view);
+
+        setListeners(view);
+
         return view;
+    }
+
+    private void setListeners(View view) {
+        Button redThemeButton = view.findViewById(R.id.btn_red_theme);
+        redThemeButton.setOnClickListener(v ->
+                Single.just(R.style.RedAppTheme).subscribe(mThemeObserver).dispose());
+
+        Button blueThemeButton = view.findViewById(R.id.btn_blue_theme);
+        blueThemeButton.setOnClickListener(v ->
+                Single.just(R.style.BlueAppTheme).subscribe(mThemeObserver).dispose());
+
+        Button greenThemeButton = view.findViewById(R.id.btn_green_theme);
+        greenThemeButton.setOnClickListener(v ->
+                Single.just(R.style.GreenAppTheme).subscribe(mThemeObserver).dispose());
     }
 
     public void addThemeObserver(Consumer<Integer> observer) {
         mThemeObserver = observer;
-    }
-
-    @OnClick(R.id.btn_red_theme)
-    void changeToRedTheme() {
-        Single.just(R.style.RedAppTheme).subscribe(mThemeObserver).dispose();
-    }
-
-    @OnClick(R.id.btn_blue_theme)
-    void changeToBlueTheme() {
-        Single.just(R.style.BlueAppTheme).subscribe(mThemeObserver).dispose();
-    }
-
-    @OnClick(R.id.btn_green_theme)
-    void changeToGreenTheme() {
-        Single.just(R.style.GreenAppTheme).subscribe(mThemeObserver).dispose();
     }
 }
