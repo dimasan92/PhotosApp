@@ -20,10 +20,13 @@ import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
-public final class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity implements MainContract.View {
 
     @Inject
     Navigator navigator;
+
+    @Inject
+    MainContract.Presenter presenter;
 
     private DrawerLayout drawerLayout;
 
@@ -48,6 +51,9 @@ public final class MainActivity extends AppCompatActivity {
         setupComponent();
         setupActivityView();
         navigator.initializeView();
+
+        presenter.setView(this);
+        presenter.viewIsReady();
     }
 
     @Override

@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.ui.MainContract;
+import ru.geekbrains.geekbrainsinstagram.ui.MainPresenter;
 
 @Module
 public class ActivityModule {
@@ -17,7 +19,13 @@ public class ActivityModule {
 
     @ActivityScope
     @Provides
-    FragmentManager provideFragmenManager() {
+    FragmentManager provideFragmentManager() {
         return fragmentManager;
+    }
+
+    @ActivityScope
+    @Provides
+    MainContract.Presenter providePresenter() {
+        return new MainPresenter();
     }
 }
