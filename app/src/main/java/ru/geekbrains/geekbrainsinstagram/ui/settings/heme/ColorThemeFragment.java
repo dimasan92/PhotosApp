@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.settings.colortheme;
+package ru.geekbrains.geekbrainsinstagram.ui.settings.heme;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +16,7 @@ import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.R;
 
-public class SettingsFragment extends Fragment {
+public class ColorThemeFragment extends Fragment {
 
     @BindView(R.id.btn_red_theme)
     Button mBtnRedTheme;
@@ -27,15 +27,15 @@ public class SettingsFragment extends Fragment {
 
     private Consumer<Integer> mThemeObserver;
 
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
+    public static ColorThemeFragment newInstance() {
+        return new ColorThemeFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_color_theme, container, false);
         ButterKnife.bind(this, view);
         return view;
     }
