@@ -1,18 +1,15 @@
-package ru.geekbrains.geekbrainsinstagram.presentation.view.activity;
+package ru.geekbrains.geekbrainsinstagram.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.presentation.utils.SettingsPrefsUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.settings.SettingsActivity;
+import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
 
 public class MainActivity extends AppCompatActivity {
 

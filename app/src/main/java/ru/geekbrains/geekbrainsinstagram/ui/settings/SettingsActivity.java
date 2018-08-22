@@ -1,12 +1,12 @@
-package ru.geekbrains.geekbrainsinstagram.presentation.view.activity;
+package ru.geekbrains.geekbrainsinstagram.ui.settings;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.presentation.utils.SettingsPrefsUtils;
-import ru.geekbrains.geekbrainsinstagram.presentation.view.fragment.SettingsFragment;
+import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.settings.colortheme.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 

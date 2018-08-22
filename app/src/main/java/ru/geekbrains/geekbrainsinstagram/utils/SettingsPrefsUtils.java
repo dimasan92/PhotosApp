@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.presentation.utils;
+package ru.geekbrains.geekbrainsinstagram.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

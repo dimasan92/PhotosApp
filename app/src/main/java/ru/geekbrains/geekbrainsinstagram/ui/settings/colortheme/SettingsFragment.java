@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.presentation.view.fragment;
+package ru.geekbrains.geekbrainsinstagram.ui.settings.colortheme;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

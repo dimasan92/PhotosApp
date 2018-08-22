@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/RedAppTheme">
-        <activity android:name=".presentation.view.activity.MainActivity">
+        <activity android:name=".ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.view.activity.SettingsActivity"></activity>
+        <activity android:name=".ui.settings.SettingsActivity"></activity>
     </application>
 
 </manifest>
