@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ComponentFactory;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements BaseContract.View {
 
     private FragmentComponent fragmentComponent;
 

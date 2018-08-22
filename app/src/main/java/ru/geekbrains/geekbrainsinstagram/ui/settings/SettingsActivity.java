@@ -5,8 +5,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import io.reactivex.functions.Consumer;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemeFragment;
 import ru.geekbrains.geekbrainsinstagram.utils.SettingsPrefsUtils;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.colortheme.SettingsFragment;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -26,11 +26,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        SettingsFragment fragment = (SettingsFragment)
+        ColorThemeFragment fragment = (ColorThemeFragment)
                 getSupportFragmentManager().findFragmentById(R.id.fl_settings_fragment_container);
 
         if (fragment == null) {
-            fragment = SettingsFragment.newInstance();
+            fragment = ColorThemeFragment.newInstance();
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.fl_settings_fragment_container, fragment)

@@ -16,7 +16,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
-public final class ColorThemeFragment extends BaseFragment {
+public final class ColorThemeFragment extends BaseFragment implements ColorThemeContract.View {
 
     @Inject
     ColorThemeContract.Presenter presenter;
@@ -27,6 +27,12 @@ public final class ColorThemeFragment extends BaseFragment {
         return new ColorThemeFragment();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter.setView(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -34,8 +40,15 @@ public final class ColorThemeFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_color_theme, container, false);
 
         setListeners(view);
+        presenter.viewIsReady();
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
     }
 
     @Override
@@ -43,21 +56,23 @@ public final class ColorThemeFragment extends BaseFragment {
         fragmentComponent.inject(this);
     }
 
-    private void setListeners(View view) {
-        Button redThemeButton = view.findViewById(R.id.btn_red_theme);
-        redThemeButton.setOnClickListener(v ->
-                Single.just(R.style.RedAppTheme).subscribe(mThemeObserver).dispose());
-
-        Button blueThemeButton = view.findViewById(R.id.btn_blue_theme);
-        blueThemeButton.setOnClickListener(v ->
-                Single.just(R.style.BlueAppTheme).subscribe(mThemeObserver).dispose());
-
-        Button greenThemeButton = view.findViewById(R.id.btn_green_theme);
-        greenThemeButton.setOnClickListener(v ->
-                Single.just(R.style.GreenAppTheme).subscribe(mThemeObserver).dispose());
-    }
-
     public void addThemeObserver(Consumer<Integer> observer) {
         mThemeObserver = observer;
+    }
+
+    @Override
+    public Consumer<Integer> getThemeObserver() {
+        return mThemeObserver;
+    }
+
+    private void setListeners(View view) {
+        Button redThemeButton = view.findViewById(R.id.btn_red_theme);
+        redThemeButton.setOnClickListener(v -> presenter.chooseRedTheme());
+
+        Button blueThemeButton = view.findViewById(R.id.btn_blue_theme);
+        blueThemeButton.setOnClickListener(v -> presenter.chooseBlueTheme());
+
+        Button greenThemeButton = view.findViewById(R.id.btn_green_theme);
+        greenThemeButton.setOnClickListener(v -> presenter.chooseGreenTheme());
     }
 }
