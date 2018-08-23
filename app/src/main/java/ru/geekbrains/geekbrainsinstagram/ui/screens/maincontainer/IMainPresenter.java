@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 

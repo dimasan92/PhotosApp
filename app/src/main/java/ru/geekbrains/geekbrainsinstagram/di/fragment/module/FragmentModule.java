@@ -4,11 +4,11 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.IPersonalPhotosPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosAdapter;
-import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.AppThemePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.IAppThemePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.IPersonalPhotosPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosAdapter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.IAppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 
 @Module

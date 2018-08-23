@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.personalphotos;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 

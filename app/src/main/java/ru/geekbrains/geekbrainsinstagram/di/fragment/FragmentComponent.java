@@ -2,10 +2,10 @@ package ru.geekbrains.geekbrainsinstagram.di.fragment;
 
 import dagger.Subcomponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.module.FragmentModule;
-import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.AppThemePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.AppThemeFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 @FragmentScope
 @Subcomponent(modules = {FragmentModule.class})

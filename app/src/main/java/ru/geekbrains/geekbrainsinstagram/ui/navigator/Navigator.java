@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
-import ru.geekbrains.geekbrainsinstagram.ui.cameragallery.CameraGalleryFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemeFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 @ActivityScope
 public final class Navigator {
@@ -29,14 +29,14 @@ public final class Navigator {
         Fragment fragment = fragmentManager.findFragmentById(R.id.main_fragment_container);
 
         if (fragment == null) {
-            addFragmentWithoutBackStack(CameraGalleryFragment.newInstance(), CAMERA_GALLERY_TAG);
+            addFragmentWithoutBackStack(PersonalPhotosFragment.newInstance(), CAMERA_GALLERY_TAG);
         }
     }
 
     public void navigateToCameraGallery() {
         Fragment fragment = fragmentManager.findFragmentByTag(CAMERA_GALLERY_TAG);
         if (fragment == null) {
-            fragment = CameraGalleryFragment.newInstance();
+            fragment = PersonalPhotosFragment.newInstance();
         }
         addFragmentWithoutBackStack(fragment, CAMERA_GALLERY_TAG);
     }
@@ -44,7 +44,7 @@ public final class Navigator {
     public void navigateToColorChooser() {
         Fragment fragment = fragmentManager.findFragmentByTag(COLOR_CHOOSER_TAG);
         if (fragment == null) {
-            fragment = ColorThemeFragment.newInstance();
+            fragment = AppThemeFragment.newInstance();
         }
         if (fragment.isVisible()) {
             return;

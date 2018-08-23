@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
 import javax.inject.Inject;
 

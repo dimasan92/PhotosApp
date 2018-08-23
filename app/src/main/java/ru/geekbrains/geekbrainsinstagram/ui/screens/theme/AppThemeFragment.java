@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.settings.theme;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

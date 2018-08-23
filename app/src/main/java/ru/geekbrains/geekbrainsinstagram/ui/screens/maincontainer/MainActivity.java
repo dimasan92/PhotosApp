@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
