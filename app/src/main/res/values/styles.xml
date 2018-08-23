@@ -1,18 +1,18 @@
 <resources>
     <!--Themes-->
-    <style name="RedAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="RedAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryRedTheme</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkRedTheme</item>
         <item name="colorAccent">@color/colorAccentRedTheme</item>
     </style>
 
-    <style name="BlueAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BlueAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryBlueTheme</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkBlueTheme</item>
         <item name="colorAccent">@color/colorAccentBlueTheme</item>
     </style>
 
-    <style name="GreenAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="GreenAppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimaryGreenTheme</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDarkGreenTheme</item>
         <item name="colorAccent">@color/colorAccentGreenTheme</item>
@@ -30,14 +30,14 @@
     </style>
 
     <style name="RedThemeButtonStyle" parent="ThemeButtonStyle">
-        <item name="android:background">@color/colorPrimaryRedTheme</item>
+        <item name="android:backgroundTint">@color/colorPrimaryRedTheme</item>
     </style>
 
     <style name="BlueThemeButtonStyle" parent="ThemeButtonStyle">
-        <item name="android:background">@color/colorPrimaryBlueTheme</item>
+        <item name="android:backgroundTint">@color/colorPrimaryBlueTheme</item>
     </style>
 
     <style name="GreenThemeButtonStyle" parent="ThemeButtonStyle">
-        <item name="android:background">@color/colorPrimaryGreenTheme</item>
+        <item name="android:backgroundTint">@color/colorPrimaryGreenTheme</item>
     </style>
 </resources>
