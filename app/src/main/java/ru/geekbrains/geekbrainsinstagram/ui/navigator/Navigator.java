@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.navigator;
+package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
 import javax.inject.Inject;
 

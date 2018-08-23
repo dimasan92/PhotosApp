@@ -15,7 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.navigator.Navigator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
 
 public final class MainActivity extends AppCompatActivity implements MainContract.View {
 
