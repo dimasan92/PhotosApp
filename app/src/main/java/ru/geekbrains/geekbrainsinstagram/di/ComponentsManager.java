@@ -8,6 +8,7 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.ApplicationModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.module.DataModule;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.module.FragmentModule;
 
@@ -25,6 +26,7 @@ public final class ComponentsManager {
     private void initApplicationComponent(Context context) {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(context))
+                .dataModule(new DataModule(context))
                 .build();
     }
 

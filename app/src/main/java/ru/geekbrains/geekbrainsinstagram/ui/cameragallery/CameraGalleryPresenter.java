@@ -6,17 +6,26 @@ import android.provider.MediaStore;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import ru.geekbrains.domain.interactor.photos.AddNewInnerStoragePhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.mapper.ViewMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
 
-public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.View>
+public final class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.View>
         implements CameraGalleryContract.Presenter {
 
     @Inject
     FilesUtils filesUtils;
+
+    @Inject
+    AddNewInnerStoragePhotoUseCase addNewInnerStoragePhotoUseCase;
+
+    @Inject
+    ViewMapper mapper;
 
     private InnerStoragePhotoViewModel currentPhoto;
 
@@ -47,7 +56,7 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
     @Override
     public void photoHasTaken(boolean took) {
         if (took && currentPhoto != null) {
-            // save to DB
+            addNewPhotoToDb(currentPhoto);
         }
         currentPhoto = null;
     }
@@ -62,8 +71,18 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
 
     }
 
-    private Disposable takeSavedPhotos(){
+    private void addNewPhotoToDb(InnerStoragePhotoViewModel photoModel) {
+        disposables.add(addNewInnerStoragePhotoUseCase.execute(mapper.viewToDomain(photoModel))
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successAddPhoto));
+    }
+
+    private Disposable takeSavedPhotos() {
         return null;
+    }
+
+    private void successAddPhoto() {
+        view.showNotifyingMessage(R.string.photo_successfully_added_message);
     }
 
     private void errorTakePhoto() {
