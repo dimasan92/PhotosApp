@@ -38,6 +38,8 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
         if (getView() == null) {
             return;
         }
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT)
+                .setAction(android.R.string.ok, v -> {})
+                .show();
     }
 }
