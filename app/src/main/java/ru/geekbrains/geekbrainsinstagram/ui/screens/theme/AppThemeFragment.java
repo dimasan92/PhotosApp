@@ -35,7 +35,7 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_color_theme, container, false);
+        View view = inflater.inflate(R.layout.fragment_app_theme, container, false);
 
         setListeners(view);
         presenter.viewIsReady();

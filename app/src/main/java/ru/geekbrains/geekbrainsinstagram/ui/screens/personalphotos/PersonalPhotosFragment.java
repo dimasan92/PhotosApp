@@ -56,7 +56,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_camera_gallery, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         FloatingActionButton fab = view.findViewById(R.id.take_photo_button);
         fab.setOnClickListener(v -> presenter.takeAPhoto());

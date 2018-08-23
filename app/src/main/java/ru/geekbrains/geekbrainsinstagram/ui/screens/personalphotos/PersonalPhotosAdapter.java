@@ -33,7 +33,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     @Override
     public PersonalPhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PersonalPhotoHolder(inflater.inflate(R.layout.item_camera_gallery,
+        return new PersonalPhotoHolder(inflater.inflate(R.layout.item_personal_photo,
                 parent, false));
     }
 
