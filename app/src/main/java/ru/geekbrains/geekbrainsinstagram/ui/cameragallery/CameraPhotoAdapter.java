@@ -14,16 +14,16 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 
 public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAdapter.PhotoHolder> {
 
     private final PictureUtils pictureUtils;
-    private List<InnerStoragePhotoModel> photos = Collections.emptyList();
+    private List<InnerStoragePhotoViewModel> photos = Collections.emptyList();
 
-    private final Subject<InnerStoragePhotoModel> onFavoritesItemClickObservable = BehaviorSubject.create();
-    private final Subject<InnerStoragePhotoModel> onLongItemClickObservable = BehaviorSubject.create();
+    private final Subject<InnerStoragePhotoViewModel> onFavoritesItemClickObservable = BehaviorSubject.create();
+    private final Subject<InnerStoragePhotoViewModel> onLongItemClickObservable = BehaviorSubject.create();
 
     public CameraPhotoAdapter(PictureUtils pictureUtils) {
         this.pictureUtils = pictureUtils;
@@ -42,7 +42,7 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
         holder.bind(photos.get(position));
     }
 
-    void setPictures(List<InnerStoragePhotoModel> photos) {
+    void setPictures(List<InnerStoragePhotoViewModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
@@ -52,15 +52,15 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
         return photos.size();
     }
 
-    Observable<InnerStoragePhotoModel> onFavoritesClick() {
+    Observable<InnerStoragePhotoViewModel> onFavoritesClick() {
         return onFavoritesItemClickObservable.doOnNext(this::changeFavoritesStatus);
     }
 
-    Observable<InnerStoragePhotoModel> onDeleteClick() {
+    Observable<InnerStoragePhotoViewModel> onDeleteClick() {
         return onLongItemClickObservable;
     }
 
-    private void changeFavoritesStatus(final InnerStoragePhotoModel photoModel) {
+    private void changeFavoritesStatus(final InnerStoragePhotoViewModel photoModel) {
         final int position = photos.indexOf(photoModel);
         photoModel.setFavorite(!photoModel.isFavorite());
         notifyItemChanged(position);
@@ -71,7 +71,7 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
         private final ImageView photoImageView;
         private final ImageView favoritesImageView;
 
-        private InnerStoragePhotoModel photoModel;
+        private InnerStoragePhotoViewModel photoModel;
 
         PhotoHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,7 +86,7 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
             favoritesImageView.setOnClickListener(v -> onFavoritesItemClickObservable.onNext(photoModel));
         }
 
-        void bind(final InnerStoragePhotoModel model) {
+        void bind(final InnerStoragePhotoViewModel model) {
             this.photoModel = model;
             pictureUtils.loadImageIntoImageView(photoImageView, model);
             favoritesImageView.setImageResource(model.isFavorite() ?

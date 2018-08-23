@@ -6,13 +6,13 @@ import java.util.UUID;
 
 import androidx.annotation.NonNull;
 
-public final class InnerStoragePhotoModel {
+public final class InnerStoragePhotoViewModel {
 
     private final UUID id;
     private Uri uri;
     private boolean isFavorite;
 
-    public InnerStoragePhotoModel() {
+    public InnerStoragePhotoViewModel() {
         id = UUID.randomUUID();
     }
 

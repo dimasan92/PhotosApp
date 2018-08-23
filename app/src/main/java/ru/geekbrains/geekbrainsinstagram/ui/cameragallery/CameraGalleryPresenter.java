@@ -6,9 +6,10 @@ import android.provider.MediaStore;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
 
 public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.View>
@@ -17,10 +18,11 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
     @Inject
     FilesUtils filesUtils;
 
-    private InnerStoragePhotoModel currentPhoto;
+    private InnerStoragePhotoViewModel currentPhoto;
 
     @Override
     public void viewIsReady() {
+//        disposables.add(takeSavedPhotos());
     }
 
     @Override
@@ -30,7 +32,7 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
             errorTakePhoto();
             return;
         }
-        currentPhoto = new InnerStoragePhotoModel();
+        currentPhoto = new InnerStoragePhotoViewModel();
         Uri uri = filesUtils.getUriForFile(filesUtils.getInnerPhotoFile(currentPhoto));
         currentPhoto.setUri(uri);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -51,13 +53,17 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
     }
 
     @Override
-    public void changePhotoFavorite(InnerStoragePhotoModel photoModel) {
+    public void changePhotoFavorite(InnerStoragePhotoViewModel photoModel) {
 
     }
 
     @Override
-    public void deletePhoto(InnerStoragePhotoModel photoModel) {
+    public void deletePhoto(InnerStoragePhotoViewModel photoModel) {
 
+    }
+
+    private Disposable takeSavedPhotos(){
+        return null;
     }
 
     private void errorTakePhoto() {

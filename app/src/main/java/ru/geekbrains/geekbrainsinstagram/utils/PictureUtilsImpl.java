@@ -4,12 +4,12 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
 public final class PictureUtilsImpl implements PictureUtils {
 
     @Override
-    public void loadImageIntoImageView(ImageView imageView, InnerStoragePhotoModel model) {
+    public void loadImageIntoImageView(ImageView imageView, InnerStoragePhotoViewModel model) {
         Picasso.get().load(model.getUri()).into(imageView);
     }
 }

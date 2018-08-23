@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
 public final class CameraGalleryFragment extends BaseFragment implements CameraGalleryContract.View {
 
@@ -78,7 +78,7 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
     }
 
     @Override
-    public void showPhotos(List<InnerStoragePhotoModel> photos) {
+    public void showPhotos(List<InnerStoragePhotoViewModel> photos) {
         adapter.setPictures(photos);
     }
 

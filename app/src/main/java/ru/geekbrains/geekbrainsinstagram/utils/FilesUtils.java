@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import java.io.File;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
 public interface FilesUtils {
 
@@ -12,5 +12,5 @@ public interface FilesUtils {
 
     Uri getUriForFile(File file);
 
-    File getInnerPhotoFile(InnerStoragePhotoModel model);
+    File getInnerPhotoFile(InnerStoragePhotoViewModel model);
 }

@@ -2,12 +2,11 @@ package ru.geekbrains.geekbrainsinstagram.utils;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Environment;
 
 import java.io.File;
 
 import androidx.core.content.FileProvider;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
 public final class FilesUtilsImpl implements FilesUtils {
 
@@ -33,7 +32,7 @@ public final class FilesUtilsImpl implements FilesUtils {
     }
 
     @Override
-    public File getInnerPhotoFile(InnerStoragePhotoModel model) {
+    public File getInnerPhotoFile(InnerStoragePhotoViewModel model) {
         return new File(appContext.getFilesDir(), model.getPhotoFileName());
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.base.BaseContract;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
 public interface CameraGalleryContract {
 
@@ -19,7 +19,7 @@ public interface CameraGalleryContract {
 
         void startCamera(Intent cameraIntent);
 
-        void showPhotos(List<InnerStoragePhotoModel> photos);
+        void showPhotos(List<InnerStoragePhotoViewModel> photos);
 
         void showNotifyingMessage(@StringRes int message);
     }
@@ -30,8 +30,8 @@ public interface CameraGalleryContract {
 
         void photoHasTaken(boolean took);
 
-        void changePhotoFavorite(InnerStoragePhotoModel photoModel);
+        void changePhotoFavorite(InnerStoragePhotoViewModel photoModel);
 
-        void deletePhoto(InnerStoragePhotoModel photoModel);
+        void deletePhoto(InnerStoragePhotoViewModel photoModel);
     }
 }
