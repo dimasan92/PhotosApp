@@ -17,5 +17,5 @@
     <string name="btn_blue_theme">Blue Theme</string>
     <string name="btn_green_theme">Green Theme</string>
 
-    <string name="menu_item_settings">Settings</string>
+    <string name="photo_successfully_added_message">Photo successfully added</string>
 </resources>
