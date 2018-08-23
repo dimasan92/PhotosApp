@@ -28,6 +28,10 @@ public interface CameraGalleryContract {
 
         void takeAPhoto();
 
-        void photoTook(boolean took);
+        void photoHasTaken(boolean took);
+
+        void changePhotoFavorite(InnerStoragePhotoModel photoModel);
+
+        void deletePhoto(InnerStoragePhotoModel photoModel);
     }
 }

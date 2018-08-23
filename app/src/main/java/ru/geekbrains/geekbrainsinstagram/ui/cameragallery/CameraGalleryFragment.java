@@ -70,9 +70,9 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                presenter.photoTook(true);
+                presenter.photoHasTaken(true);
             } else {
-                presenter.photoTook(false);
+                presenter.photoHasTaken(false);
             }
         }
     }

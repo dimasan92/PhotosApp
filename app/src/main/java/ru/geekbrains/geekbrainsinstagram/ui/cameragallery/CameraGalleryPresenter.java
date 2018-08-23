@@ -43,11 +43,21 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
     }
 
     @Override
-    public void photoTook(boolean took) {
+    public void photoHasTaken(boolean took) {
         if (took && currentPhoto != null) {
             // save to DB
         }
         currentPhoto = null;
+    }
+
+    @Override
+    public void changePhotoFavorite(InnerStoragePhotoModel photoModel) {
+
+    }
+
+    @Override
+    public void deletePhoto(InnerStoragePhotoModel photoModel) {
+
     }
 
     private void errorTakePhoto() {
