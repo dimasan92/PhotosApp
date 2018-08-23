@@ -20,13 +20,13 @@
 
     <!--Styles-->
     <style name="SettingsSubtitleStyle">
-        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:layout_margin">@dimen/small_margin</item>
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:textSize">@dimen/settings_subtitle_text_size</item>
+        <item name="android:textSize">@dimen/big_text_size</item>
     </style>
 
     <style name="ThemeButtonStyle">
-        <item name="android:layout_margin">@dimen/settings_margin</item>
+        <item name="android:layout_margin">@dimen/small_margin</item>
     </style>
 
     <style name="RedThemeButtonStyle" parent="ThemeButtonStyle">
