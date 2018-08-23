@@ -42,6 +42,11 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
         holder.bind(photos.get(position));
     }
 
+    void setPictures(List<InnerStoragePhotoModel> photos) {
+        this.photos = photos;
+        notifyDataSetChanged();
+    }
+
     @Override
     public final int getItemCount() {
         return photos.size();
