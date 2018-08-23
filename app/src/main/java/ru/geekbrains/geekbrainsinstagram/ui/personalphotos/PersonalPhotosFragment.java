@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.cameragallery;
+package ru.geekbrains.geekbrainsinstagram.ui.personalphotos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,21 +27,22 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
-public final class CameraGalleryFragment extends BaseFragment implements CameraGalleryContract.View {
+public final class PersonalPhotosFragment extends BaseFragment
+        implements IPersonalPhotosPresenter.IView {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
     private static final int COLUMN_COUNT = 3;
 
     @Inject
-    CameraGalleryContract.Presenter presenter;
+    IPersonalPhotosPresenter presenter;
 
     @Inject
-    CameraPhotoAdapter adapter;
+    PersonalPhotosAdapter adapter;
 
     private RecyclerView photoRecyclerView;
 
-    public static CameraGalleryFragment newInstance() {
-        return new CameraGalleryFragment();
+    public static PersonalPhotosFragment newInstance() {
+        return new PersonalPhotosFragment();
     }
 
     @Override

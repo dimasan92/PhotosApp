@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.cameragallery;
+package ru.geekbrains.geekbrainsinstagram.ui.personalphotos;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 
-public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAdapter.PhotoHolder> {
+public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPhotosAdapter.PersonalPhotoHolder> {
 
     private final PictureUtils pictureUtils;
     private List<InnerStoragePhotoViewModel> photos = Collections.emptyList();
@@ -25,20 +25,20 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
     private final Subject<InnerStoragePhotoViewModel> onFavoritesItemClickObservable = BehaviorSubject.create();
     private final Subject<InnerStoragePhotoViewModel> onLongItemClickObservable = BehaviorSubject.create();
 
-    public CameraPhotoAdapter(PictureUtils pictureUtils) {
+    public PersonalPhotosAdapter(PictureUtils pictureUtils) {
         this.pictureUtils = pictureUtils;
     }
 
     @NonNull
     @Override
-    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PersonalPhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PhotoHolder(inflater.inflate(R.layout.item_camera_gallery,
+        return new PersonalPhotoHolder(inflater.inflate(R.layout.item_camera_gallery,
                 parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PersonalPhotoHolder holder, int position) {
         holder.bind(photos.get(position));
     }
 
@@ -66,14 +66,14 @@ public final class CameraPhotoAdapter extends RecyclerView.Adapter<CameraPhotoAd
         notifyItemChanged(position);
     }
 
-    class PhotoHolder extends RecyclerView.ViewHolder {
+    class PersonalPhotoHolder extends RecyclerView.ViewHolder {
 
         private final ImageView photoImageView;
         private final ImageView favoritesImageView;
 
         private InnerStoragePhotoViewModel photoModel;
 
-        PhotoHolder(@NonNull View itemView) {
+        PersonalPhotoHolder(@NonNull View itemView) {
             super(itemView);
             photoImageView = itemView.findViewById(R.id.camera_photo_image);
             favoritesImageView = itemView.findViewById(R.id.favorite_photo);

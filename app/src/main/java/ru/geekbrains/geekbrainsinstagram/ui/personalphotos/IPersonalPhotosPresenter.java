@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.cameragallery;
+package ru.geekbrains.geekbrainsinstagram.ui.personalphotos;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -6,12 +6,12 @@ import android.net.Uri;
 import java.util.List;
 
 import androidx.annotation.StringRes;
-import ru.geekbrains.geekbrainsinstagram.base.BaseContract;
+import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 
-public interface CameraGalleryContract {
+public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
-    interface View extends BaseContract.View {
+    interface IView extends IBasePresenter.IView {
 
         boolean isCameraAvailable(Intent cameraIntent);
 
@@ -24,14 +24,11 @@ public interface CameraGalleryContract {
         void showNotifyingMessage(@StringRes int message);
     }
 
-    interface Presenter extends BaseContract.Presenter<View> {
+    void takeAPhoto();
 
-        void takeAPhoto();
+    void photoHasTaken(boolean took);
 
-        void photoHasTaken(boolean took);
+    void changePhotoFavorite(InnerStoragePhotoViewModel photoModel);
 
-        void changePhotoFavorite(InnerStoragePhotoViewModel photoModel);
-
-        void deletePhoto(InnerStoragePhotoViewModel photoModel);
-    }
+    void deletePhoto(InnerStoragePhotoViewModel photoModel);
 }

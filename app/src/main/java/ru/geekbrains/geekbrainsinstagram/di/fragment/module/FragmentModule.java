@@ -4,9 +4,9 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.ui.cameragallery.CameraGalleryContract;
-import ru.geekbrains.geekbrainsinstagram.ui.cameragallery.CameraGalleryPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.cameragallery.CameraPhotoAdapter;
+import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.IPersonalPhotosPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosAdapter;
+import ru.geekbrains.geekbrainsinstagram.ui.personalphotos.PersonalPhotosPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.AppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.IAppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
@@ -25,8 +25,8 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    CameraGalleryContract.Presenter provideCameraGalleryPresenter() {
-        final CameraGalleryPresenter presenter = new CameraGalleryPresenter();
+    IPersonalPhotosPresenter providePersonalPhotosPresenter() {
+        final PersonalPhotosPresenter presenter = new PersonalPhotosPresenter();
         MainApplication.getApp().getComponentsManager()
                 .getFragmentComponent().inject(presenter);
         return presenter;
@@ -34,7 +34,7 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    CameraPhotoAdapter provideCameraPhotoAdapter(PictureUtils pictureUtils) {
-        return new CameraPhotoAdapter(pictureUtils);
+    PersonalPhotosAdapter provideCameraPhotoAdapter(PictureUtils pictureUtils) {
+        return new PersonalPhotosAdapter(pictureUtils);
     }
 }

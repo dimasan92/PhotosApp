@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.cameragallery;
+package ru.geekbrains.geekbrainsinstagram.ui.personalphotos;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +15,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.mapper.ViewMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
 
-public final class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.View>
-        implements CameraGalleryContract.Presenter {
+public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
+        implements IPersonalPhotosPresenter {
 
     @Inject
     FilesUtils filesUtils;
