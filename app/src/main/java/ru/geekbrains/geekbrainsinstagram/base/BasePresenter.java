@@ -2,8 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.base;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public abstract class BasePresenter<V extends BaseContract.View>
-        implements BaseContract.Presenter<V> {
+public abstract class BasePresenter<V extends IBasePresenter.IView> implements IBasePresenter<V> {
 
     protected V view;
 
