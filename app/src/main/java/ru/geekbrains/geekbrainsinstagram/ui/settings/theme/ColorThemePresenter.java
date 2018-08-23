@@ -36,9 +36,9 @@ public final class ColorThemePresenter extends BasePresenter<ColorThemeContract.
         disposables.add(
                 changeThemeUseCase.execute(theme)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(shouldRecreate -> {
-                            if (shouldRecreate) {
-                                view.recreateActivity();
+                        .subscribe(shouldChange -> {
+                            if (shouldChange) {
+                                view.changeTheme();
                             }
                         }));
     }

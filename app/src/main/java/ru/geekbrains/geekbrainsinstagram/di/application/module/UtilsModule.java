@@ -10,6 +10,10 @@ import dagger.Provides;
 import ru.geekbrains.data.util.PrefUtils;
 import ru.geekbrains.data.util.PrefUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.FilesUtilsImpl;
+import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.PictureUtilsImpl;
 
 @Module
 public final class UtilsModule {
@@ -17,15 +21,23 @@ public final class UtilsModule {
     private static final String INSTAGRAM_PREFERENCES = "instagram_preferences";
     private static final int DEFAULT_THEME = R.style.BlueAppTheme;
 
-    private final SharedPreferences sharedPreferences;
-
-    public UtilsModule(Context context) {
-        sharedPreferences = context.getSharedPreferences(INSTAGRAM_PREFERENCES, Context.MODE_PRIVATE);
+    @Singleton
+    @Provides
+    PrefUtils providePrefUtils(Context context) {
+        SharedPreferences preferences =
+                context.getSharedPreferences(INSTAGRAM_PREFERENCES, Context.MODE_PRIVATE);
+        return new PrefUtilsImpl(preferences, DEFAULT_THEME);
     }
 
     @Singleton
     @Provides
-    PrefUtils providePrefUtils() {
-        return new PrefUtilsImpl(sharedPreferences, DEFAULT_THEME);
+    FilesUtils provideFilesUtils(Context context) {
+        return new FilesUtilsImpl(context);
+    }
+
+    @Singleton
+    @Provides
+    PictureUtils providePictureUtils() {
+        return new PictureUtilsImpl();
     }
 }

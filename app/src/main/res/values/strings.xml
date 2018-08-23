@@ -18,6 +18,7 @@
     <string name="btn_green_theme">Green Theme</string>
 
     <string name="photo_successfully_added_message">Photo successfully added</string>
+    <string name="error_take_photo_message">Cannot open the camera</string>
 
     <string name="gallery_photo_description">Photo</string>
 </resources>

@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.module.ApplicationModule;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.module.FragmentModule;
 
@@ -24,7 +24,7 @@ public final class ComponentsManager {
 
     private void initApplicationComponent(Context context) {
         applicationComponent = DaggerApplicationComponent.builder()
-                .utilsModule(new UtilsModule(context))
+                .applicationModule(new ApplicationModule(context))
                 .build();
     }
 

@@ -50,7 +50,7 @@ public final class ColorThemeFragment extends BaseFragment implements ColorTheme
     }
 
     @Override
-    public void recreateActivity() {
+    public void changeTheme() {
         if (getActivity() == null) {
             return;
         }

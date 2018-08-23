@@ -1,5 +1,10 @@
 package ru.geekbrains.geekbrainsinstagram.ui.cameragallery;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -21,7 +28,11 @@ import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 
 public final class CameraGalleryFragment extends BaseFragment implements CameraGalleryContract.View {
 
+    private static final int REQUEST_CAMERA_PHOTO = 1;
     private static final int COLUMN_COUNT = 3;
+
+    @Inject
+    CameraGalleryContract.Presenter presenter;
 
     @Inject
     CameraPhotoAdapter adapter;
@@ -36,6 +47,7 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+        presenter.setView(this);
     }
 
     @Nullable
@@ -45,12 +57,23 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
         View view = inflater.inflate(R.layout.fragment_camera_gallery, container, false);
 
         FloatingActionButton fab = view.findViewById(R.id.take_photo_button);
-        fab.setOnClickListener(v -> {
-        });
+        fab.setOnClickListener(v -> presenter.takeAPhoto());
 
         initRecyclerView(view);
 
+        presenter.viewIsReady();
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAMERA_PHOTO) {
+            if (resultCode == Activity.RESULT_OK) {
+                presenter.photoTook(true);
+            } else {
+                presenter.photoTook(false);
+            }
+        }
     }
 
     @Override
@@ -62,6 +85,34 @@ public final class CameraGalleryFragment extends BaseFragment implements CameraG
                 .setAction(android.R.string.ok, v -> {
                 })
                 .show();
+    }
+
+    @Override
+    public boolean isCameraAvailable(Intent cameraIntent) {
+        if (getActivity() == null) {
+            return false;
+        }
+        return cameraIntent.resolveActivity(getActivity().getPackageManager()) != null;
+    }
+
+    @Override
+    public boolean setCameraPermissions(Intent cameraIntent, Uri uri) {
+        if (getActivity() == null) {
+            return false;
+        }
+        List<ResolveInfo> cameraActivities = getActivity()
+                .getPackageManager().queryIntentActivities(cameraIntent,
+                        PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo activity : cameraActivities) {
+            getActivity().grantUriPermission(activity.activityInfo.packageName,
+                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        }
+        return true;
+    }
+
+    @Override
+    public void startCamera(Intent cameraIntent) {
+        startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
     }
 
     private void initRecyclerView(View layout) {

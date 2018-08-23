@@ -6,7 +6,7 @@ public interface ColorThemeContract {
 
     interface View extends BaseContract.View {
 
-        void recreateActivity();
+        void changeTheme();
     }
 
     interface Presenter extends BaseContract.Presenter<View> {
