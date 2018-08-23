@@ -14,13 +14,13 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 
-public final class ColorThemeFragment extends BaseFragment implements ColorThemeContract.View {
+public final class AppThemeFragment extends BaseFragment implements IAppThemePresenter.IView {
 
     @Inject
-    ColorThemeContract.Presenter presenter;
+    IAppThemePresenter presenter;
 
-    public static ColorThemeFragment newInstance() {
-        return new ColorThemeFragment();
+    public static AppThemeFragment newInstance() {
+        return new AppThemeFragment();
     }
 
     @Override

@@ -7,8 +7,8 @@ import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 
-public final class ColorThemePresenter extends BasePresenter<ColorThemeContract.View>
-        implements ColorThemeContract.Presenter {
+public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IView>
+        implements IAppThemePresenter {
 
     @Inject
     ChangeThemeUseCase changeThemeUseCase;
