@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="half_margin">4dp</dimen>
     <dimen name="smallest_margin">8dp</dimen>
     <dimen name="small_margin">16dp</dimen>
     <dimen name="normal_margin">24dp</dimen>
@@ -10,4 +11,9 @@
     <dimen name="normal_text_size">16sp</dimen>
     <dimen name="big_text_size">20sp</dimen>
     <dimen name="large_text_size">24sp</dimen>
+
+    <dimen name="photo_gallery_size_image">100dp</dimen>
+
+    <dimen name="card_elevation">5dp</dimen>
+    <dimen name="card_corner_radius">10dp</dimen>
 </resources>

@@ -18,4 +18,6 @@
     <string name="btn_green_theme">Green Theme</string>
 
     <string name="photo_successfully_added_message">Photo successfully added</string>
+
+    <string name="gallery_photo_description">Photo</string>
 </resources>
