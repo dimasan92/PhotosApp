@@ -17,13 +17,13 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
 
-public final class MainActivity extends AppCompatActivity implements MainContract.View {
+public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
 
     @Inject
     Navigator navigator;
 
     @Inject
-    MainContract.Presenter presenter;
+    IMainPresenter presenter;
 
     private DrawerLayout drawerLayout;
 

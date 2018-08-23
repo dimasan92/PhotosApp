@@ -5,8 +5,7 @@ import javax.inject.Inject;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 
-public final class MainPresenter extends BasePresenter<MainContract.View>
-        implements MainContract.Presenter {
+public final class MainPresenter extends BasePresenter<IMainPresenter.IView> implements IMainPresenter {
 
     @Inject
     GetCurrentThemeUseCase getCurrentThemeUseCase;
