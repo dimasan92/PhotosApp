@@ -10,6 +10,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.cameragallery.CameraPhotoAdapter;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemeContract;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemeFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.settings.theme.ColorThemePresenter;
+import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 
 @Module
 public final class FragmentModule {
@@ -34,7 +35,7 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    CameraPhotoAdapter provideCameraPhotoAdapter() {
-        return new CameraPhotoAdapter();
+    CameraPhotoAdapter provideCameraPhotoAdapter(PictureUtils pictureUtils) {
+        return new CameraPhotoAdapter(pictureUtils);
     }
 }

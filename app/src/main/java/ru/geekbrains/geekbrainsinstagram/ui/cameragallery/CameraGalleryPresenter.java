@@ -32,11 +32,13 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
         }
         currentPhoto = new InnerStoragePhotoModel();
         Uri uri = filesUtils.getUriForFile(filesUtils.getInnerPhotoFile(currentPhoto));
+        currentPhoto.setUri(uri);
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (view.setCameraPermissions(cameraIntent, uri)) {
             view.startCamera(cameraIntent);
         } else {
             errorTakePhoto();
+            currentPhoto = null;
         }
     }
 

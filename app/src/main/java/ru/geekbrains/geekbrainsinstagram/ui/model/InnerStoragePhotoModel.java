@@ -1,5 +1,7 @@
 package ru.geekbrains.geekbrainsinstagram.ui.model;
 
+import android.net.Uri;
+
 import java.util.UUID;
 
 import androidx.annotation.NonNull;
@@ -7,6 +9,8 @@ import androidx.annotation.NonNull;
 public final class InnerStoragePhotoModel {
 
     private final UUID id;
+    private Uri uri;
+    private boolean isFavorite;
 
     public InnerStoragePhotoModel() {
         id = UUID.randomUUID();
@@ -18,6 +22,22 @@ public final class InnerStoragePhotoModel {
 
     public String getPhotoFileName() {
         return toString() + ".jpeg";
+    }
+
+    public Uri getUri() {
+        return uri;
+    }
+
+    public void setUri(Uri uri) {
+        this.uri = uri;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @NonNull

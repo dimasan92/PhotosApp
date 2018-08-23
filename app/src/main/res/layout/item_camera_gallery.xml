@@ -13,15 +13,31 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/camera_photo_image"
             android:layout_width="@dimen/photo_gallery_size_image"
             android:layout_height="@dimen/photo_gallery_size_image"
             android:contentDescription="@string/gallery_photo_description" />
 
-        <TextView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/half_margin"
-            android:drawableEnd="@drawable/ic_star_border_24dp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/title_to_camera_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_margin="@dimen/half_margin" />
+
+            <ImageView
+                android:id="@+id/favorite_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/half_margin" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
