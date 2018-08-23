@@ -6,7 +6,6 @@ import android.provider.MediaStore;
 
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoModel;
@@ -18,7 +17,7 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
     @Inject
     FilesUtils filesUtils;
 
-    private Single<Boolean> 
+    private InnerStoragePhotoModel currentPhoto;
 
     @Override
     public void viewIsReady() {
@@ -31,8 +30,8 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
             errorTakePhoto();
             return;
         }
-        InnerStoragePhotoModel model = new InnerStoragePhotoModel();
-        Uri uri = filesUtils.getUriForFile(filesUtils.getInnerPhotoFile(model));
+        currentPhoto = new InnerStoragePhotoModel();
+        Uri uri = filesUtils.getUriForFile(filesUtils.getInnerPhotoFile(currentPhoto));
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         if (view.setCameraPermissions(cameraIntent, uri)) {
             view.startCamera(cameraIntent);
@@ -43,7 +42,10 @@ public class CameraGalleryPresenter extends BasePresenter<CameraGalleryContract.
 
     @Override
     public void photoTook(boolean took) {
-
+        if (took && currentPhoto != null) {
+            // save to DB
+        }
+        currentPhoto = null;
     }
 
     private void errorTakePhoto() {
