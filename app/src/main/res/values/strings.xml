@@ -6,9 +6,10 @@
     <string name="drawer_title">Instagram</string>
     <string name="drawer_subtitle">geekbrains.ru</string>
 
-    <string name="drawer_title_settings">Settings</string>
-    <string name="drawer_main_item">Main</string>
-    <string name="drawer_theme_chooser_item">Choose theme</string>
+    <string name="nav_main_title">Main</string>
+    <string name="nav_settings_title">Settings</string>
+    <string name="nav_personal_photos_item">Personal photos gallery</string>
+    <string name="nav_app_theme_item">Application color theme</string>
 
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
