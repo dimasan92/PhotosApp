@@ -6,5 +6,5 @@ public interface SettingsRepository {
 
     Single<Boolean> changeTheme(int themeId);
 
-    int getCurrentTheme();
+    Single<Integer> getCurrentTheme();
 }

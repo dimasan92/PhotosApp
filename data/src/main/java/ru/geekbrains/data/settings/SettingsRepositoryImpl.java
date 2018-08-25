@@ -21,8 +21,8 @@ public final class SettingsRepositoryImpl implements SettingsRepository {
     }
 
     @Override
-    public int getCurrentTheme() {
-        return prefUtils.currentTheme();
+    public Single<Integer> getCurrentTheme() {
+        return Single.fromCallable(prefUtils::currentTheme);
     }
 
     private boolean shouldThemeBeReplaced(@StyleRes int themeId) {

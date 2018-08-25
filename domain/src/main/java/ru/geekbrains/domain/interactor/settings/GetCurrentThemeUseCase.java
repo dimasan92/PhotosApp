@@ -1,5 +1,6 @@
 package ru.geekbrains.domain.interactor.settings;
 
+import io.reactivex.Single;
 import ru.geekbrains.domain.repository.SettingsRepository;
 
 public final class GetCurrentThemeUseCase {
@@ -10,7 +11,7 @@ public final class GetCurrentThemeUseCase {
         this.settingsRepository = settingsRepository;
     }
 
-    public int execute() {
+    public Single<Integer> execute() {
         return settingsRepository.getCurrentTheme();
     }
 }
