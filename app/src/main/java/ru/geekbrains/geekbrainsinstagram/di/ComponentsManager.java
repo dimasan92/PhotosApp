@@ -25,6 +25,19 @@ public final class ComponentsManager {
         initApplicationComponent(context);
     }
 
+    public ActivityComponent getActivityComponent(FragmentActivity activity) {
+        initActivityComponent(activity);
+        return activityComponent;
+    }
+
+    public ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public FragmentComponent getFragmentComponent() {
+        return fragmentComponent;
+    }
+
     private void initApplicationComponent(Context context) {
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(context))
@@ -32,7 +45,7 @@ public final class ComponentsManager {
                 .build();
     }
 
-    public void initActivityComponent(FragmentActivity activity) {
+    private void initActivityComponent(FragmentActivity activity) {
         if (activityComponent == null) {
             activityComponent = applicationComponent
                     .getActivityComponent(new ActivityModule(activity));
@@ -42,13 +55,5 @@ public final class ComponentsManager {
 
     private void initFragmentComponent() {
         fragmentComponent = activityComponent.getFragmentComponent(new FragmentModule());
-    }
-
-    public ActivityComponent getActivityComponent() {
-        return activityComponent;
-    }
-
-    public FragmentComponent getFragmentComponent() {
-        return fragmentComponent;
     }
 }
