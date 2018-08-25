@@ -1,5 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
+
 import javax.inject.Inject;
 
 import androidx.fragment.app.Fragment;
@@ -21,19 +24,9 @@ public final class Navigator implements INavigator {
     }
 
     @Override
-    public void initializeView() {
-        if (fragmentManager.findFragmentById(R.id.main_fragment_container) == null) {
-            addFragmentWithoutBackStack(PersonalPhotosFragment.newInstance(), PERSONAL_PHOTOS_TAG);
-        }
-    }
-
-    @Override
     public void navigateToPersonalPhotos() {
-        Fragment fragment = fragmentManager.findFragmentByTag(PERSONAL_PHOTOS_TAG);
+        Fragment fragment = getFragment(PERSONAL_PHOTOS_TAG, PersonalPhotosFragment::newInstance);
         if (fragment == null) {
-            fragment = PersonalPhotosFragment.newInstance();
-        }
-        if (fragment.isVisible()) {
             return;
         }
         replaceFragmentWithoutBackStack(fragment, PERSONAL_PHOTOS_TAG);
@@ -41,20 +34,22 @@ public final class Navigator implements INavigator {
 
     @Override
     public void navigateToAppTheme() {
-        Fragment fragment = fragmentManager.findFragmentByTag(APP_THEME_TAG);
+        Fragment fragment = getFragment(APP_THEME_TAG, AppThemeFragment::newInstance);
         if (fragment == null) {
-            fragment = AppThemeFragment.newInstance();
-        }
-        if (fragment.isVisible()) {
             return;
         }
         addFragmentWithBackStack(fragment, APP_THEME_TAG);
     }
 
-    private void addFragmentWithoutBackStack(Fragment fragment, String tag) {
-        fragmentManager.beginTransaction()
-                .add(R.id.main_fragment_container, fragment, tag)
-                .commit();
+    private Fragment getFragment(String tag, FragmentSupplier fragmentSupplier) {
+        Fragment fragment = fragmentManager.findFragmentByTag(tag);
+        if (fragment == null) {
+            return fragmentSupplier.supplyFragment();
+        }
+        if (fragment.isVisible()) {
+            return null;
+        }
+        return fragment;
     }
 
     private void replaceFragmentWithoutBackStack(Fragment fragment, String tag) {
@@ -68,5 +63,11 @@ public final class Navigator implements INavigator {
                 .replace(R.id.main_fragment_container, fragment, tag)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @FunctionalInterface
+    private interface FragmentSupplier {
+
+        Fragment supplyFragment();
     }
 }
