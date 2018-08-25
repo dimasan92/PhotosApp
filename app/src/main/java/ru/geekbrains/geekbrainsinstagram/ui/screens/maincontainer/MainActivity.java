@@ -67,6 +67,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     private void setupComponent() {
         MainApplication.getApp()
                 .getComponentsManager()
+                .initActivityComponent(this);
+        MainApplication.getApp()
+                .getComponentsManager()
                 .getActivityComponent().inject(this);
     }
 

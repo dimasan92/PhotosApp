@@ -4,7 +4,9 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
+import androidx.fragment.app.FragmentActivity;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
+import ru.geekbrains.geekbrainsinstagram.di.activity.module.ActivityModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.ApplicationModule;
@@ -30,19 +32,23 @@ public final class ComponentsManager {
                 .build();
     }
 
-    public ActivityComponent getActivityComponent() {
+    public void initActivityComponent(FragmentActivity activity) {
         if (activityComponent == null) {
             activityComponent = applicationComponent
-                    .getActivityComponent();
+                    .getActivityComponent(new ActivityModule(activity));
+            initFragmentComponent();
         }
+    }
+
+    private void initFragmentComponent() {
+        fragmentComponent = activityComponent.getFragmentComponent(new FragmentModule());
+    }
+
+    public ActivityComponent getActivityComponent() {
         return activityComponent;
     }
 
     public FragmentComponent getFragmentComponent() {
-        if (fragmentComponent == null) {
-            fragmentComponent = activityComponent
-                    .getFragmentComponent(new FragmentModule());
-        }
         return fragmentComponent;
     }
 }
