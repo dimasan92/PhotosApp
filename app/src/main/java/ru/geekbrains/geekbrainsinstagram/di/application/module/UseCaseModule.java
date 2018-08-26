@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
@@ -36,5 +37,12 @@ public final class UseCaseModule {
     @Provides
     GetPersonalPhotosUseCase provideGetPersonalPhotosUseCase(final IPhotosRepository repository) {
         return new GetPersonalPhotosUseCase(repository);
+    }
+
+    @Singleton
+    @Provides
+    ChangeFavoriteStatusPersonalPhotoUseCase provideChangeFavoriteStatusPersonalPhotoUseCase
+            (final IPhotosRepository repository) {
+        return new ChangeFavoriteStatusPersonalPhotoUseCase(repository);
     }
 }

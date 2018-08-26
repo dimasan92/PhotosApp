@@ -9,13 +9,11 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoDiffUtilCallback;
 import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.utils.IPictureUtils;
 
@@ -45,30 +43,31 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         holder.bind(photos.get(position));
     }
 
-    void updatePhotos(List<PhotoModel> photos) {
-        DiffUtil.DiffResult diffResult =
-                DiffUtil.calculateDiff(new PhotoDiffUtilCallback(this.photos, photos));
-        this.photos = photos;
-        diffResult.dispatchUpdatesTo(this);
-    }
-
     @Override
     public final int getItemCount() {
         return photos.size();
     }
 
+    void updatePhotos(List<PhotoModel> photos) {
+        this.photos = photos;
+        notifyDataSetChanged();
+    }
+
+    void addPhoto(PhotoModel photoModel) {
+        photos.add(photoModel);
+        notifyItemChanged(photos.indexOf(photoModel));
+    }
+
+    void updatePhoto(PhotoModel photoModel) {
+        notifyItemChanged(photos.indexOf(photoModel));
+    }
+
     Observable<PhotoModel> onFavoritesClick() {
-        return onFavoritesClickObservable.doOnNext(this::changeFavoritesStatus);
+        return onFavoritesClickObservable;
     }
 
     Observable<PhotoModel> onDeleteClick() {
         return onLongItemClickObservable;
-    }
-
-    private void changeFavoritesStatus(final PhotoModel photoModel) {
-        final int position = photos.indexOf(photoModel);
-        photoModel.setFavorite(!photoModel.isFavorite());
-        notifyItemChanged(position);
     }
 
     static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {

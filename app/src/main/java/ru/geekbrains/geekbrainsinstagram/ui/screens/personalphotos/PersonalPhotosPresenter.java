@@ -2,28 +2,33 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
 
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
         implements IPersonalPhotosPresenter {
 
     @Inject
-    ICameraUtils cameraUtils;
-
-    @Inject
     SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase;
 
     @Inject
     GetPersonalPhotosUseCase getPersonalPhotosUseCase;
+
+    @Inject
+    ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
+
+    @Inject
+    ICameraUtils cameraUtils;
 
     @Inject
     IModelMapper mapper;
@@ -58,27 +63,44 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void changePhotoFavorite(PhotoModel photoModel) {
-
+    public void changePhotoFavorite(Observable<PhotoModel> favoritesObservable) {
+        disposables.add(favoritesObservable.subscribe(photoModel -> {
+                    photoModel.setFavorite(!photoModel.isFavorite());
+                    disposables.add(changeFavoriteStatusPersonalPhotoUseCase
+                            .execute(mapper.viewToDomain(photoModel))
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(() -> view.updatePhoto(photoModel),
+                                    throwable -> errorChangeFavoriteStatus(photoModel)));
+                }
+        ));
     }
 
     @Override
-    public void deletePhoto(PhotoModel photoModel) {
+    public void deletePhoto(Observable<PhotoModel> deleteObservable) {
 
     }
 
     private Disposable updatePhotos() {
         return getPersonalPhotosUseCase.execute()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(photos -> view.updatePhotos(mapper.domainToView(photos)));
+                .subscribe(photos -> view.addPhotos(mapper.domainToView(photos)));
     }
 
-    private void successAddPhoto() {
+    private void successAddPhoto(PhotoModel photoModel) {
+        view.addNewPhoto(photoModel);
         view.showNotifyingMessage(R.string.photo_successfully_added_message);
     }
 
     private void errorLaunchCamera() {
         view.showNotifyingMessage(R.string.error_take_photo_message);
+    }
+
+    private void errorChangeFavoriteStatus(PhotoModel photoModel) {
+        if (photoModel.isFavorite()) {
+            view.showNotifyingMessage(R.string.error_add_photo_to_favorites_message);
+        } else {
+            view.showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+        }
     }
 
     private void cameraHasClosed(boolean isPhotoTaken) {
@@ -93,7 +115,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     private void saveNewPhotoToDevice(PhotoModel photoModel) {
         disposables.add(saveNewPersonalPhotoUseCase.execute(mapper.viewToDomain(photoModel))
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::successAddPhoto));
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> successAddPhoto(photoModel)));
     }
 }

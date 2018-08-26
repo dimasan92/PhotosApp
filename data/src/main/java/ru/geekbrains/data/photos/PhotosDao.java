@@ -6,15 +6,19 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import io.reactivex.Flowable;
+import androidx.room.Update;
+import io.reactivex.Single;
 import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
 
 @Dao
 public interface PhotosDao {
 
     @Query("SELECT * FROM PersonalPhotoEntity")
-    Flowable<List<PersonalPhotoEntity>> getAllPersonalPhotos();
+    Single<List<PersonalPhotoEntity>> getAllPersonalPhotos();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertPersonalPhoto(PersonalPhotoEntity entity);
+
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    void updatePersonalPhoto(PersonalPhotoEntity entity);
 }

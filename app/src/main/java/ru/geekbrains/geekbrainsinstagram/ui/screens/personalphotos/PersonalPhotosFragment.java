@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -57,10 +55,8 @@ public final class PersonalPhotosFragment extends BaseFragment
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
-        FloatingActionButton fab = view.findViewById(R.id.take_photo_fab);
-        fab.setOnClickListener(v -> presenter.takeAPhoto());
-
         initRecyclerView(view);
+        setupListeners(view);
 
         presenter.viewIsReady();
         return view;
@@ -78,8 +74,18 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void updatePhotos(List<PhotoModel> photos) {
+    public void addPhotos(List<PhotoModel> photos) {
         adapter.updatePhotos(photos);
+    }
+
+    @Override
+    public void addNewPhoto(PhotoModel photoModel) {
+        adapter.addPhoto(photoModel);
+    }
+
+    @Override
+    public void updatePhoto(PhotoModel photoModel) {
+        adapter.updatePhoto(photoModel);
     }
 
     @Override
@@ -104,5 +110,13 @@ public final class PersonalPhotosFragment extends BaseFragment
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjusetGridLayoutManager(getResources().getConfiguration().orientation));
         photoRecyclerView.setAdapter(adapter);
+    }
+
+    private void setupListeners(View layout) {
+        FloatingActionButton fab = layout.findViewById(R.id.take_photo_fab);
+        fab.setOnClickListener(v -> presenter.takeAPhoto());
+
+        presenter.changePhotoFavorite(adapter.onFavoritesClick());
+        presenter.deletePhoto(adapter.onDeleteClick());
     }
 }

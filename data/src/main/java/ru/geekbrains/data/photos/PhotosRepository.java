@@ -27,8 +27,15 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
-    public Flowable<List<Photo>> getPersonalPhotos() {
+    public Single<List<Photo>> getPersonalPhotos() {
         return dao.getAllPersonalPhotos()
-                .map(mapper::dataToDomain);
+                .map(mapper::dataToDomain)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable changeFavoriteStatusPersonalPhoto(Photo photo) {
+        return Completable.fromAction(() -> dao.updatePersonalPhoto(mapper.domainToData(photo)))
+                .subscribeOn(Schedulers.io());
     }
 }
