@@ -75,9 +75,6 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
 
         private final ImageView photoImageView;
         private final ImageView isFavoritesImageView;
-        private final Subject<PhotoModel> onFavoritesClickObservable;
-        private final Subject<PhotoModel> onLongItemClickObservable;
-
         private final IPictureUtils pictureUtils;
 
         private PhotoModel photoModel;
@@ -85,8 +82,6 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         PersonalPhotoHolder(@NonNull View itemView, Subject<PhotoModel> onFavoritesClickObservable,
                             Subject<PhotoModel> onLongItemClickObservable, IPictureUtils pictureUtils) {
             super(itemView);
-            this.onFavoritesClickObservable = onFavoritesClickObservable;
-            this.onLongItemClickObservable = onLongItemClickObservable;
             this.pictureUtils = pictureUtils;
 
             photoImageView = itemView.findViewById(R.id.iv_personal_photo);
