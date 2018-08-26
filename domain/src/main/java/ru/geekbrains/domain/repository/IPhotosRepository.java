@@ -13,4 +13,6 @@ public interface IPhotosRepository {
     Single<List<Photo>> getPersonalPhotos();
 
     Completable changeFavoriteStatusPersonalPhoto(Photo photo);
+
+    Completable deletePersonalPhoto(Photo photo);
 }

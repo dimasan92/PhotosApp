@@ -62,6 +62,11 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         notifyItemChanged(photos.indexOf(photoModel));
     }
 
+    void deletePhoto(PhotoModel photoModel) {
+        notifyItemRemoved(photos.indexOf(photoModel));
+        photos.remove(photoModel);
+    }
+
     Observable<PhotoModel> onFavoritesClick() {
         return onFavoritesClickObservable;
     }

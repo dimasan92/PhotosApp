@@ -17,6 +17,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -89,11 +90,30 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
+    public void deletePhoto(PhotoModel photoModel) {
+        adapter.deletePhoto(photoModel);
+    }
+
+    @Override
     public void showNotifyingMessage(@StringRes int message) {
         if (getView() == null) {
             return;
         }
         Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showDeletePhotoDialog(PhotoModel photoModel) {
+        if (getContext() == null) {
+            return;
+        }
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder.setTitle(R.string.delete_photo_dialog_title);
+        dialogBuilder.setPositiveButton(android.R.string.yes,
+                (dialog, which) -> presenter.deletePhoto(photoModel));
+        dialogBuilder.setNegativeButton(android.R.string.no, (dialog, which) -> {
+        });
+        dialogBuilder.show();
     }
 
     @Override
@@ -116,7 +136,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         FloatingActionButton fab = layout.findViewById(R.id.take_photo_fab);
         fab.setOnClickListener(v -> presenter.takeAPhoto());
 
-        presenter.changePhotoFavorite(adapter.onFavoritesClick());
-        presenter.deletePhoto(adapter.onDeleteClick());
+        presenter.changePhotoFavoriteState(adapter.onFavoritesClick());
+        presenter.deleteRequest(adapter.onDeleteClick());
     }
 }

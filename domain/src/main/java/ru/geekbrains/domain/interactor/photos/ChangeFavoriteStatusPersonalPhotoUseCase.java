@@ -4,7 +4,7 @@ import io.reactivex.Completable;
 import ru.geekbrains.domain.model.Photo;
 import ru.geekbrains.domain.repository.IPhotosRepository;
 
-public class ChangeFavoriteStatusPersonalPhotoUseCase {
+public final class ChangeFavoriteStatusPersonalPhotoUseCase {
 
     private final IPhotosRepository photosRepository;
 

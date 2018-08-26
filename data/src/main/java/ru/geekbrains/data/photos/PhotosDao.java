@@ -3,6 +3,7 @@ package ru.geekbrains.data.photos;
 import java.util.List;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -21,4 +22,7 @@ public interface PhotosDao {
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     void updatePersonalPhoto(PersonalPhotoEntity entity);
+
+    @Delete
+    void deletePersonalPhoto(PersonalPhotoEntity entity);
 }

@@ -38,4 +38,10 @@ public final class PhotosRepository implements IPhotosRepository {
         return Completable.fromAction(() -> dao.updatePersonalPhoto(mapper.domainToData(photo)))
                 .subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public Completable deletePersonalPhoto(Photo photo) {
+        return Completable.fromAction(() -> dao.deletePersonalPhoto(mapper.domainToData(photo)))
+                .subscribeOn(Schedulers.io());
+    }
 }

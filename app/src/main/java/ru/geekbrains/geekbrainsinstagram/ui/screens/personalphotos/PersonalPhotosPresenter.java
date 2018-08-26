@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
+import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -26,6 +27,9 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Inject
     ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
+
+    @Inject
+    DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
 
     @Inject
     ICameraUtils cameraUtils;
@@ -63,7 +67,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void changePhotoFavorite(Observable<PhotoModel> favoritesObservable) {
+    public void changePhotoFavoriteState(Observable<PhotoModel> favoritesObservable) {
         disposables.add(favoritesObservable.subscribe(photoModel -> {
                     photoModel.setFavorite(!photoModel.isFavorite());
                     disposables.add(changeFavoriteStatusPersonalPhotoUseCase
@@ -76,8 +80,18 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void deletePhoto(Observable<PhotoModel> deleteObservable) {
+    public void deletePhoto(PhotoModel photoModel) {
+        disposables.add(deletePersonalPhotoUseCase
+                .execute(mapper.viewToDomain(photoModel))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> successDeletePhoto(photoModel),
+                        throwable -> errorDeletePhoto()));
+    }
 
+    @Override
+    public void deleteRequest(Observable<PhotoModel> deleteObservable) {
+        disposables.add(deleteObservable.subscribe(photoModel ->
+                view.showDeletePhotoDialog(photoModel)));
     }
 
     private Disposable updatePhotos() {
@@ -91,6 +105,11 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         view.showNotifyingMessage(R.string.photo_successfully_added_message);
     }
 
+    private void successDeletePhoto(PhotoModel photoModel) {
+        view.deletePhoto(photoModel);
+        view.showNotifyingMessage(R.string.photo_successfully_deleted_message);
+    }
+
     private void errorLaunchCamera() {
         view.showNotifyingMessage(R.string.error_take_photo_message);
     }
@@ -101,6 +120,10 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         } else {
             view.showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
         }
+    }
+
+    private void errorDeletePhoto() {
+        view.showNotifyingMessage(R.string.error_delete_photo_message);
     }
 
     private void cameraHasClosed(boolean isPhotoTaken) {

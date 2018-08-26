@@ -21,7 +21,11 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
         void updatePhoto(PhotoModel photoModel);
 
+        void deletePhoto(PhotoModel photoModel);
+
         void showNotifyingMessage(@StringRes int message);
+
+        void showDeletePhotoDialog(PhotoModel photoModel);
     }
 
     void takeAPhoto();
@@ -30,7 +34,9 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void photoHasCanceled();
 
-    void changePhotoFavorite(Observable<PhotoModel> favoritesObservable);
+    void changePhotoFavoriteState(Observable<PhotoModel> favoritesObservable);
 
-    void deletePhoto(Observable<PhotoModel> deleteObservable);
+    void deletePhoto(PhotoModel photoModel);
+
+    void deleteRequest(Observable<PhotoModel> deleteObservable);
 }
