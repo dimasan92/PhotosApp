@@ -6,17 +6,17 @@ import java.util.UUID;
 
 import androidx.annotation.NonNull;
 
-public final class InnerStoragePhotoViewModel {
+public final class PhotoModel {
 
-    private final UUID id;
+    private final String id;
     private Uri uri;
     private boolean isFavorite;
 
-    public InnerStoragePhotoViewModel() {
-        id = UUID.randomUUID();
+    public PhotoModel() {
+        id = UUID.randomUUID().toString();
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
@@ -43,6 +43,6 @@ public final class InnerStoragePhotoViewModel {
     @NonNull
     @Override
     public String toString() {
-        return "INNER_STORAGE_PHOTO_" + id.toString();
+        return "PHOTO_" + id.toString();
     }
 }
