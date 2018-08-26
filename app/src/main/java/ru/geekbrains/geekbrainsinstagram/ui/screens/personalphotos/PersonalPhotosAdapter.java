@@ -9,24 +9,26 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
-import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoDiffUtilCallback;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.utils.IPictureUtils;
 
 public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPhotosAdapter.PersonalPhotoHolder> {
 
-    private final PictureUtils pictureUtils;
-    private List<InnerStoragePhotoViewModel> photos = Collections.emptyList();
+    private final IPictureUtils pictureUtils;
+    private List<PhotoModel> photos = Collections.emptyList();
 
-    private final Subject<InnerStoragePhotoViewModel> onFavoritesItemClickObservable = BehaviorSubject.create();
-    private final Subject<InnerStoragePhotoViewModel> onLongItemClickObservable = BehaviorSubject.create();
+    private final Subject<PhotoModel> onFavoritesClickObservable = BehaviorSubject.create();
+    private final Subject<PhotoModel> onLongItemClickObservable = BehaviorSubject.create();
 
-    public PersonalPhotosAdapter(PictureUtils pictureUtils) {
-        this.pictureUtils = pictureUtils;
+    public PersonalPhotosAdapter(IPictureUtils IPictureUtils) {
+        this.pictureUtils = IPictureUtils;
     }
 
     @NonNull
@@ -34,7 +36,8 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     public PersonalPhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new PersonalPhotoHolder(inflater.inflate(R.layout.item_personal_photo,
-                parent, false));
+                parent, false),
+                onFavoritesClickObservable, onLongItemClickObservable, pictureUtils);
     }
 
     @Override
@@ -42,9 +45,11 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         holder.bind(photos.get(position));
     }
 
-    void setPictures(List<InnerStoragePhotoViewModel> photos) {
+    void updatePhotos(List<PhotoModel> photos) {
+        DiffUtil.DiffResult diffResult =
+                DiffUtil.calculateDiff(new PhotoDiffUtilCallback(this.photos, photos));
         this.photos = photos;
-        notifyDataSetChanged();
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @Override
@@ -52,44 +57,53 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         return photos.size();
     }
 
-    Observable<InnerStoragePhotoViewModel> onFavoritesClick() {
-        return onFavoritesItemClickObservable.doOnNext(this::changeFavoritesStatus);
+    Observable<PhotoModel> onFavoritesClick() {
+        return onFavoritesClickObservable.doOnNext(this::changeFavoritesStatus);
     }
 
-    Observable<InnerStoragePhotoViewModel> onDeleteClick() {
+    Observable<PhotoModel> onDeleteClick() {
         return onLongItemClickObservable;
     }
 
-    private void changeFavoritesStatus(final InnerStoragePhotoViewModel photoModel) {
+    private void changeFavoritesStatus(final PhotoModel photoModel) {
         final int position = photos.indexOf(photoModel);
         photoModel.setFavorite(!photoModel.isFavorite());
         notifyItemChanged(position);
     }
 
-    class PersonalPhotoHolder extends RecyclerView.ViewHolder {
+    static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {
 
         private final ImageView photoImageView;
-        private final ImageView favoritesImageView;
+        private final ImageView isFavoritesImageView;
+        private final Subject<PhotoModel> onFavoritesClickObservable;
+        private final Subject<PhotoModel> onLongItemClickObservable;
 
-        private InnerStoragePhotoViewModel photoModel;
+        private final IPictureUtils pictureUtils;
 
-        PersonalPhotoHolder(@NonNull View itemView) {
+        private PhotoModel photoModel;
+
+        PersonalPhotoHolder(@NonNull View itemView, Subject<PhotoModel> onFavoritesClickObservable,
+                            Subject<PhotoModel> onLongItemClickObservable, IPictureUtils pictureUtils) {
             super(itemView);
-            photoImageView = itemView.findViewById(R.id.camera_photo_image);
-            favoritesImageView = itemView.findViewById(R.id.favorite_photo);
+            this.onFavoritesClickObservable = onFavoritesClickObservable;
+            this.onLongItemClickObservable = onLongItemClickObservable;
+            this.pictureUtils = pictureUtils;
+
+            photoImageView = itemView.findViewById(R.id.iv_personal_photo);
+            isFavoritesImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
 
             itemView.setOnLongClickListener(v -> {
                 onLongItemClickObservable.onNext(photoModel);
                 return true;
             });
 
-            favoritesImageView.setOnClickListener(v -> onFavoritesItemClickObservable.onNext(photoModel));
+            isFavoritesImageView.setOnClickListener(v -> onFavoritesClickObservable.onNext(photoModel));
         }
 
-        void bind(final InnerStoragePhotoViewModel model) {
-            this.photoModel = model;
-            pictureUtils.loadImageIntoImageView(photoImageView, model);
-            favoritesImageView.setImageResource(model.isFavorite() ?
+        void bind(final PhotoModel photoModel) {
+            this.photoModel = photoModel;
+            pictureUtils.loadImageIntoImageView(photoModel, photoImageView);
+            isFavoritesImageView.setImageResource(photoModel.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);
         }

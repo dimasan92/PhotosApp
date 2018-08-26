@@ -9,7 +9,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhoto
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.IAppThemePresenter;
-import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.IPictureUtils;
 
 @Module
 public final class FragmentModule {
@@ -34,7 +34,7 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    PersonalPhotosAdapter provideCameraPhotoAdapter(PictureUtils pictureUtils) {
-        return new PersonalPhotosAdapter(pictureUtils);
+    PersonalPhotosAdapter provideCameraPhotoAdapter(IPictureUtils IPictureUtils) {
+        return new PersonalPhotosAdapter(IPictureUtils);
     }
 }

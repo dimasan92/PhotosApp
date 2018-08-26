@@ -14,8 +14,10 @@ import ru.geekbrains.geekbrainsinstagram.utils.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.IFilesUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.ILayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.LayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
-import ru.geekbrains.geekbrainsinstagram.utils.PictureUtilsImpl;
 
 @Module
 public final class UtilsModule {
@@ -39,13 +41,19 @@ public final class UtilsModule {
 
     @Singleton
     @Provides
-    PictureUtils providePictureUtils() {
-        return new PictureUtilsImpl();
+    IPictureUtils providePictureUtils() {
+        return new PictureUtils();
     }
 
     @Singleton
     @Provides
     ICameraUtils provideCameraUtils(Context context, IFilesUtils filesUtils) {
         return new CameraUtils(context, filesUtils);
+    }
+
+    @Singleton
+    @Provides
+    ILayoutUtils provideILayoutUtils(Context context) {
+        return new LayoutUtils(context);
     }
 }
