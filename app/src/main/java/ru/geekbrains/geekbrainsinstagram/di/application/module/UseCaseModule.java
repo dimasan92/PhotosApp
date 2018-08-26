@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
@@ -27,7 +28,13 @@ public final class UseCaseModule {
 
     @Singleton
     @Provides
-    SaveNewPersonalPhotoUseCase providesNewPersonalPhotoUseCase(final IPhotosRepository repository){
+    SaveNewPersonalPhotoUseCase providesNewPersonalPhotoUseCase(final IPhotosRepository repository) {
         return new SaveNewPersonalPhotoUseCase(repository);
+    }
+
+    @Singleton
+    @Provides
+    GetPersonalPhotosUseCase provideGetPersonalPhotosUseCase(final IPhotosRepository repository) {
+        return new GetPersonalPhotosUseCase(repository);
     }
 }

@@ -2,9 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +23,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.utils.ILayoutUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
         implements IPersonalPhotosPresenter.IView {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
-    private static final int COLUMN_COUNT = 3;
+
+    @Inject
+    ILayoutUtils layoutUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;
@@ -77,8 +78,8 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void showPhotos(List<PhotoModel> photos) {
-        adapter.setPictures(photos);
+    public void updatePhotos(List<PhotoModel> photos) {
+        adapter.updatePhotos(photos);
     }
 
     @Override
@@ -86,10 +87,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         if (getView() == null) {
             return;
         }
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT)
-                .setAction(android.R.string.ok, v -> {
-                })
-                .show();
+        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -103,7 +101,8 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     private void initRecyclerView(View layout) {
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
-        photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), COLUMN_COUNT));
+        photoRecyclerView.setLayoutManager(layoutUtils
+                .getAdjusetGridLayoutManager(getResources().getConfiguration().orientation));
         photoRecyclerView.setAdapter(adapter);
     }
 }

@@ -10,7 +10,7 @@ import android.provider.MediaStore;
 import java.util.List;
 
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public final class CameraUtils implements ICameraUtils {
 

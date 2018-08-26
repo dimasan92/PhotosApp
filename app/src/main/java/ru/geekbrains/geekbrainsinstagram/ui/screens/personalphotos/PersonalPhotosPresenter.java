@@ -4,12 +4,13 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
-import ru.geekbrains.geekbrainsinstagram.ui.mapper.IModelMapper;
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
 
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
@@ -22,13 +23,16 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase;
 
     @Inject
+    GetPersonalPhotosUseCase getPersonalPhotosUseCase;
+
+    @Inject
     IModelMapper mapper;
 
     private PhotoModel currentPhoto;
 
     @Override
     public void viewIsReady() {
-//        disposables.add(takeSavedPhotos());
+        disposables.add(updatePhotos());
     }
 
     @Override
@@ -63,8 +67,10 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     }
 
-    private Disposable takeSavedPhotos() {
-        return null;
+    private Disposable updatePhotos() {
+        return getPersonalPhotosUseCase.execute()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(photos -> view.updatePhotos(mapper.domainToView(photos)));
     }
 
     private void successAddPhoto() {

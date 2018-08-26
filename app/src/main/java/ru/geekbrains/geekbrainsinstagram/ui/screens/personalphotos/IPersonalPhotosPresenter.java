@@ -1,13 +1,12 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import android.content.Intent;
-import android.net.Uri;
 
 import java.util.List;
 
 import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
@@ -15,7 +14,7 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
         void startCamera(Intent cameraIntent);
 
-        void showPhotos(List<PhotoModel> photos);
+        void updatePhotos(List<PhotoModel> photos);
 
         void showNotifyingMessage(@StringRes int message);
     }

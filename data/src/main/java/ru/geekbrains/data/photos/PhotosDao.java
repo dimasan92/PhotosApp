@@ -13,7 +13,7 @@ import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
 public interface PhotosDao {
 
     @Query("SELECT * FROM PersonalPhotoEntity")
-    Flowable<List<PersonalPhotoEntity>> getAll();
+    Flowable<List<PersonalPhotoEntity>> getAllPersonalPhotos();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertPersonalPhoto(PersonalPhotoEntity entity);

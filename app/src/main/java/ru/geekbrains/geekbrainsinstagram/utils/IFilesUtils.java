@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import java.io.File;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public interface IFilesUtils {
 

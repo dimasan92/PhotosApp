@@ -1,6 +1,10 @@
 package ru.geekbrains.data.photos;
 
+import java.util.List;
+
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.mapper.IEntityMapper;
 import ru.geekbrains.domain.model.Photo;
@@ -20,5 +24,11 @@ public final class PhotosRepository implements IPhotosRepository {
     public Completable savePersonalPhoto(Photo photo) {
         return Completable.fromAction(() -> dao.insertPersonalPhoto(mapper.domainToData(photo)))
                 .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Flowable<List<Photo>> getPersonalPhotos() {
+        return dao.getAllPersonalPhotos()
+                .map(mapper::dataToDomain);
     }
 }

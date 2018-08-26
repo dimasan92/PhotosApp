@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public final class PictureUtils implements IPictureUtils {
 

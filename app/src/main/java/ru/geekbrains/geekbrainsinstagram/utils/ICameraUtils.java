@@ -3,7 +3,7 @@ package ru.geekbrains.geekbrainsinstagram.utils;
 import android.content.Intent;
 
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public interface ICameraUtils {
 

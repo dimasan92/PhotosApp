@@ -2,7 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.utils;
 
 import android.widget.ImageView;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
 public interface IPictureUtils {
 
