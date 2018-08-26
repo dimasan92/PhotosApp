@@ -50,7 +50,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         presenter.setView(this);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,9 +69,9 @@ public final class PersonalPhotosFragment extends BaseFragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                presenter.photoHasTaken(true);
+                presenter.photoHasTaken();
             } else {
-                presenter.photoHasTaken(false);
+                presenter.photoHasCanceled();
             }
         }
     }

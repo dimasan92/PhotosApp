@@ -22,7 +22,9 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void takeAPhoto();
 
-    void photoHasTaken(boolean took);
+    void photoHasTaken();
+
+    void photoHasCanceled();
 
     void changePhotoFavorite(PhotoModel photoModel);
 

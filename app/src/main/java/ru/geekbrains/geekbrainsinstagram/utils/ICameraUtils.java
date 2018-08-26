@@ -8,4 +8,6 @@ import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
 public interface ICameraUtils {
 
     Intent getAdjustedCameraInvoker(PhotoModel photoModel) throws LaunchCameraException;
+
+    void revokeCameraPermissions(PhotoModel photoModel);
 }

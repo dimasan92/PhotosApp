@@ -1,15 +1,11 @@
 package ru.geekbrains.geekbrainsinstagram.ui.model;
 
-import android.net.Uri;
-
 import java.util.UUID;
-
-import androidx.annotation.NonNull;
 
 public final class PhotoModel {
 
     private final String id;
-    private Uri uri;
+    private String uri;
     private boolean isFavorite;
 
     public PhotoModel() {
@@ -24,11 +20,11 @@ public final class PhotoModel {
         return toString() + ".jpeg";
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
@@ -40,9 +36,8 @@ public final class PhotoModel {
         isFavorite = favorite;
     }
 
-    @NonNull
     @Override
     public String toString() {
-        return "PHOTO_" + id.toString();
+        return "PHOTO_" + id;
     }
 }

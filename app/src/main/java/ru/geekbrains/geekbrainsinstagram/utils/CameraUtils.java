@@ -35,6 +35,12 @@ public final class CameraUtils implements ICameraUtils {
         throw new LaunchCameraException();
     }
 
+    @Override
+    public void revokeCameraPermissions(PhotoModel photoModel) {
+        appContext.revokeUriPermission(Uri.parse(photoModel.getUri()),
+                Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+    }
+
     private boolean isCameraAvailable(Intent cameraIntent) {
         return cameraIntent.resolveActivity(appContext.getPackageManager()) != null;
     }

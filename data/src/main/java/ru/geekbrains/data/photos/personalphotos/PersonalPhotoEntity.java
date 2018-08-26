@@ -1,4 +1,4 @@
-package ru.geekbrains.data.innerstoragephotos;
+package ru.geekbrains.data.photos.personalphotos;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public class InnerStoragePhotoEntity {
+public final class PersonalPhotoEntity {
 
     @NonNull
     @PrimaryKey
@@ -19,12 +19,13 @@ public class InnerStoragePhotoEntity {
     @ColumnInfo(name = "is_favorite")
     private boolean isFavorite;
 
-    public InnerStoragePhotoEntity(String id, String uri, boolean isFavorite) {
+    public PersonalPhotoEntity(@NonNull String id, String uri, boolean isFavorite) {
         this.id = id;
         this.uri = uri;
         this.isFavorite = isFavorite;
     }
 
+    @NonNull
     public String getId() {
         return id;
     }

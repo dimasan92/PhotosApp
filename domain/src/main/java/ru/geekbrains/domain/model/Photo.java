@@ -1,20 +1,18 @@
 package ru.geekbrains.domain.model;
 
-import java.util.UUID;
+public final class Photo {
 
-public final class InnerStoragePhoto {
-
-    private final UUID id;
+    private final String id;
     private final String uri;
     private final boolean isFavorite;
 
-    public InnerStoragePhoto(UUID id, String uri, boolean isFavorite) {
+    public Photo(String  id, String uri, boolean isFavorite) {
         this.id = id;
         this.uri = uri;
         this.isFavorite = isFavorite;
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
