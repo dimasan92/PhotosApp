@@ -55,7 +55,7 @@ public final class Navigator implements INavigator {
     private void replaceFragmentWithoutBackStack(Fragment fragment, String tag) {
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, fragment, tag)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     private void addFragmentWithBackStack(Fragment fragment, String tag) {
