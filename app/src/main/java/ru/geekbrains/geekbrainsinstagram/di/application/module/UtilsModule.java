@@ -10,8 +10,10 @@ import dagger.Provides;
 import ru.geekbrains.data.util.PrefUtils;
 import ru.geekbrains.data.util.PrefUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.utils.CameraUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.IFilesUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
-import ru.geekbrains.geekbrainsinstagram.utils.FilesUtilsImpl;
+import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.PictureUtilsImpl;
 
@@ -31,13 +33,19 @@ public final class UtilsModule {
 
     @Singleton
     @Provides
-    FilesUtils provideFilesUtils(Context context) {
-        return new FilesUtilsImpl(context);
+    IFilesUtils provideFilesUtils(Context context) {
+        return new FilesUtils(context);
     }
 
     @Singleton
     @Provides
     PictureUtils providePictureUtils() {
         return new PictureUtilsImpl();
+    }
+
+    @Singleton
+    @Provides
+    ICameraUtils provideCameraUtils(Context context, IFilesUtils filesUtils) {
+        return new CameraUtils(context, filesUtils);
     }
 }

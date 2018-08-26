@@ -1,9 +1,5 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -11,15 +7,17 @@ import io.reactivex.disposables.Disposable;
 import ru.geekbrains.domain.interactor.photos.AddNewInnerStoragePhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.ui.mapper.ViewMapper;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
-import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.utils.IFilesUtils;
+import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
 
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
         implements IPersonalPhotosPresenter {
 
     @Inject
-    FilesUtils filesUtils;
+    ICameraUtils cameraUtils;
 
     @Inject
     AddNewInnerStoragePhotoUseCase addNewInnerStoragePhotoUseCase;
@@ -27,7 +25,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     @Inject
     ViewMapper mapper;
 
-    private InnerStoragePhotoViewModel currentPhoto;
+    private PhotoModel currentPhoto;
 
     @Override
     public void viewIsReady() {
@@ -36,19 +34,12 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void takeAPhoto() {
-        final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (!view.isCameraAvailable(cameraIntent) || !filesUtils.isCatalogAvailable()) {
-            errorTakePhoto();
-            return;
-        }
-        currentPhoto = new InnerStoragePhotoViewModel();
-        Uri uri = filesUtils.getUriForFile(filesUtils.getInnerPhotoFile(currentPhoto));
-        currentPhoto.setUri(uri);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-        if (view.setCameraPermissions(cameraIntent, uri)) {
-            view.startCamera(cameraIntent);
-        } else {
-            errorTakePhoto();
+        currentPhoto = new PhotoModel();
+
+        try {
+            view.startCamera(cameraUtils.getAdjustedCameraInvoker(currentPhoto));
+        } catch (LaunchCameraException e) {
+            errorLaunchCamera();
             currentPhoto = null;
         }
     }
@@ -62,16 +53,16 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void changePhotoFavorite(InnerStoragePhotoViewModel photoModel) {
+    public void changePhotoFavorite(PhotoModel photoModel) {
 
     }
 
     @Override
-    public void deletePhoto(InnerStoragePhotoViewModel photoModel) {
+    public void deletePhoto(PhotoModel photoModel) {
 
     }
 
-    private void addNewPhotoToDb(InnerStoragePhotoViewModel photoModel) {
+    private void addNewPhotoToDb(PhotoModel photoModel) {
         disposables.add(addNewInnerStoragePhotoUseCase.execute(mapper.viewToDomain(photoModel))
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successAddPhoto));
@@ -85,7 +76,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         view.showNotifyingMessage(R.string.photo_successfully_added_message);
     }
 
-    private void errorTakePhoto() {
+    private void errorLaunchCamera() {
         view.showNotifyingMessage(R.string.error_take_photo_message);
     }
 }

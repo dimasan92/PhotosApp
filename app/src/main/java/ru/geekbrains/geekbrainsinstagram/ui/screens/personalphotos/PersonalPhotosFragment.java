@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
 
 public final class PersonalPhotosFragment extends BaseFragment
         implements IPersonalPhotosPresenter.IView {
@@ -39,8 +39,6 @@ public final class PersonalPhotosFragment extends BaseFragment
     @Inject
     PersonalPhotosAdapter adapter;
 
-    private RecyclerView photoRecyclerView;
-
     public static PersonalPhotosFragment newInstance() {
         return new PersonalPhotosFragment();
     }
@@ -48,7 +46,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+        inject();
         presenter.setView(this);
     }
 
@@ -58,7 +56,7 @@ public final class PersonalPhotosFragment extends BaseFragment
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
-        FloatingActionButton fab = view.findViewById(R.id.take_photo_button);
+        FloatingActionButton fab = view.findViewById(R.id.take_photo_fab);
         fab.setOnClickListener(v -> presenter.takeAPhoto());
 
         initRecyclerView(view);
@@ -79,7 +77,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void showPhotos(List<InnerStoragePhotoViewModel> photos) {
+    public void showPhotos(List<PhotoModel> photos) {
         adapter.setPictures(photos);
     }
 
@@ -95,35 +93,16 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public boolean isCameraAvailable(Intent cameraIntent) {
-        if (getActivity() == null) {
-            return false;
-        }
-        return cameraIntent.resolveActivity(getActivity().getPackageManager()) != null;
-    }
-
-    @Override
-    public boolean setCameraPermissions(Intent cameraIntent, Uri uri) {
-        if (getActivity() == null) {
-            return false;
-        }
-        List<ResolveInfo> cameraActivities = getActivity()
-                .getPackageManager().queryIntentActivities(cameraIntent,
-                        PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo activity : cameraActivities) {
-            getActivity().grantUriPermission(activity.activityInfo.packageName,
-                    uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        }
-        return true;
-    }
-
-    @Override
     public void startCamera(Intent cameraIntent) {
         startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
     }
 
+    private void inject() {
+        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+    }
+
     private void initRecyclerView(View layout) {
-        photoRecyclerView = layout.findViewById(R.id.camera_photo_recycler_view);
+        RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), COLUMN_COUNT));
         photoRecyclerView.setAdapter(adapter);
     }

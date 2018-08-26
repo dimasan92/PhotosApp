@@ -7,19 +7,15 @@ import java.util.List;
 
 import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
+import ru.geekbrains.geekbrainsinstagram.ui.model.PhotoModel;
 
 public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
     interface IView extends IBasePresenter.IView {
 
-        boolean isCameraAvailable(Intent cameraIntent);
-
-        boolean setCameraPermissions(Intent cameraIntent, Uri uri);
-
         void startCamera(Intent cameraIntent);
 
-        void showPhotos(List<InnerStoragePhotoViewModel> photos);
+        void showPhotos(List<PhotoModel> photos);
 
         void showNotifyingMessage(@StringRes int message);
     }
@@ -28,7 +24,7 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void photoHasTaken(boolean took);
 
-    void changePhotoFavorite(InnerStoragePhotoViewModel photoModel);
+    void changePhotoFavorite(PhotoModel photoModel);
 
-    void deletePhoto(InnerStoragePhotoViewModel photoModel);
+    void deletePhoto(PhotoModel photoModel);
 }
