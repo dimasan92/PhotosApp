@@ -9,5 +9,5 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     }
 
-    void setupTheme(Consumer<Integer> themeChanger);
+    void readyToSetupTheme(Consumer<Integer> themeChanger);
 }

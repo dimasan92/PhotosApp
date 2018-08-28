@@ -14,7 +14,5 @@ public interface ActivityComponent {
     FragmentComponent getFragmentComponent(FragmentModule fragmentModule);
 
     void inject(MainActivity activity);
-
-    void inject(MainPresenter presenter);
 }
 

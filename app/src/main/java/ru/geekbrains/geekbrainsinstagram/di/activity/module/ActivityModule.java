@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.di.activity.module;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
@@ -14,15 +15,13 @@ public final class ActivityModule {
 
     @ActivityScope
     @Provides
-    INavigator provideNavigator(){
+    INavigator provideNavigator() {
         return new Navigator();
     }
 
     @ActivityScope
     @Provides
-    IMainPresenter provideMainPresenter() {
-        MainPresenter mainPresenter = new MainPresenter();
-        MainApplication.getApp().getComponentsManager().getActivityComponent().inject(mainPresenter);
-        return mainPresenter;
+    IMainPresenter provideMainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
+        return new MainPresenter(getCurrentThemeUseCase);
     }
 }
