@@ -1,7 +1,5 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;

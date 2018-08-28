@@ -134,7 +134,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     private void initRecyclerView(View layout) {
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
-                .getAdjusetGridLayoutManager(getResources().getConfiguration().orientation));
+                .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
         photoRecyclerView.setAdapter(adapter);
     }
 

@@ -17,7 +17,7 @@ public final class LayoutUtils implements ILayoutUtils {
     }
 
     @Override
-    public GridLayoutManager getAdjusetGridLayoutManager(int orientation) {
+    public GridLayoutManager getAdjustedGridLayoutManager(int orientation) {
         int spanCount = PORTRAIT_SPAN_COUNT;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             spanCount = LANDSCAPE_SPAN_COUNT;

@@ -3,7 +3,6 @@ package ru.geekbrains.data.photos;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.mapper.IEntityMapper;

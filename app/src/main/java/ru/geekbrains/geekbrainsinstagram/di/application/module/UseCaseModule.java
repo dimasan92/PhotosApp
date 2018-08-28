@@ -8,8 +8,8 @@ import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoU
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
-import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
+import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.domain.repository.IPhotosRepository;
 import ru.geekbrains.domain.repository.ISettingsRepository;
 

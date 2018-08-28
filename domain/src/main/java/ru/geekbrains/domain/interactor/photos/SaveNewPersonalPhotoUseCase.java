@@ -12,7 +12,7 @@ public final class SaveNewPersonalPhotoUseCase {
         this.repository = repository;
     }
 
-    public Completable execute(Photo photo){
+    public Completable execute(Photo photo) {
         return repository.savePersonalPhoto(photo);
     }
 }

@@ -6,7 +6,7 @@ public final class Photo {
     private final String uri;
     private final boolean isFavorite;
 
-    public Photo(String  id, String uri, boolean isFavorite) {
+    public Photo(String id, String uri, boolean isFavorite) {
         this.id = id;
         this.uri = uri;
         this.isFavorite = isFavorite;

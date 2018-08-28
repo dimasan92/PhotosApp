@@ -4,5 +4,5 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 public interface ILayoutUtils {
 
-    GridLayoutManager getAdjusetGridLayoutManager(int orientation);
+    GridLayoutManager getAdjustedGridLayoutManager(int orientation);
 }

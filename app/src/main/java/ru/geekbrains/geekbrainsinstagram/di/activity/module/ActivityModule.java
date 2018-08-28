@@ -3,7 +3,6 @@ package ru.geekbrains.geekbrainsinstagram.di.activity.module;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
-import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;

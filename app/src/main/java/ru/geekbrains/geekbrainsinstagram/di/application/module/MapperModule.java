@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.geekbrains.data.mapper.IEntityMapper;
 import ru.geekbrains.data.mapper.EntityMapper;
+import ru.geekbrains.data.mapper.IEntityMapper;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.ModelMapper;
 

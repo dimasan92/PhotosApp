@@ -4,7 +4,6 @@ import android.content.Context;
 
 import javax.inject.Singleton;
 
-import androidx.fragment.app.FragmentActivity;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.activity.module.ActivityModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
