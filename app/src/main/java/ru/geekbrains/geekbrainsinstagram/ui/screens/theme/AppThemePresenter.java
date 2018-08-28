@@ -12,7 +12,7 @@ public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IV
     public AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase) {
         this.shouldChangeThemeUseCase = shouldChangeThemeUseCase;
     }
-    
+
     @Override
     public void viewIsReady() {
     }

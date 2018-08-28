@@ -6,7 +6,7 @@ import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoU
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
-import ru.geekbrains.geekbrainsinstagram.MainApplication;
+import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.IPersonalPhotosPresenter;
@@ -22,11 +22,8 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    IAppThemePresenter provideAppThemePresenter() {
-        final AppThemePresenter appThemePresenter = new AppThemePresenter(shouldChangeThemeUseCase);
-        MainApplication.getApp().getComponentsManager()
-                .getFragmentComponent().inject(appThemePresenter);
-        return appThemePresenter;
+    IAppThemePresenter provideAppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase) {
+        return new AppThemePresenter(shouldChangeThemeUseCase);
     }
 
     @FragmentScope
@@ -44,7 +41,7 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    PersonalPhotosAdapter provideCameraPhotoAdapter(IPictureUtils IPictureUtils) {
+    PersonalPhotosAdapter providePersonalPhotoAdapter(IPictureUtils IPictureUtils) {
         return new PersonalPhotosAdapter(IPictureUtils);
     }
 }
