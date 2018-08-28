@@ -4,7 +4,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
@@ -19,29 +18,31 @@ import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
         implements IPersonalPhotosPresenter {
 
-    @Inject
-    SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase;
-
-    @Inject
-    GetPersonalPhotosUseCase getPersonalPhotosUseCase;
-
-    @Inject
-    ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
-
-    @Inject
-    DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
-
-    @Inject
-    ICameraUtils cameraUtils;
-
-    @Inject
-    IModelMapper mapper;
+    private final SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase;
+    private final GetPersonalPhotosUseCase getPersonalPhotosUseCase;
+    private final ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
+    private final DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
+    private final ICameraUtils cameraUtils;
+    private final IModelMapper mapper;
 
     private PhotoModel currentPhoto;
 
+    public PersonalPhotosPresenter(SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase,
+                                   GetPersonalPhotosUseCase getPersonalPhotosUseCase,
+                                   ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
+                                   DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
+                                   ICameraUtils cameraUtils, IModelMapper mapper) {
+        this.saveNewPersonalPhotoUseCase = saveNewPersonalPhotoUseCase;
+        this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
+        this.changeFavoriteStatusPersonalPhotoUseCase = changeFavoriteStatusPersonalPhotoUseCase;
+        this.deletePersonalPhotoUseCase = deletePersonalPhotoUseCase;
+        this.cameraUtils = cameraUtils;
+        this.mapper = mapper;
+    }
+
     @Override
     public void viewIsReady() {
-        disposables.add(updatePhotos());
+        updatePhotos();
     }
 
     @Override
@@ -68,15 +69,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void changePhotoFavoriteState(Observable<PhotoModel> favoritesObservable) {
-        disposables.add(favoritesObservable.subscribe(photoModel -> {
-                    photoModel.setFavorite(!photoModel.isFavorite());
-                    disposables.add(changeFavoriteStatusPersonalPhotoUseCase
-                            .execute(mapper.viewToDomain(photoModel))
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(() -> view.updatePhoto(photoModel),
-                                    throwable -> errorChangeFavoriteStatus(photoModel)));
-                }
-        ));
+        disposables.add(favoritesObservable.subscribe(this::changePhotoFavoriteState));
     }
 
     @Override
@@ -94,10 +87,19 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                 view.showDeletePhotoDialog(photoModel)));
     }
 
-    private Disposable updatePhotos() {
-        return getPersonalPhotosUseCase.execute()
+    private void updatePhotos() {
+        disposables.add(getPersonalPhotosUseCase.execute()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(photos -> view.addPhotos(mapper.domainToView(photos)));
+                .subscribe(photos -> view.addPhotos(mapper.domainToView(photos))));
+    }
+
+    private void changePhotoFavoriteState(PhotoModel photoModel) {
+        photoModel.setFavorite(!photoModel.isFavorite());
+        disposables.add(changeFavoriteStatusPersonalPhotoUseCase
+                .execute(mapper.viewToDomain(photoModel))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> view.updatePhoto(photoModel),
+                        throwable -> errorChangeFavoriteStatus(photoModel)));
     }
 
     private void successAddPhoto(PhotoModel photoModel) {

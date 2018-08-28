@@ -11,7 +11,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
@@ -22,8 +22,8 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     private final IPictureUtils pictureUtils;
     private List<PhotoModel> photos = Collections.emptyList();
 
-    private final Subject<PhotoModel> onFavoritesClickObservable = BehaviorSubject.create();
-    private final Subject<PhotoModel> onLongItemClickObservable = BehaviorSubject.create();
+    private final Subject<PhotoModel> onFavoritesClickObservable = PublishSubject.create();
+    private final Subject<PhotoModel> onLongItemClickObservable = PublishSubject.create();
 
     public PersonalPhotosAdapter(IPictureUtils IPictureUtils) {
         this.pictureUtils = IPictureUtils;
@@ -68,7 +68,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     }
 
     Observable<PhotoModel> onFavoritesClick() {
-        return onFavoritesClickObservable;
+        return onFavoritesClickObservable.doOnNext(photoModel -> System.out.println("WWWWWWWWWWW"));
     }
 
     Observable<PhotoModel> onDeleteClick() {
@@ -96,7 +96,8 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
                 return true;
             });
 
-            isFavoritesImageView.setOnClickListener(v -> onFavoritesClickObservable.onNext(photoModel));
+            isFavoritesImageView.setOnClickListener((v -> {onFavoritesClickObservable.onNext(photoModel);
+                System.out.println("!!!!!!!!!!!");}));
         }
 
         void bind(final PhotoModel photoModel) {
