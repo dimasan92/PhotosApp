@@ -26,12 +26,11 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainApplication.getApp().getComponentsManager().getFragmentComponent()
-                .inject(this);
+        inject();
         presenter.setView(this);
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -50,21 +49,25 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
     }
 
     @Override
-    public void changeTheme() {
+    public void applyTheme() {
         if (getActivity() == null) {
             return;
         }
         getActivity().recreate();
     }
 
+    private void inject() {
+        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+    }
+
     private void setListeners(View view) {
         Button redThemeButton = view.findViewById(R.id.btn_red_theme);
-        redThemeButton.setOnClickListener(v -> presenter.chooseRedTheme());
+        redThemeButton.setOnClickListener(v -> presenter.redThemeSelected());
 
         Button blueThemeButton = view.findViewById(R.id.btn_blue_theme);
-        blueThemeButton.setOnClickListener(v -> presenter.chooseBlueTheme());
+        blueThemeButton.setOnClickListener(v -> presenter.blueThemeSelected());
 
         Button greenThemeButton = view.findViewById(R.id.btn_green_theme);
-        greenThemeButton.setOnClickListener(v -> presenter.chooseGreenTheme());
+        greenThemeButton.setOnClickListener(v -> presenter.greenThemeSelected());
     }
 }

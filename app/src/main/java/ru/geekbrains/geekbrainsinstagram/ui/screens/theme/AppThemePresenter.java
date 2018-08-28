@@ -18,27 +18,26 @@ public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IV
     }
 
     @Override
-    public void chooseRedTheme() {
-        applyTheme(R.style.RedAppTheme);
+    public void redThemeSelected() {
+        shouldThemeChange(R.style.RedAppTheme);
     }
 
     @Override
-    public void chooseBlueTheme() {
-        applyTheme(R.style.BlueAppTheme);
+    public void blueThemeSelected() {
+        shouldThemeChange(R.style.BlueAppTheme);
     }
 
     @Override
-    public void chooseGreenTheme() {
-        applyTheme(R.style.GreenAppTheme);
+    public void greenThemeSelected() {
+        shouldThemeChange(R.style.GreenAppTheme);
     }
 
-    private void applyTheme(int theme) {
-        disposables.add(
-                changeThemeUseCase.execute(theme)
+    private void shouldThemeChange(int theme) {
+        disposables.add(changeThemeUseCase.execute(theme)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(shouldChange -> {
                             if (shouldChange) {
-                                view.changeTheme();
+                                view.applyTheme();
                             }
                         }));
     }

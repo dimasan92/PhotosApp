@@ -6,12 +6,12 @@ public interface IAppThemePresenter extends IBasePresenter<IAppThemePresenter.IV
 
     interface IView extends IBasePresenter.IView {
 
-        void changeTheme();
+        void applyTheme();
     }
 
-    void chooseRedTheme();
+    void redThemeSelected();
 
-    void chooseBlueTheme();
+    void blueThemeSelected();
 
-    void chooseGreenTheme();
+    void greenThemeSelected();
 }
