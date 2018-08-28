@@ -8,23 +8,23 @@ import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoU
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
-import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
+import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.domain.repository.IPhotosRepository;
-import ru.geekbrains.domain.repository.SettingsRepository;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Module
 public final class UseCaseModule {
 
     @Singleton
     @Provides
-    ChangeThemeUseCase provideChangeThemeUseCase(final SettingsRepository repository) {
-        return new ChangeThemeUseCase(repository);
+    ShouldChangeThemeUseCase provideShouldChangeThemeUseCase(final ISettingsRepository repository) {
+        return new ShouldChangeThemeUseCase(repository);
     }
 
     @Singleton
     @Provides
-    GetCurrentThemeUseCase provideGetCurrentThemeUseCase(final SettingsRepository repository) {
+    GetCurrentThemeUseCase provideGetCurrentThemeUseCase(final ISettingsRepository repository) {
         return new GetCurrentThemeUseCase(repository);
     }
 

@@ -2,7 +2,7 @@ package ru.geekbrains.data.util;
 
 import androidx.annotation.StyleRes;
 
-public interface PrefUtils {
+public interface IPrefUtils {
 
     void saveCurrentTheme(@StyleRes int themeId);
 

@@ -23,7 +23,7 @@ public final class FragmentModule {
     @FragmentScope
     @Provides
     IAppThemePresenter provideAppThemePresenter() {
-        final AppThemePresenter appThemePresenter = new AppThemePresenter();
+        final AppThemePresenter appThemePresenter = new AppThemePresenter(shouldChangeThemeUseCase);
         MainApplication.getApp().getComponentsManager()
                 .getFragmentComponent().inject(appThemePresenter);
         return appThemePresenter;

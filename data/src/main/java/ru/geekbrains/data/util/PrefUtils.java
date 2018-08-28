@@ -5,14 +5,14 @@ import android.content.SharedPreferences;
 import androidx.annotation.StyleRes;
 
 
-public final class PrefUtilsImpl implements PrefUtils {
+public final class PrefUtils implements IPrefUtils {
 
     private static final String PREF_CURRENT_THEME = "current_application_theme";
 
     private final SharedPreferences sharedPreferences;
     private final int defaultTheme;
 
-    public PrefUtilsImpl(SharedPreferences sharedPreferences, @StyleRes int defaultTheme) {
+    public PrefUtils(SharedPreferences sharedPreferences, @StyleRes int defaultTheme) {
         this.sharedPreferences = sharedPreferences;
         this.defaultTheme = defaultTheme;
     }

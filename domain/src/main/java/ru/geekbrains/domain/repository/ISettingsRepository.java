@@ -2,9 +2,9 @@ package ru.geekbrains.domain.repository;
 
 import io.reactivex.Single;
 
-public interface SettingsRepository {
+public interface ISettingsRepository {
 
-    Single<Boolean> changeTheme(int themeId);
+    Single<Boolean> shouldChangeTheme(int themeId);
 
     Single<Integer> getCurrentTheme();
 }

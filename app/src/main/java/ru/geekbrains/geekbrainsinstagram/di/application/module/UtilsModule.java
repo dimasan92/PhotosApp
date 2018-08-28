@@ -7,8 +7,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.data.util.PrefUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.utils.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.IFilesUtils;
@@ -27,10 +27,10 @@ public final class UtilsModule {
 
     @Singleton
     @Provides
-    PrefUtils providePrefUtils(Context context) {
+    IPrefUtils providePrefUtils(Context context) {
         SharedPreferences preferences =
                 context.getSharedPreferences(INSTAGRAM_PREFERENCES, Context.MODE_PRIVATE);
-        return new PrefUtilsImpl(preferences, DEFAULT_THEME);
+        return new PrefUtils(preferences, DEFAULT_THEME);
     }
 
     @Singleton

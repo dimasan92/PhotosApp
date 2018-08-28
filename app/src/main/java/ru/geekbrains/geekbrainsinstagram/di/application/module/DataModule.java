@@ -11,10 +11,10 @@ import ru.geekbrains.data.database.InstagramDatabase;
 import ru.geekbrains.data.photos.PhotosDao;
 import ru.geekbrains.data.mapper.IEntityMapper;
 import ru.geekbrains.data.photos.PhotosRepository;
-import ru.geekbrains.data.settings.SettingsRepositoryImpl;
-import ru.geekbrains.data.util.PrefUtils;
+import ru.geekbrains.data.settings.SettingsRepository;
+import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.domain.repository.IPhotosRepository;
-import ru.geekbrains.domain.repository.SettingsRepository;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Module
 public final class DataModule {
@@ -31,8 +31,8 @@ public final class DataModule {
 
     @Singleton
     @Provides
-    SettingsRepository provideSettingsRepository(final PrefUtils prefUtils) {
-        return new SettingsRepositoryImpl(prefUtils);
+    ISettingsRepository provideSettingsRepository(final IPrefUtils prefUtils) {
+        return new SettingsRepository(prefUtils);
     }
 
     @Singleton

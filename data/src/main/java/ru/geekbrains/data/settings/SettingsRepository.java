@@ -3,19 +3,19 @@ package ru.geekbrains.data.settings;
 import androidx.annotation.StyleRes;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.domain.repository.SettingsRepository;
+import ru.geekbrains.data.util.IPrefUtils;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
-public final class SettingsRepositoryImpl implements SettingsRepository {
+public final class SettingsRepository implements ISettingsRepository {
 
-    private final PrefUtils prefUtils;
+    private final IPrefUtils prefUtils;
 
-    public SettingsRepositoryImpl(PrefUtils prefUtils) {
+    public SettingsRepository(IPrefUtils prefUtils) {
         this.prefUtils = prefUtils;
     }
 
     @Override
-    public Single<Boolean> changeTheme(@StyleRes int themeId) {
+    public Single<Boolean> shouldChangeTheme(@StyleRes int themeId) {
         return Single.fromCallable(() -> shouldThemeBeReplaced(themeId))
                 .observeOn(Schedulers.io());
     }

@@ -1,17 +1,17 @@
 package ru.geekbrains.domain.interactor.settings;
 
 import io.reactivex.Single;
-import ru.geekbrains.domain.repository.SettingsRepository;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
-public final class ChangeThemeUseCase {
+public final class ShouldChangeThemeUseCase {
 
-    private final SettingsRepository settingsRepository;
+    private final ISettingsRepository settingsRepository;
 
-    public ChangeThemeUseCase(SettingsRepository settingsRepository) {
+    public ShouldChangeThemeUseCase(ISettingsRepository settingsRepository) {
         this.settingsRepository = settingsRepository;
     }
 
     public Single<Boolean> execute(int themeId){
-        return settingsRepository.changeTheme(themeId);
+        return settingsRepository.shouldChangeTheme(themeId);
     }
 }

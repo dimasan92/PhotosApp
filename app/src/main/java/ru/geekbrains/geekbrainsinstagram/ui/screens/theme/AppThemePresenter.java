@@ -1,44 +1,44 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
-import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.geekbrains.domain.interactor.settings.ChangeThemeUseCase;
-import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 
 public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IView>
         implements IAppThemePresenter {
 
-    @Inject
-    ChangeThemeUseCase changeThemeUseCase;
+    private final ShouldChangeThemeUseCase shouldChangeThemeUseCase;
 
+    public AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase) {
+        this.shouldChangeThemeUseCase = shouldChangeThemeUseCase;
+    }
+    
     @Override
     public void viewIsReady() {
     }
 
     @Override
     public void redThemeSelected() {
-        shouldThemeChange(R.style.RedAppTheme);
+        shouldThemeChange(AppTheme.RED_THEME);
     }
 
     @Override
     public void blueThemeSelected() {
-        shouldThemeChange(R.style.BlueAppTheme);
+        shouldThemeChange(AppTheme.BLUE_THEME);
     }
 
     @Override
     public void greenThemeSelected() {
-        shouldThemeChange(R.style.GreenAppTheme);
+        shouldThemeChange(AppTheme.GREEN_THEME);
     }
 
     private void shouldThemeChange(int theme) {
-        disposables.add(changeThemeUseCase.execute(theme)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(shouldChange -> {
-                            if (shouldChange) {
-                                view.applyTheme();
-                            }
-                        }));
+        disposables.add(shouldChangeThemeUseCase.execute(theme)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(shouldChange -> {
+                    if (shouldChange) {
+                        view.applyTheme();
+                    }
+                }));
     }
 }
