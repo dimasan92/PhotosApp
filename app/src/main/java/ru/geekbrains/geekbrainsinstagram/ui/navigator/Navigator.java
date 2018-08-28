@@ -1,10 +1,5 @@
 package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
-import java.util.concurrent.Callable;
-import java.util.function.Supplier;
-
-import javax.inject.Inject;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -16,29 +11,23 @@ public final class Navigator implements INavigator {
     private static final String PERSONAL_PHOTOS_TAG = "personal_photos_tag";
     private static final String APP_THEME_TAG = "color_chooser_tag";
 
-    private final FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
 
-    @Inject
-    public Navigator(FragmentManager fragmentManager) {
+    @Override
+    public void init(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
     }
 
     @Override
     public void navigateToPersonalPhotos() {
         Fragment fragment = getFragment(PERSONAL_PHOTOS_TAG, PersonalPhotosFragment::newInstance);
-        if (fragment == null) {
-            return;
-        }
-        replaceFragmentWithoutBackStack(fragment, PERSONAL_PHOTOS_TAG);
+        openAsRoot(fragment, PERSONAL_PHOTOS_TAG);
     }
 
     @Override
     public void navigateToAppTheme() {
         Fragment fragment = getFragment(APP_THEME_TAG, AppThemeFragment::newInstance);
-        if (fragment == null) {
-            return;
-        }
-        addFragmentWithBackStack(fragment, APP_THEME_TAG);
+        openAsLeaf(fragment, APP_THEME_TAG);
     }
 
     private Fragment getFragment(String tag, FragmentSupplier fragmentSupplier) {
@@ -46,22 +35,31 @@ public final class Navigator implements INavigator {
         if (fragment == null) {
             return fragmentSupplier.supplyFragment();
         }
-        if (fragment.isVisible()) {
-            return null;
-        }
         return fragment;
     }
 
-    private void replaceFragmentWithoutBackStack(Fragment fragment, String tag) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_container, fragment, tag)
-                .commitAllowingStateLoss();
+
+    private void openAsRoot(Fragment fragment, String tag) {
+        openWithoutBackStack(fragment, tag);
     }
 
-    private void addFragmentWithBackStack(Fragment fragment, String tag) {
+    private void openAsLeaf(Fragment fragment, String tag) {
+        if (fragment.isVisible()) {
+            return;
+        }
+        openWithBackStack(fragment, tag);
+    }
+
+    private void openWithBackStack(Fragment fragment, String tag) {
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, fragment, tag)
                 .addToBackStack(null)
+                .commit();
+    }
+
+    private void openWithoutBackStack(Fragment fragment, String tag) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_container, fragment, tag)
                 .commit();
     }
 

@@ -50,6 +50,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         setContentView(R.layout.activity_main);
         setupView();
+
+        navigator.init(getSupportFragmentManager());
         if (savedInstanceState == null) {
             navigator.navigateToPersonalPhotos();
         }
@@ -68,7 +70,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     private void inject() {
         MainApplication.getApp()
                 .getComponentsManager()
-                .getActivityComponent(this)
+                .getActivityComponent()
                 .inject(this);
     }
 

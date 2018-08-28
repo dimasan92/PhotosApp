@@ -25,12 +25,12 @@ public final class ComponentsManager {
         initApplicationComponent(context);
     }
 
-    public ActivityComponent getActivityComponent(FragmentActivity activity) {
-        initActivityComponent(activity);
-        return activityComponent;
-    }
-
     public ActivityComponent getActivityComponent() {
+        if (activityComponent == null) {
+            activityComponent = applicationComponent
+                    .getActivityComponent(new ActivityModule());
+            initFragmentComponent();
+        }
         return activityComponent;
     }
 
@@ -43,14 +43,6 @@ public final class ComponentsManager {
                 .applicationModule(new ApplicationModule(context))
                 .dataModule(new DataModule(context))
                 .build();
-    }
-
-    private void initActivityComponent(FragmentActivity activity) {
-        if (activityComponent == null) {
-            activityComponent = applicationComponent
-                    .getActivityComponent(new ActivityModule(activity));
-            initFragmentComponent();
-        }
     }
 
     private void initFragmentComponent() {
