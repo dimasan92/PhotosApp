@@ -64,6 +64,12 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {

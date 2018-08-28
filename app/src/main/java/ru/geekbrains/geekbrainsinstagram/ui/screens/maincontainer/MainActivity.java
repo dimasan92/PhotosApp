@@ -61,6 +61,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        presenter.destroy();
         if (isFinishing()) {
             release();
         }
