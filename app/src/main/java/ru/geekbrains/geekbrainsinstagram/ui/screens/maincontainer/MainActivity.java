@@ -59,6 +59,14 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            release();
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -72,6 +80,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 .getComponentsManager()
                 .getActivityComponent()
                 .inject(this);
+    }
+
+    private void release() {
+        MainApplication.getApp()
+                .getComponentsManager()
+                .releaseActivityComponent();
     }
 
     private void setupView() {
