@@ -19,6 +19,7 @@ public final class ComponentsManager {
 
     private ApplicationComponent applicationComponent;
     private ActivityComponent activityComponent;
+    private FragmentComponent fragmentComponent;
 
     public ComponentsManager(Context context) {
         initApplicationComponent(context);
@@ -34,10 +35,18 @@ public final class ComponentsManager {
 
     public void releaseActivityComponent() {
         activityComponent = null;
+        releaseFragmentComponent();
     }
 
     public FragmentComponent getFragmentComponent() {
-        return activityComponent.getFragmentComponent(new FragmentModule());
+        if (fragmentComponent == null) {
+            fragmentComponent = activityComponent.getFragmentComponent(new FragmentModule());
+        }
+        return fragmentComponent;
+    }
+
+    public void releaseFragmentComponent() {
+        fragmentComponent = null;
     }
 
     private void initApplicationComponent(Context context) {

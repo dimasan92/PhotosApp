@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
@@ -20,14 +21,25 @@ public final class Navigator implements INavigator {
 
     @Override
     public void navigateToPersonalPhotos() {
-        Fragment fragment = getFragment(PERSONAL_PHOTOS_TAG, PersonalPhotosFragment::newInstance);
-        openAsRoot(fragment, PERSONAL_PHOTOS_TAG);
+        open(PERSONAL_PHOTOS_TAG, PersonalPhotosFragment::newInstance, false);
     }
 
     @Override
     public void navigateToAppTheme() {
-        Fragment fragment = getFragment(APP_THEME_TAG, AppThemeFragment::newInstance);
-        openAsLeaf(fragment, APP_THEME_TAG);
+        open(APP_THEME_TAG, AppThemeFragment::newInstance, true);
+    }
+
+    private void open(String tag, FragmentSupplier fragmentSupplier, boolean isBackStack) {
+        Fragment fragment = getFragment(tag, fragmentSupplier);
+        if (fragment.isVisible()) {
+            return;
+        }
+        MainApplication.getApp().getComponentsManager().releaseFragmentComponent();
+        if (isBackStack) {
+            openWithBackStack(fragment, tag);
+        } else {
+            openWithoutBackStack(fragment, tag);
+        }
     }
 
     private Fragment getFragment(String tag, FragmentSupplier fragmentSupplier) {
@@ -36,18 +48,6 @@ public final class Navigator implements INavigator {
             return fragmentSupplier.supplyFragment();
         }
         return fragment;
-    }
-
-
-    private void openAsRoot(Fragment fragment, String tag) {
-        openWithoutBackStack(fragment, tag);
-    }
-
-    private void openAsLeaf(Fragment fragment, String tag) {
-        if (fragment.isVisible()) {
-            return;
-        }
-        openWithBackStack(fragment, tag);
     }
 
     private void openWithBackStack(Fragment fragment, String tag) {

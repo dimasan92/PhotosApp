@@ -68,7 +68,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     }
 
     Observable<PhotoModel> onFavoritesClick() {
-        return onFavoritesClickObservable.doOnNext(photoModel -> System.out.println("WWWWWWWWWWW"));
+        return onFavoritesClickObservable;
     }
 
     Observable<PhotoModel> onDeleteClick() {
@@ -96,8 +96,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
                 return true;
             });
 
-            isFavoritesImageView.setOnClickListener((v -> {onFavoritesClickObservable.onNext(photoModel);
-                System.out.println("!!!!!!!!!!!");}));
+            isFavoritesImageView.setOnClickListener((v -> onFavoritesClickObservable.onNext(photoModel)));
         }
 
         void bind(final PhotoModel photoModel) {
