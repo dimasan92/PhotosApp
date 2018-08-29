@@ -16,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
 
@@ -43,10 +44,10 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         inject();
-        presenter.readyToSetupTheme(this::setTheme);
+        presenter.setView(this);
+        presenter.readyToSetupTheme();
 
         super.onCreate(savedInstanceState);
-        presenter.setView(this);
 
         setContentView(R.layout.activity_main);
         setupView();
@@ -73,6 +74,21 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void setTheme(AppTheme theme) {
+        switch (theme) {
+            case RED_THEME:
+                setTheme(R.style.RedAppTheme);
+                break;
+            case BLUE_THEME:
+                setTheme(R.style.BlueAppTheme);
+                break;
+            case GREEN_THEME:
+                setTheme(R.style.GreenAppTheme);
+                break;
         }
     }
 

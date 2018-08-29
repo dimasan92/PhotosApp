@@ -4,6 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.IMainPresenter;
@@ -20,7 +21,7 @@ public final class ActivityModule {
 
     @ActivityScope
     @Provides
-    IMainPresenter provideMainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
-        return new MainPresenter(getCurrentThemeUseCase);
+    IMainPresenter provideMainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IModelMapper mapper) {
+        return new MainPresenter(getCurrentThemeUseCase, mapper);
     }
 }

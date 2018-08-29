@@ -1,6 +1,5 @@
 package ru.geekbrains.data.settings;
 
-import androidx.annotation.StyleRes;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.util.IPrefUtils;
@@ -15,21 +14,21 @@ public final class SettingsRepository implements ISettingsRepository {
     }
 
     @Override
-    public Single<Boolean> shouldChangeTheme(@StyleRes int themeId) {
-        return Single.fromCallable(() -> shouldThemeBeReplaced(themeId))
+    public Single<Boolean> shouldChangeTheme(String theme) {
+        return Single.fromCallable(() -> shouldThemeBeReplaced(theme))
                 .observeOn(Schedulers.io());
     }
 
     @Override
-    public Single<Integer> getCurrentTheme() {
+    public Single<String> getCurrentTheme() {
         return Single.fromCallable(prefUtils::currentTheme);
     }
 
-    private boolean shouldThemeBeReplaced(@StyleRes int themeId) {
-        if (themeId == prefUtils.currentTheme()) {
+    private boolean shouldThemeBeReplaced(String theme) {
+        if (theme.equals(prefUtils.currentTheme())) {
             return false;
         }
-        prefUtils.saveCurrentTheme(themeId);
+        prefUtils.saveCurrentTheme(theme);
         return true;
     }
 }

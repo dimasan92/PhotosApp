@@ -22,8 +22,9 @@ public final class FragmentModule {
 
     @FragmentScope
     @Provides
-    IAppThemePresenter provideAppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase) {
-        return new AppThemePresenter(shouldChangeThemeUseCase);
+    IAppThemePresenter provideAppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase,
+                                                IModelMapper mapper) {
+        return new AppThemePresenter(shouldChangeThemeUseCase, mapper);
     }
 
     @FragmentScope

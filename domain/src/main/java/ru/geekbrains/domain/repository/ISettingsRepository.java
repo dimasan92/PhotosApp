@@ -4,7 +4,7 @@ import io.reactivex.Single;
 
 public interface ISettingsRepository {
 
-    Single<Boolean> shouldChangeTheme(int themeId);
+    Single<Boolean> shouldChangeTheme(String theme);
 
-    Single<Integer> getCurrentTheme();
+    Single<String> getCurrentTheme();
 }

@@ -11,7 +11,7 @@ public final class ShouldChangeThemeUseCase {
         this.settingsRepository = settingsRepository;
     }
 
-    public Single<Boolean> execute(int themeId) {
-        return settingsRepository.shouldChangeTheme(themeId);
+    public Single<Boolean> execute(String theme) {
+        return settingsRepository.shouldChangeTheme(theme);
     }
 }

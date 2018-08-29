@@ -1,10 +1,8 @@
 package ru.geekbrains.data.util;
 
-import androidx.annotation.StyleRes;
-
 public interface IPrefUtils {
 
-    void saveCurrentTheme(@StyleRes int themeId);
+    void saveCurrentTheme(String theme);
 
-    int currentTheme();
+    String currentTheme();
 }

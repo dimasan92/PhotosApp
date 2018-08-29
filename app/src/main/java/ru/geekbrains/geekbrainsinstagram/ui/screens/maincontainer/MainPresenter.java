@@ -1,15 +1,17 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
-import io.reactivex.functions.Consumer;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
 
 public final class MainPresenter extends BasePresenter<IMainPresenter.IView> implements IMainPresenter {
 
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
+    private final IModelMapper mapper;
 
-    public MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
+    public MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IModelMapper mapper) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
+        this.mapper = mapper;
     }
 
 
@@ -18,8 +20,8 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
-    public void readyToSetupTheme(Consumer<Integer> themeChanger) {
+    public void readyToSetupTheme() {
         disposables.add(getCurrentThemeUseCase.execute()
-                .subscribe(themeChanger));
+                .subscribe(theme -> view.setTheme(mapper.domainToView(theme))));
     }
 }

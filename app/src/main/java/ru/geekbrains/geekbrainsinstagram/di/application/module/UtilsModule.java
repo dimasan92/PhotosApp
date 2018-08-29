@@ -9,7 +9,7 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.utils.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.FilesUtils;
 import ru.geekbrains.geekbrainsinstagram.utils.ICameraUtils;
@@ -23,7 +23,7 @@ import ru.geekbrains.geekbrainsinstagram.utils.PictureUtils;
 public final class UtilsModule {
 
     private static final String INSTAGRAM_PREFERENCES = "instagram_preferences";
-    private static final int DEFAULT_THEME = R.style.BlueAppTheme;
+    private static final String DEFAULT_THEME = AppTheme.BLUE_THEME.toString();
 
     @Singleton
     @Provides

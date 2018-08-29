@@ -11,7 +11,7 @@ public final class GetCurrentThemeUseCase {
         this.settingsRepository = settingsRepository;
     }
 
-    public Single<Integer> execute() {
+    public Single<String> execute() {
         return settingsRepository.getCurrentTheme();
     }
 }

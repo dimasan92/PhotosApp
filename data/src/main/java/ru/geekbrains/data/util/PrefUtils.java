@@ -2,32 +2,30 @@ package ru.geekbrains.data.util;
 
 import android.content.SharedPreferences;
 
-import androidx.annotation.StyleRes;
-
 
 public final class PrefUtils implements IPrefUtils {
 
     private static final String PREF_CURRENT_THEME = "current_application_theme";
 
     private final SharedPreferences sharedPreferences;
-    private final int defaultTheme;
+    private final String defaultTheme;
 
-    public PrefUtils(SharedPreferences sharedPreferences, @StyleRes int defaultTheme) {
+    public PrefUtils(SharedPreferences sharedPreferences, String defaultTheme) {
         this.sharedPreferences = sharedPreferences;
         this.defaultTheme = defaultTheme;
     }
 
     @Override
-    public void saveCurrentTheme(@StyleRes int themeId) {
+    public void saveCurrentTheme(String theme) {
         getEditor()
-                .putInt(PREF_CURRENT_THEME, themeId)
+                .putString(PREF_CURRENT_THEME, theme)
                 .apply();
     }
 
     @Override
-    public int currentTheme() {
+    public String currentTheme() {
         return sharedPreferences
-                .getInt(PREF_CURRENT_THEME, defaultTheme);
+                .getString(PREF_CURRENT_THEME, defaultTheme);
     }
 
     private SharedPreferences.Editor getEditor() {
