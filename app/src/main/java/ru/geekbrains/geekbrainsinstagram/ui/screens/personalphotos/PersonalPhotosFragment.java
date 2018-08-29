@@ -114,9 +114,6 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Override
     public void showNotifyingMessage(@StringRes int message) {
-        if (getView() == null) {
-            return;
-        }
         Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show();
     }
 
