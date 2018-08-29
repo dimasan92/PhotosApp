@@ -128,7 +128,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupNavigationLayout(Toolbar toolbar) {
         drawerLayout = findViewById(R.id.main_navigator_layout);
-        drawerLayout.setLayoutParams(adjustParamsForNavigationLayout(drawerLayout.getLayoutParams()));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.open_drawer, R.string.close_drawer);
@@ -139,12 +138,5 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     private void setupNavigationView() {
         NavigationView navigationView = findViewById(R.id.main_navigator);
         navigationView.setNavigationItemSelectedListener(drawerListener);
-    }
-
-    private ViewGroup.LayoutParams adjustParamsForNavigationLayout(ViewGroup.LayoutParams params) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        params.width = metrics.widthPixels;
-        return params;
     }
 }
