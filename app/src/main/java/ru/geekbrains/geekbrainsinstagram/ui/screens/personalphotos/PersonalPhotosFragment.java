@@ -11,6 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -39,6 +40,8 @@ public final class PersonalPhotosFragment extends BaseFragment
     @Inject
     PersonalPhotosAdapter adapter;
 
+    private FloatingActionButton fab;
+
     public static PersonalPhotosFragment newInstance() {
         return new PersonalPhotosFragment();
     }
@@ -57,10 +60,19 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
-        setupListeners(view);
+        presenter.changePhotoFavoriteState(adapter.onFavoritesClick());
+        presenter.deleteRequest(adapter.onDeleteClick());
 
         presenter.viewIsReady();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
+        fab.setOnClickListener(v -> presenter.takeAPhoto());
     }
 
     @Override
@@ -105,7 +117,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         if (getView() == null) {
             return;
         }
-        Snackbar.make(getView(), message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -136,13 +148,5 @@ public final class PersonalPhotosFragment extends BaseFragment
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
         photoRecyclerView.setAdapter(adapter);
-    }
-
-    private void setupListeners(View layout) {
-        FloatingActionButton fab = layout.findViewById(R.id.take_photo_fab);
-        fab.setOnClickListener(v -> presenter.takeAPhoto());
-
-        presenter.changePhotoFavoriteState(adapter.onFavoritesClick());
-        presenter.deleteRequest(adapter.onDeleteClick());
     }
 }
