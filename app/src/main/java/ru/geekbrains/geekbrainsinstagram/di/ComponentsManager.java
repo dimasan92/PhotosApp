@@ -13,7 +13,6 @@ import ru.geekbrains.geekbrainsinstagram.di.application.module.DataModule;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.module.FragmentModule;
 
-@Singleton
 public final class ComponentsManager {
 
     private ApplicationComponent applicationComponent;
