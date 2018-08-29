@@ -4,23 +4,23 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.geekbrains.data.mapper.DataMapper;
-import ru.geekbrains.data.mapper.DataMapperImpl;
-import ru.geekbrains.geekbrainsinstagram.ui.mapper.ViewMapper;
-import ru.geekbrains.geekbrainsinstagram.ui.mapper.ViewMapperImpl;
+import ru.geekbrains.data.mapper.EntityMapper;
+import ru.geekbrains.data.mapper.IEntityMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ModelMapper;
 
 @Module
 public final class MapperModule {
 
     @Singleton
     @Provides
-    DataMapper provideMapper() {
-        return new DataMapperImpl();
+    IEntityMapper provideEntityMapper() {
+        return new EntityMapper();
     }
 
     @Singleton
     @Provides
-    ViewMapper providesMapper() {
-        return new ViewMapperImpl();
+    IModelMapper provideModelMapper() {
+        return new ModelMapper();
     }
 }

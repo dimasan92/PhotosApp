@@ -8,13 +8,13 @@ import androidx.room.Room;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.data.database.InstagramDatabase;
-import ru.geekbrains.data.innerstoragephotos.InnerStoragePhotosDao;
-import ru.geekbrains.data.mapper.DataMapper;
-import ru.geekbrains.data.photos.PhotosRepositoryImpl;
-import ru.geekbrains.data.settings.SettingsRepositoryImpl;
-import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.domain.repository.PhotosRepository;
-import ru.geekbrains.domain.repository.SettingsRepository;
+import ru.geekbrains.data.mapper.IEntityMapper;
+import ru.geekbrains.data.photos.PhotosDao;
+import ru.geekbrains.data.photos.PhotosRepository;
+import ru.geekbrains.data.settings.SettingsRepository;
+import ru.geekbrains.data.util.IPrefUtils;
+import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Module
 public final class DataModule {
@@ -31,20 +31,20 @@ public final class DataModule {
 
     @Singleton
     @Provides
-    SettingsRepository providesSettingsRepository(final PrefUtils prefUtils) {
-        return new SettingsRepositoryImpl(prefUtils);
+    ISettingsRepository provideSettingsRepository(final IPrefUtils prefUtils) {
+        return new SettingsRepository(prefUtils);
     }
 
     @Singleton
     @Provides
-    PhotosRepository providePhotosRepository(final InnerStoragePhotosDao dao,
-                                             final DataMapper mapper) {
-        return new PhotosRepositoryImpl(dao, mapper);
+    IPhotosRepository providePhotosRepository(final PhotosDao dao,
+                                              final IEntityMapper mapper) {
+        return new PhotosRepository(dao, mapper);
     }
 
     @Singleton
     @Provides
-    InnerStoragePhotosDao provideInnerStoragePhotosDao() {
+    PhotosDao providePhotosDao() {
         return database.innerStoragePhotosDao();
     }
 }

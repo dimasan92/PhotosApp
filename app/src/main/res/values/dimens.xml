@@ -12,8 +12,9 @@
     <dimen name="big_text_size">20sp</dimen>
     <dimen name="large_text_size">24sp</dimen>
 
-    <dimen name="photo_gallery_size_image">100dp</dimen>
+    <dimen name="photo_gallery_size_image">150dp</dimen>
 
     <dimen name="card_elevation">5dp</dimen>
-    <dimen name="card_corner_radius">10dp</dimen>
+    <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="toolbar_height">150dp</dimen>
 </resources>

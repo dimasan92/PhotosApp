@@ -2,11 +2,11 @@ package ru.geekbrains.data.database;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
-import ru.geekbrains.data.innerstoragephotos.InnerStoragePhotoEntity;
-import ru.geekbrains.data.innerstoragephotos.InnerStoragePhotosDao;
+import ru.geekbrains.data.photos.PhotosDao;
+import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
 
-@Database(entities = {InnerStoragePhotoEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {PersonalPhotoEntity.class}, version = 1, exportSchema = false)
 public abstract class InstagramDatabase extends RoomDatabase {
 
-    public abstract InnerStoragePhotosDao innerStoragePhotosDao();
+    public abstract PhotosDao innerStoragePhotosDao();
 }

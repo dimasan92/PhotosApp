@@ -3,17 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/nav_main"
-        android:icon="@drawable/ic_main_black_24dp"
-        android:title="@string/drawer_main_item" />
-
-    <item android:title="@string/drawer_title_settings">
+    <item android:title="@string/nav_main_title">
         <menu>
             <item
-                android:id="@+id/nav_theme_chooser"
+                android:id="@+id/nav_personal_photos"
+                android:icon="@drawable/ic_photo_camera_black_24dp"
+                android:title="@string/nav_personal_photos_item" />
+        </menu>
+    </item>
+
+    <item android:title="@string/nav_settings_title">
+        <menu>
+            <item
+                android:id="@+id/nav_app_theme"
                 android:icon="@drawable/ic_theme_chooser_black_24dp"
-                android:title="@string/drawer_theme_chooser_item" />
+                android:title="@string/nav_app_theme_item" />
         </menu>
     </item>
 </menu>

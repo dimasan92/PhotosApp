@@ -1,16 +1,17 @@
 package ru.geekbrains.domain.interactor.settings;
 
-import ru.geekbrains.domain.repository.SettingsRepository;
+import io.reactivex.Single;
+import ru.geekbrains.domain.repository.ISettingsRepository;
 
 public final class GetCurrentThemeUseCase {
 
-    private final SettingsRepository settingsRepository;
+    private final ISettingsRepository settingsRepository;
 
-    public GetCurrentThemeUseCase(SettingsRepository settingsRepository) {
+    public GetCurrentThemeUseCase(ISettingsRepository settingsRepository) {
         this.settingsRepository = settingsRepository;
     }
 
-    public int execute() {
+    public Single<String> execute() {
         return settingsRepository.getCurrentTheme();
     }
 }

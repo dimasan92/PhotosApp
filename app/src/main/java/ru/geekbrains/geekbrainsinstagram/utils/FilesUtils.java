@@ -1,16 +1,38 @@
 package ru.geekbrains.geekbrainsinstagram.utils;
 
+import android.content.Context;
 import android.net.Uri;
 
 import java.io.File;
 
-import ru.geekbrains.geekbrainsinstagram.ui.model.InnerStoragePhotoViewModel;
+import androidx.core.content.FileProvider;
+import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
 
-public interface FilesUtils {
+public final class FilesUtils implements IFilesUtils {
 
-    boolean isCatalogAvailable();
+    private static final String AUTHORITY = "ru.geekbrains.geekbrainsinstagram.fileprovider";
 
-    Uri getUriForFile(File file);
+    private final Context appContext;
 
-    File getInnerPhotoFile(InnerStoragePhotoViewModel model);
+    public FilesUtils(Context context) {
+        appContext = context;
+    }
+
+    @Override
+    public boolean isCatalogAvailable() {
+        if (!appContext.getFilesDir().exists()) {
+            return appContext.getFilesDir().mkdir();
+        }
+        return true;
+    }
+
+    @Override
+    public Uri getUriForFile(File file) {
+        return FileProvider.getUriForFile(appContext, AUTHORITY, file);
+    }
+
+    @Override
+    public File getFileForPhoto(PhotoModel model) {
+        return new File(appContext.getFilesDir(), model.getPhotoFileName());
+    }
 }
