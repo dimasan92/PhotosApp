@@ -7,7 +7,7 @@ import java.util.List;
 import androidx.annotation.StringRes;
 import io.reactivex.Observable;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
@@ -15,17 +15,17 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
         void startCamera(Intent cameraIntent);
 
-        void addPhotos(List<PhotoModel> photos);
+        void addPhotos(List<PresentPhotoModel> photos);
 
-        void addNewPhoto(PhotoModel photoModel);
+        void addNewPhoto(PresentPhotoModel photo);
 
-        void updatePhoto(PhotoModel photoModel);
+        void updatePhoto(PresentPhotoModel photo);
 
-        void deletePhoto(PhotoModel photoModel);
+        void deletePhoto(PresentPhotoModel photo);
 
         void showNotifyingMessage(@StringRes int message);
 
-        void showDeletePhotoDialog(PhotoModel photoModel);
+        void showDeletePhotoDialog(PresentPhotoModel photo);
     }
 
     void takeAPhoto();
@@ -34,9 +34,9 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void photoHasCanceled();
 
-    void changePhotoFavoriteState(Observable<PhotoModel> favoritesObservable);
+    void changePhotoFavoriteState(PresentPhotoModel photo);
 
-    void deletePhoto(PhotoModel photoModel);
+    void deletePhoto(PresentPhotoModel photo);
 
-    void deleteRequest(Observable<PhotoModel> deleteObservable);
+    void deleteRequest(PresentPhotoModel photo);
 }

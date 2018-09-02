@@ -31,10 +31,10 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Inject
     PersonalPhotosPresenter(SaveNewPersonalPhotoUseCase saveNewPersonalPhotoUseCase,
-                                   GetPersonalPhotosUseCase getPersonalPhotosUseCase,
-                                   ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
-                                   DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
-                                   ICameraUtils cameraUtils, IPresentModelMapper mapper) {
+                            GetPersonalPhotosUseCase getPersonalPhotosUseCase,
+                            ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
+                            DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
+                            ICameraUtils cameraUtils, IPresentModelMapper mapper) {
         this.saveNewPersonalPhotoUseCase = saveNewPersonalPhotoUseCase;
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
         this.changeFavoriteStatusPersonalPhotoUseCase = changeFavoriteStatusPersonalPhotoUseCase;
@@ -71,8 +71,19 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void changePhotoFavoriteState(Observable<PresentPhotoModel> favoritesObservable) {
-        disposables.add(favoritesObservable.subscribe(this::changePhotoFavoriteState));
+    public void changePhotoFavoriteState(PresentPhotoModel photo) {
+        photo.setFavorite(!photo.isFavorite());
+        disposables.add(changeFavoriteStatusPersonalPhotoUseCase
+                .execute(mapper.viewToDomain(photo))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(() -> view.updatePhoto(photo),
+                        throwable -> errorChangeFavoriteStatus(photo)));
+    }
+
+
+    @Override
+    public void deleteRequest(PresentPhotoModel photo) {
+        view.showDeletePhotoDialog(photo);
     }
 
     @Override
@@ -84,25 +95,10 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                         throwable -> errorDeletePhoto()));
     }
 
-    @Override
-    public void deleteRequest(Observable<PresentPhotoModel> deleteObservable) {
-        disposables.add(deleteObservable.subscribe(photoModel ->
-                view.showDeletePhotoDialog(photoModel)));
-    }
-
     private void updatePhotos() {
         disposables.add(getPersonalPhotosUseCase.execute()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(photos -> view.addPhotos(mapper.domainToView(photos))));
-    }
-
-    private void changePhotoFavoriteState(PresentPhotoModel photo) {
-        photo.setFavorite(!photo.isFavorite());
-        disposables.add(changeFavoriteStatusPersonalPhotoUseCase
-                .execute(mapper.viewToDomain(photo))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> view.updatePhoto(photo),
-                        throwable -> errorChangeFavoriteStatus(photo)));
     }
 
     private void successAddPhoto(PresentPhotoModel photo) {

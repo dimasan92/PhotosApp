@@ -28,7 +28,7 @@ import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
-        implements IPersonalPhotosPresenter.IView {
+        implements IPersonalPhotosPresenter.IView, PersonalPhotosAdapter.IPersonalPhotoListener {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
@@ -62,8 +62,6 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
-        presenter.changePhotoFavoriteState(adapter.onFavoritesClick());
-        presenter.deleteRequest(adapter.onDeleteClick());
 
         presenter.viewIsReady();
         return view;
@@ -92,6 +90,16 @@ public final class PersonalPhotosFragment extends BaseFragment
                 presenter.photoHasCanceled();
             }
         }
+    }
+
+    @Override
+    public void onFavoritesClick(PresentPhotoModel photo) {
+        presenter.changePhotoFavoriteState(photo);
+    }
+
+    @Override
+    public void onDeleteClick(PresentPhotoModel photo) {
+        presenter.deleteRequest(photo);
     }
 
     @Override
@@ -146,7 +154,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
-        adapter = new PersonalPhotosAdapter(pictureUtils);
+        adapter = new PersonalPhotosAdapter(pictureUtils, this);
         photoRecyclerView.setAdapter(adapter);
     }
 }

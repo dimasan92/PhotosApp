@@ -10,23 +10,29 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
-import ru.geekbrains.geekbrainsinstagram.utils.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPhotosAdapter.PersonalPhotoHolder> {
 
+    interface IPersonalPhotoListener {
+
+        void onFavoritesClick(PresentPhotoModel photo);
+
+        void onDeleteClick(PresentPhotoModel photo);
+    }
+
     private final IPictureUtils pictureUtils;
-    private List<PhotoModel> photos = Collections.emptyList();
+    private final IPersonalPhotoListener personalPhotoListener;
 
-    private final Subject<PhotoModel> onFavoritesClickObservable = PublishSubject.create();
-    private final Subject<PhotoModel> onLongItemClickObservable = PublishSubject.create();
+    private List<PresentPhotoModel> photos = Collections.emptyList();
 
-    public PersonalPhotosAdapter(IPictureUtils IPictureUtils) {
+    PersonalPhotosAdapter(IPictureUtils IPictureUtils, IPersonalPhotoListener listener) {
         this.pictureUtils = IPictureUtils;
+        this.personalPhotoListener = listener;
     }
 
     @NonNull
@@ -34,8 +40,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     public PersonalPhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new PersonalPhotoHolder(inflater.inflate(R.layout.item_personal_photo,
-                parent, false),
-                onFavoritesClickObservable, onLongItemClickObservable, pictureUtils);
+                parent, false), pictureUtils, personalPhotoListener);
     }
 
     @Override
@@ -48,31 +53,23 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         return photos.size();
     }
 
-    void updatePhotos(List<PhotoModel> photos) {
+    void updatePhotos(List<PresentPhotoModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
 
-    void addPhoto(PhotoModel photoModel) {
+    void addPhoto(PresentPhotoModel photoModel) {
         photos.add(photoModel);
         notifyItemChanged(photos.indexOf(photoModel));
     }
 
-    void updatePhoto(PhotoModel photoModel) {
+    void updatePhoto(PresentPhotoModel photoModel) {
         notifyItemChanged(photos.indexOf(photoModel));
     }
 
-    void deletePhoto(PhotoModel photoModel) {
+    void deletePhoto(PresentPhotoModel photoModel) {
         notifyItemRemoved(photos.indexOf(photoModel));
         photos.remove(photoModel);
-    }
-
-    Observable<PhotoModel> onFavoritesClick() {
-        return onFavoritesClickObservable;
-    }
-
-    Observable<PhotoModel> onDeleteClick() {
-        return onLongItemClickObservable;
     }
 
     static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {
@@ -81,10 +78,10 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         private final ImageView isFavoritesImageView;
         private final IPictureUtils pictureUtils;
 
-        private PhotoModel photoModel;
+        private PresentPhotoModel photo;
 
-        PersonalPhotoHolder(@NonNull View itemView, Subject<PhotoModel> onFavoritesClickObservable,
-                            Subject<PhotoModel> onLongItemClickObservable, IPictureUtils pictureUtils) {
+        PersonalPhotoHolder(@NonNull View itemView, IPictureUtils pictureUtils,
+                            IPersonalPhotoListener personalPhotoListener) {
             super(itemView);
             this.pictureUtils = pictureUtils;
 
@@ -92,15 +89,16 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             isFavoritesImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
 
             itemView.setOnLongClickListener(v -> {
-                onLongItemClickObservable.onNext(photoModel);
+                personalPhotoListener.onDeleteClick(photo);
                 return true;
             });
 
-            isFavoritesImageView.setOnClickListener((v -> onFavoritesClickObservable.onNext(photoModel)));
+            isFavoritesImageView.setOnClickListener((v ->
+                    personalPhotoListener.onFavoritesClick(photo)));
         }
 
-        void bind(final PhotoModel photoModel) {
-            this.photoModel = photoModel;
+        void bind(final PresentPhotoModel photoModel) {
+            this.photo = photoModel;
             pictureUtils.loadImageIntoImageView(photoModel, photoImageView);
             isFavoritesImageView.setImageResource(photoModel.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
