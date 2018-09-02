@@ -3,20 +3,28 @@ package ru.geekbrains.geekbrainsinstagram.model.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import ru.geekbrains.domain.model.Photo;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
-public final class ModelMapper implements IModelMapper {
+@Singleton
+public final class PresentModelMapper implements IPresentModelMapper {
+
+    @Inject
+    PresentModelMapper() {
+    }
 
     @Override
-    public Photo viewToDomain(PhotoModel photoModel) {
+    public Photo viewToDomain(PresentPhotoModel photoModel) {
         return new Photo(photoModel.getId(), photoModel.getUri(), photoModel.isFavorite());
     }
 
     @Override
-    public List<PhotoModel> domainToView(List<Photo> photos) {
-        List<PhotoModel> convertedPhotos = new ArrayList<>(photos.size());
+    public List<PresentPhotoModel> domainToView(List<Photo> photos) {
+        List<PresentPhotoModel> convertedPhotos = new ArrayList<>(photos.size());
         for (Photo photo : photos) {
             convertedPhotos.add(domainToView(photo));
         }
@@ -24,8 +32,8 @@ public final class ModelMapper implements IModelMapper {
     }
 
     @Override
-    public PhotoModel domainToView(Photo photo) {
-        return new PhotoModel(photo.getId(), photo.getUri(), photo.isFavorite());
+    public PresentPhotoModel domainToView(Photo photo) {
+        return new PresentPhotoModel(photo.getId(), photo.getUri(), photo.isFavorite());
     }
 
     @Override
