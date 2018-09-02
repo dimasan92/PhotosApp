@@ -16,10 +16,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 
-public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
+public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
+        ContentDisposer {
 
     @Inject
     INavigator navigator;
@@ -56,9 +58,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         setContentView(R.layout.activity_main);
         setupView();
 
-        navigator.init(getSupportFragmentManager());
+        navigator.init(getSupportFragmentManager(), this);
         if (savedInstanceState == null) {
+            fab.show();
             navigator.navigateToPersonalPhotos();
+        } else {
+            fab.hide();
         }
         presenter.viewIsReady();
     }
@@ -94,6 +99,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 setTheme(R.style.GreenAppTheme);
                 break;
         }
+    }
+
+    @Override
+    public void disposeContent() {
+        MainApplication.getApp()
+                .getComponentsManager()
+                .releaseFragmentComponent();
     }
 
     private void inject() {
