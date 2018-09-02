@@ -15,5 +15,5 @@ import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
 @Component(modules = {ApplicationModule.class, DataModule.class, MapperModule.class, UseCaseModule.class, UtilsModule.class})
 public interface ApplicationComponent {
 
-    ActivityComponent getActivityComponent(ActivityModule activityModule);
+    ActivityComponent getActivityComponent();
 }

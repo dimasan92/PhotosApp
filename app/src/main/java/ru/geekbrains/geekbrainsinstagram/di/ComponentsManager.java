@@ -26,7 +26,7 @@ public final class ComponentsManager {
     public ActivityComponent getActivityComponent() {
         if (activityComponent == null) {
             activityComponent = applicationComponent
-                    .getActivityComponent(new ActivityModule());
+                    .getActivityComponent();
         }
         return activityComponent;
     }
@@ -38,7 +38,7 @@ public final class ComponentsManager {
 
     public FragmentComponent getFragmentComponent() {
         if (fragmentComponent == null) {
-            fragmentComponent = activityComponent.getFragmentComponent(new FragmentModule());
+            fragmentComponent = activityComponent.getFragmentComponent();
         }
         return fragmentComponent;
     }
