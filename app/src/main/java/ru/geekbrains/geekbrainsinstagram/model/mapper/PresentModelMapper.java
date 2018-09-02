@@ -38,14 +38,14 @@ public final class PresentModelMapper implements IPresentModelMapper {
 
     @Override
     public String viewToDomain(AppTheme theme) {
-        return theme.toString();
+        return theme.getThemeName();
     }
 
     @Override
     public AppTheme domainToView(String theme) {
-        if (theme.equals(AppTheme.RED_THEME.toString())) {
+        if (theme.equals(AppTheme.RED_THEME.getThemeName())) {
             return AppTheme.RED_THEME;
-        } else if (theme.equals(AppTheme.BLUE_THEME.toString())) {
+        } else if (theme.equals(AppTheme.BLUE_THEME.getThemeName())) {
             return AppTheme.BLUE_THEME;
         } else {
             return AppTheme.GREEN_THEME;
