@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import androidx.room.Room;
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.data.database.InstagramDatabase;
@@ -17,34 +18,29 @@ import ru.geekbrains.domain.repository.IPhotosRepository;
 import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Module
-public final class DataModule {
+public abstract class DataModule {
 
     private static final String DB_NAME = "instagram_database";
 
-    private final InstagramDatabase database;
-
-    public DataModule(Context appContext) {
-        database = Room
+    @Singleton
+    @Provides
+    static InstagramDatabase provideDatabase(Context appContext) {
+        return Room
                 .databaseBuilder(appContext, InstagramDatabase.class, DB_NAME)
                 .build();
     }
 
     @Singleton
     @Provides
-    ISettingsRepository provideSettingsRepository(final IPrefUtils prefUtils) {
-        return new SettingsRepository(prefUtils);
-    }
-
-    @Singleton
-    @Provides
-    IPhotosRepository providePhotosRepository(final PhotosDao dao,
-                                              final IEntityMapper mapper) {
-        return new PhotosRepository(dao, mapper);
-    }
-
-    @Singleton
-    @Provides
-    PhotosDao providePhotosDao() {
+    static PhotosDao providePhotosDao(InstagramDatabase database) {
         return database.innerStoragePhotosDao();
     }
+
+    @Singleton
+    @Binds
+    abstract ISettingsRepository provideSettingsRepository(SettingsRepository repository);
+
+    @Singleton
+    @Binds
+    abstract IPhotosRepository providePhotosRepository(PhotosRepository repository);
 }
