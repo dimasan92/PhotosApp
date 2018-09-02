@@ -31,7 +31,7 @@ public abstract class DataModule {
     @Singleton
     @Provides
     static PhotosDao providePhotosDao(InstagramDatabase database) {
-        return database.innerStoragePhotosDao();
+        return database.photosDao();
     }
 
     @Singleton
