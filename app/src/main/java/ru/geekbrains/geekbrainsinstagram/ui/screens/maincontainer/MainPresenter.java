@@ -34,8 +34,9 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void readyToSetupTheme() {
-        disposables.add(getCurrentThemeUseCase.execute()
-                .subscribe(theme -> view.setTheme(mapper.domainToView(theme))));
+        addDisposable(getCurrentThemeUseCase.execute()
+                .subscribe(theme -> view.setTheme(mapper.domainToView(theme)),
+                        getDefaultErrorHandler()));
     }
 
     @Override

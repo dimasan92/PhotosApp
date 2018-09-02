@@ -42,12 +42,12 @@ public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IV
     }
 
     private void shouldThemeChange(AppTheme theme) {
-        disposables.add(shouldChangeThemeUseCase.execute(mapper.viewToDomain(theme))
+        addDisposable(shouldChangeThemeUseCase.execute(mapper.viewToDomain(theme))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(shouldChange -> {
                     if (shouldChange) {
                         view.applyTheme();
                     }
-                }));
+                }, getDefaultErrorHandler()));
     }
 }
