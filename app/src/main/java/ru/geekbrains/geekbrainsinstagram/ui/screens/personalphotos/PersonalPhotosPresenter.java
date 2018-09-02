@@ -48,7 +48,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void takeAPhotoRequest() {
-        newCameraPhoto = new PresentPhotoModel(false);
+        newCameraPhoto = new PresentPhotoModel();
         view.startCamera(newCameraPhoto);
     }
 

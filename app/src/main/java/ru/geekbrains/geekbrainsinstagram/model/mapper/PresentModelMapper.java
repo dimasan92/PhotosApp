@@ -6,7 +6,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.geekbrains.domain.model.Photo;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
@@ -18,22 +18,22 @@ public final class PresentModelMapper implements IPresentModelMapper {
     }
 
     @Override
-    public Photo viewToDomain(PresentPhotoModel photoModel) {
-        return new Photo(photoModel.getId(), photoModel.getUri(), photoModel.isFavorite());
+    public PhotoModel viewToDomain(PresentPhotoModel photoModel) {
+        return new PhotoModel(photoModel.getId(), photoModel.isFavorite());
     }
 
     @Override
-    public List<PresentPhotoModel> domainToView(List<Photo> photos) {
+    public List<PresentPhotoModel> domainToView(List<PhotoModel> photos) {
         List<PresentPhotoModel> convertedPhotos = new ArrayList<>(photos.size());
-        for (Photo photo : photos) {
+        for (PhotoModel photo : photos) {
             convertedPhotos.add(domainToView(photo));
         }
         return convertedPhotos;
     }
 
     @Override
-    public PresentPhotoModel domainToView(Photo photo) {
-        return new PresentPhotoModel(photo.getId(), photo.getUri(), photo.isFavorite());
+    public PresentPhotoModel domainToView(PhotoModel photo) {
+        return new PresentPhotoModel(photo.getId(), photo.isFavorite());
     }
 
     @Override

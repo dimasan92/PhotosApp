@@ -9,7 +9,7 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.mapper.IEntityMapper;
-import ru.geekbrains.domain.model.Photo;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.IPhotosRepository;
 
 @Singleton
@@ -25,26 +25,26 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
-    public Completable savePersonalPhoto(Photo photo) {
+    public Completable savePersonalPhoto(PhotoModel photo) {
         return Completable.fromAction(() -> dao.insertPersonalPhoto(mapper.domainToData(photo)))
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Single<List<Photo>> getPersonalPhotos() {
+    public Single<List<PhotoModel>> getPersonalPhotos() {
         return dao.getAllPersonalPhotos()
                 .map(mapper::dataToDomain)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable changeFavoriteStatusPersonalPhoto(Photo photo) {
+    public Completable changeFavoriteStatusPersonalPhoto(PhotoModel photo) {
         return Completable.fromAction(() -> dao.updatePersonalPhoto(mapper.domainToData(photo)))
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable deletePersonalPhoto(Photo photo) {
+    public Completable deletePersonalPhoto(PhotoModel photo) {
         return Completable.fromAction(() -> dao.deletePersonalPhoto(mapper.domainToData(photo)))
                 .subscribeOn(Schedulers.io());
     }

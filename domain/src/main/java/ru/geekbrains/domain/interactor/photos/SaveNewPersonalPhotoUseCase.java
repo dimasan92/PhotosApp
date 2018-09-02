@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Completable;
-import ru.geekbrains.domain.model.Photo;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.IPhotosRepository;
 
 @Singleton
@@ -17,7 +17,7 @@ public final class SaveNewPersonalPhotoUseCase {
         this.repository = repository;
     }
 
-    public Completable execute(Photo photo) {
+    public Completable execute(PhotoModel photo) {
         return repository.savePersonalPhoto(photo);
     }
 }
