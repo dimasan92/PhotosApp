@@ -1,18 +1,23 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
 
+@FragmentScope
 public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IView>
         implements IAppThemePresenter {
 
     private final ShouldChangeThemeUseCase shouldChangeThemeUseCase;
-    private final IModelMapper mapper;
+    private final IPresentModelMapper mapper;
 
-    public AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase, IModelMapper mapper) {
+    @Inject
+    AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase, IPresentModelMapper mapper) {
         this.shouldChangeThemeUseCase = shouldChangeThemeUseCase;
         this.mapper = mapper;
     }
