@@ -1,27 +1,24 @@
 package ru.geekbrains.geekbrainsinstagram.di.activity.module;
 
+import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.IMainPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.MainPresenter;
 
 @Module
-public final class ActivityModule {
+public interface ActivityModule {
 
     @ActivityScope
-    @Provides
-    INavigator provideNavigator() {
-        return new Navigator();
-    }
+    @Binds
+    INavigator provideNavigator(Navigator navigator);
 
     @ActivityScope
-    @Provides
-    IMainPresenter provideMainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IModelMapper mapper) {
-        return new MainPresenter(getCurrentThemeUseCase, mapper);
-    }
+    @Binds
+    IMainPresenter provideMainPresenter(MainPresenter mainPresenter);
 }
