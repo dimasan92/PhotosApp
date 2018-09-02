@@ -10,8 +10,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.subjects.PublishSubject;
-import io.reactivex.subjects.Subject;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
@@ -53,23 +51,34 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         return photos.size();
     }
 
-    void updatePhotos(List<PresentPhotoModel> photos) {
+    void updatePhotos(final List<PresentPhotoModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
 
-    void addPhoto(PresentPhotoModel photoModel) {
-        photos.add(photoModel);
-        notifyItemChanged(photos.indexOf(photoModel));
+    void addPhoto(final PresentPhotoModel photo) {
+        photos.add(photo);
+        notifyItemChanged(photos.indexOf(photo));
     }
 
-    void updatePhoto(PresentPhotoModel photoModel) {
-        notifyItemChanged(photos.indexOf(photoModel));
+    void updatePhoto(final PresentPhotoModel photo) {
+        int position = -1;
+        for (PresentPhotoModel model : photos) {
+            if (model.getId().equals(photo.getId())) {
+                position = photos.indexOf(model);
+                break;
+            }
+        }
+        if (position == -1) {
+            return;
+        }
+        photos.set(position, photo);
+        notifyItemChanged(position);
     }
 
-    void deletePhoto(PresentPhotoModel photoModel) {
-        notifyItemRemoved(photos.indexOf(photoModel));
-        photos.remove(photoModel);
+    void deletePhoto(final PresentPhotoModel photo) {
+        notifyItemRemoved(photos.indexOf(photo));
+        photos.remove(photo);
     }
 
     static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {
@@ -97,10 +106,10 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
                     personalPhotoListener.onFavoritesClick(photo)));
         }
 
-        void bind(final PresentPhotoModel photoModel) {
-            this.photo = photoModel;
-            pictureUtils.loadImageIntoImageView(photoModel, photoImageView);
-            isFavoritesImageView.setImageResource(photoModel.isFavorite() ?
+        void bind(final PresentPhotoModel photo) {
+            this.photo = photo;
+            pictureUtils.loadImageIntoImageView(photo, photoImageView);
+            isFavoritesImageView.setImageResource(photo.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);
         }

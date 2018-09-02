@@ -70,11 +70,12 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void changePhotoFavoriteState(PresentPhotoModel photo) {
-        photo.setFavorite(!photo.isFavorite());
+        PresentPhotoModel photoWithChangedState =
+                new PresentPhotoModel(photo.getId(), !photo.isFavorite());
         disposables.add(changeFavoriteStatusPersonalPhotoUseCase
-                .execute(mapper.viewToDomain(photo))
+                .execute(mapper.viewToDomain(photoWithChangedState))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(() -> view.updatePhoto(photo),
+                .subscribe(() -> view.updatePhoto(photoWithChangedState),
                         throwable -> errorChangeFavoriteStatus(photo)));
     }
 
@@ -115,9 +116,9 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     private void errorChangeFavoriteStatus(PresentPhotoModel photo) {
         if (photo.isFavorite()) {
-            view.showNotifyingMessage(R.string.error_add_photo_to_favorites_message);
-        } else {
             view.showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+        } else {
+            view.showNotifyingMessage(R.string.error_add_photo_to_favorites_message);
         }
     }
 

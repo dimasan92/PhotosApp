@@ -26,7 +26,6 @@ import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFilesUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
@@ -167,5 +166,8 @@ public final class PersonalPhotosFragment extends BaseFragment
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
         adapter = new PersonalPhotosAdapter(pictureUtils, this);
         photoRecyclerView.setAdapter(adapter);
+        if (photoRecyclerView.getItemAnimator() != null) {
+            photoRecyclerView.getItemAnimator().setChangeDuration(0);
+        }
     }
 }
