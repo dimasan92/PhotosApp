@@ -23,8 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
-import ru.geekbrains.geekbrainsinstagram.utils.ILayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
         implements IPersonalPhotosPresenter.IView {
@@ -35,11 +36,12 @@ public final class PersonalPhotosFragment extends BaseFragment
     ILayoutUtils layoutUtils;
 
     @Inject
-    IPersonalPhotosPresenter presenter;
+    IPictureUtils pictureUtils;
 
     @Inject
-    PersonalPhotosAdapter adapter;
+    IPersonalPhotosPresenter presenter;
 
+    private PersonalPhotosAdapter adapter;
     private FloatingActionButton fab;
 
     public static PersonalPhotosFragment newInstance() {
@@ -93,23 +95,23 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void addPhotos(List<PhotoModel> photos) {
+    public void addPhotos(List<PresentPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
 
     @Override
-    public void addNewPhoto(PhotoModel photoModel) {
-        adapter.addPhoto(photoModel);
+    public void addNewPhoto(PresentPhotoModel photo) {
+        adapter.addPhoto(photo);
     }
 
     @Override
-    public void updatePhoto(PhotoModel photoModel) {
-        adapter.updatePhoto(photoModel);
+    public void updatePhoto(PresentPhotoModel photo) {
+        adapter.updatePhoto(photo);
     }
 
     @Override
-    public void deletePhoto(PhotoModel photoModel) {
-        adapter.deletePhoto(photoModel);
+    public void deletePhoto(PresentPhotoModel photo) {
+        adapter.deletePhoto(photo);
     }
 
     @Override
@@ -118,14 +120,14 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void showDeletePhotoDialog(PhotoModel photoModel) {
+    public void showDeletePhotoDialog(PresentPhotoModel photo) {
         if (getContext() == null) {
             return;
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle(R.string.delete_photo_dialog_title);
         dialogBuilder.setPositiveButton(android.R.string.yes,
-                (dialog, which) -> presenter.deletePhoto(photoModel));
+                (dialog, which) -> presenter.deletePhoto(photo));
         dialogBuilder.setNegativeButton(android.R.string.no, (dialog, which) -> {
         });
         dialogBuilder.show();
@@ -144,6 +146,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
+        adapter = new PersonalPhotosAdapter(pictureUtils);
         photoRecyclerView.setAdapter(adapter);
     }
 }
