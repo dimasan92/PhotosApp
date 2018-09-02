@@ -34,7 +34,6 @@ public final class CameraUtils implements ICameraUtils {
             Uri uri = filesUtils.getUriForPhoto(photoModel);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             setCameraPermissions(cameraIntent, uri);
-            photoModel.setUri(uri.toString());
             return cameraIntent;
         }
         throw new LaunchCameraException();
@@ -42,7 +41,7 @@ public final class CameraUtils implements ICameraUtils {
 
     @Override
     public void revokeCameraPermissions(PresentPhotoModel photoModel) {
-        appContext.revokeUriPermission(Uri.parse(photoModel.getUri()),
+        appContext.revokeUriPermission(filesUtils.getUriForPhoto(photoModel),
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 

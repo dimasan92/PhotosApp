@@ -1,11 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
-import android.content.Intent;
-
 import java.util.List;
 
 import androidx.annotation.StringRes;
-import io.reactivex.Observable;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
@@ -13,7 +10,7 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     interface IView extends IBasePresenter.IView {
 
-        void startCamera(Intent cameraIntent);
+        void startCamera(PresentPhotoModel photo);
 
         void addPhotos(List<PresentPhotoModel> photos);
 
@@ -28,7 +25,9 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
         void showDeletePhotoDialog(PresentPhotoModel photo);
     }
 
-    void takeAPhoto();
+    void takeAPhotoRequest();
+
+    void cameraCannotLaunch();
 
     void photoHasTaken();
 

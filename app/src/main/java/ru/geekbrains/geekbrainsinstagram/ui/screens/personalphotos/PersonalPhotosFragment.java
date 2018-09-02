@@ -23,7 +23,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
+import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IFilesUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
@@ -37,6 +40,9 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Inject
     IPictureUtils pictureUtils;
+
+    @Inject
+    ICameraUtils cameraUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;
@@ -72,7 +78,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         super.onActivityCreated(savedInstanceState);
 
         fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
-        fab.setOnClickListener(v -> presenter.takeAPhoto());
+        fab.setOnClickListener(v -> presenter.takeAPhotoRequest());
     }
 
     @Override
@@ -142,8 +148,13 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void startCamera(Intent cameraIntent) {
-        startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
+    public void startCamera(PresentPhotoModel photo) {
+        try {
+            Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(photo);
+            startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
+        } catch (LaunchCameraException e) {
+            presenter.cameraCannotLaunch();
+        }
     }
 
     private void inject() {

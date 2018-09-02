@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
@@ -11,7 +10,6 @@ import ru.geekbrains.domain.interactor.photos.SaveNewPersonalPhotoUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
@@ -49,15 +47,15 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void takeAPhoto() {
-        newCameraPhoto = new PresentPhotoModel();
+    public void takeAPhotoRequest() {
+        newCameraPhoto = new PresentPhotoModel(false);
+        view.startCamera(newCameraPhoto);
+    }
 
-        try {
-            view.startCamera(cameraUtils.getAdjustedCameraInvoker(newCameraPhoto));
-        } catch (LaunchCameraException e) {
-            errorLaunchCamera();
-            newCameraPhoto = null;
-        }
+    @Override
+    public void cameraCannotLaunch() {
+        errorLaunchCamera();
+        newCameraPhoto = null;
     }
 
     @Override
