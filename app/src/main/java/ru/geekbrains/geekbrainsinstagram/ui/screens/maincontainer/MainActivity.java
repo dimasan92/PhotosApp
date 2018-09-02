@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +10,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,21 +33,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private DrawerLayout drawerLayout;
     private FloatingActionButton fab;
-
-    private NavigationView.OnNavigationItemSelectedListener drawerListener = menuItem -> {
-        switch (menuItem.getItemId()) {
-            case R.id.nav_personal_photos:
-                fab.show();
-                navigator.navigateToPersonalPhotos();
-                break;
-            case R.id.nav_app_theme:
-                fab.hide();
-                navigator.navigateToAppTheme();
-                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +136,23 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupNavigationView() {
         NavigationView navigationView = findViewById(R.id.main_navigator);
-        navigationView.setNavigationItemSelectedListener(drawerListener);
+        navigationView.setNavigationItemSelectedListener(getDrawerListener());
+    }
+
+    private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
+        return menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_personal_photos:
+                    fab.show();
+                    navigator.navigateToPersonalPhotos();
+                    break;
+                case R.id.nav_app_theme:
+                    fab.hide();
+                    navigator.navigateToAppTheme();
+                    break;
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        };
     }
 }
