@@ -31,7 +31,7 @@ public final class CameraUtils implements ICameraUtils {
     public Intent getAdjustedCameraInvoker(PresentPhotoModel photoModel) throws LaunchCameraException {
         final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (isCameraAvailable(cameraIntent) || filesUtils.isCatalogAvailable()) {
-            Uri uri = filesUtils.getUriForFile(filesUtils.getFileForPhoto(photoModel));
+            Uri uri = filesUtils.getUriForPhoto(photoModel);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             setCameraPermissions(cameraIntent, uri);
             photoModel.setUri(uri.toString());

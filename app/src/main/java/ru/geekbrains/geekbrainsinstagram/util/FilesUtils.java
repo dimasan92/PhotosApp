@@ -32,12 +32,12 @@ public final class FilesUtils implements IFilesUtils {
     }
 
     @Override
-    public Uri getUriForFile(File file) {
-        return FileProvider.getUriForFile(appContext, AUTHORITY, file);
+    public Uri getUriForPhoto(PresentPhotoModel photo) {
+        return FileProvider.getUriForFile(appContext, AUTHORITY,
+                getFileForPhoto(photo));
     }
 
-    @Override
-    public File getFileForPhoto(PresentPhotoModel model) {
-        return new File(appContext.getFilesDir(), model.getPhotoFileName());
+    private File getFileForPhoto(PresentPhotoModel photo) {
+        return new File(appContext.getFilesDir(), photo.getPhotoFileName());
     }
 }

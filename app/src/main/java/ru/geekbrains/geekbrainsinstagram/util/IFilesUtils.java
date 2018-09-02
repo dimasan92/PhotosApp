@@ -10,7 +10,5 @@ public interface IFilesUtils {
 
     boolean isCatalogAvailable();
 
-    Uri getUriForFile(File file);
-
-    File getFileForPhoto(PresentPhotoModel model);
+    Uri getUriForPhoto(PresentPhotoModel photo);
 }
