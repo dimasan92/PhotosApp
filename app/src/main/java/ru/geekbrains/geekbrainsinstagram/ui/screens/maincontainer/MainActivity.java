@@ -1,16 +1,12 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.MenuItem;
-import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -46,11 +42,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         setupView();
 
         navigator.init(getSupportFragmentManager(), this);
+        presenter.setNavigator(navigator);
+
         if (savedInstanceState == null) {
-            fab.show();
-            navigator.navigateToPersonalPhotos();
+            presenter.viewFirstCreated();
         } else {
-            fab.hide();
+            presenter.viewRecreated();
         }
         presenter.viewIsReady();
     }
@@ -86,6 +83,16 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 setTheme(R.style.GreenAppTheme);
                 break;
         }
+    }
+
+    @Override
+    public void showMainViewAction() {
+        fab.show();
+    }
+
+    @Override
+    public void hideMainViewAction() {
+        fab.hide();
     }
 
     @Override
@@ -143,12 +150,10 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         return menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_personal_photos:
-                    fab.show();
-                    navigator.navigateToPersonalPhotos();
+                    presenter.personalPhotosSelected();
                     break;
                 case R.id.nav_app_theme:
-                    fab.hide();
-                    navigator.navigateToAppTheme();
+                    presenter.appThemeSelected();
                     break;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
