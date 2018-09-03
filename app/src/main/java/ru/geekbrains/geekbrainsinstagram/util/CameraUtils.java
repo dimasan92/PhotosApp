@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.utils;
+package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,35 +9,39 @@ import android.provider.MediaStore;
 
 import java.util.List;
 
-import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+
+@Singleton
 public final class CameraUtils implements ICameraUtils {
 
     private final Context appContext;
     private final IFilesUtils filesUtils;
 
-    public CameraUtils(Context appContext, IFilesUtils filesUtils) {
+    @Inject
+    CameraUtils(Context appContext, IFilesUtils filesUtils) {
         this.appContext = appContext;
         this.filesUtils = filesUtils;
     }
 
     @Override
-    public Intent getAdjustedCameraInvoker(PhotoModel photoModel) throws LaunchCameraException {
+    public Intent getAdjustedCameraInvoker(PresentPhotoModel photoModel) throws LaunchCameraException {
         final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (isCameraAvailable(cameraIntent) || filesUtils.isCatalogAvailable()) {
-            Uri uri = filesUtils.getUriForFile(filesUtils.getFileForPhoto(photoModel));
+            Uri uri = filesUtils.getUriForPhoto(photoModel);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             setCameraPermissions(cameraIntent, uri);
-            photoModel.setUri(uri.toString());
             return cameraIntent;
         }
         throw new LaunchCameraException();
     }
 
     @Override
-    public void revokeCameraPermissions(PhotoModel photoModel) {
-        appContext.revokeUriPermission(Uri.parse(photoModel.getUri()),
+    public void revokeCameraPermissions(PresentPhotoModel photoModel) {
+        appContext.revokeUriPermission(filesUtils.getUriForPhoto(photoModel),
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 

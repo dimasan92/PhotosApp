@@ -12,7 +12,5 @@ public interface FragmentComponent {
 
     void inject(AppThemeFragment view);
 
-    void inject(AppThemePresenter presenter);
-
     void inject(PersonalPhotosFragment view);
 }

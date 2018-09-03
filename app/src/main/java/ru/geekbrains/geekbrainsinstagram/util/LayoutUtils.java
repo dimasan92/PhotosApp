@@ -1,10 +1,14 @@
-package ru.geekbrains.geekbrainsinstagram.utils;
+package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.content.Context;
 import android.content.res.Configuration;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 
+@Singleton
 public final class LayoutUtils implements ILayoutUtils {
 
     private static final int PORTRAIT_SPAN_COUNT = 2;
@@ -12,7 +16,8 @@ public final class LayoutUtils implements ILayoutUtils {
 
     private final Context appContext;
 
-    public LayoutUtils(Context appContext) {
+    @Inject
+    LayoutUtils(Context appContext) {
         this.appContext = appContext;
     }
 

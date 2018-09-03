@@ -2,7 +2,6 @@ package ru.geekbrains.data.util;
 
 import android.content.SharedPreferences;
 
-
 public final class PrefUtils implements IPrefUtils {
 
     private static final String PREF_CURRENT_THEME = "current_application_theme";

@@ -1,15 +1,20 @@
 package ru.geekbrains.data.settings;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.domain.repository.ISettingsRepository;
 
+@Singleton
 public final class SettingsRepository implements ISettingsRepository {
 
     private final IPrefUtils prefUtils;
 
-    public SettingsRepository(IPrefUtils prefUtils) {
+    @Inject
+    SettingsRepository(IPrefUtils prefUtils) {
         this.prefUtils = prefUtils;
     }
 

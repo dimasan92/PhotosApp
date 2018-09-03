@@ -3,19 +3,18 @@ package ru.geekbrains.geekbrainsinstagram.model;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class PhotoModel {
+public final class PresentPhotoModel {
 
     private final String id;
-    private String uri;
-    private boolean isFavorite;
+    private final boolean isFavorite;
 
-    public PhotoModel() {
+    public PresentPhotoModel() {
         id = UUID.randomUUID().toString();
+        this.isFavorite = false;
     }
 
-    public PhotoModel(final String id, String uri, boolean isFavorite) {
+    public PresentPhotoModel(final String id, boolean isFavorite) {
         this.id = id;
-        this.uri = uri;
         this.isFavorite = isFavorite;
     }
 
@@ -24,23 +23,11 @@ public final class PhotoModel {
     }
 
     public String getPhotoFileName() {
-        return toString() + ".jpeg";
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
+        return "PHOTO_" + id;
     }
 
     public boolean isFavorite() {
         return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
     }
 
     @Override
@@ -51,19 +38,13 @@ public final class PhotoModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PhotoModel photoModel = (PhotoModel) o;
+        PresentPhotoModel photoModel = (PresentPhotoModel) o;
         return isFavorite == photoModel.isFavorite &&
-                id.equals(photoModel.id) &&
-                uri.equals(photoModel.uri);
+                id.equals(photoModel.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, uri, isFavorite);
-    }
-
-    @Override
-    public String toString() {
-        return "PHOTO_" + id;
+        return Objects.hash(id, isFavorite);
     }
 }

@@ -1,22 +1,32 @@
 package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
+import javax.inject.Inject;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
+@ActivityScope
 public final class Navigator implements INavigator {
 
     private static final String PERSONAL_PHOTOS_TAG = "personal_photos_tag";
     private static final String APP_THEME_TAG = "color_chooser_tag";
 
     private FragmentManager fragmentManager;
+    private ContentDisposer disposer;
+
+    @Inject
+    Navigator() {
+    }
 
     @Override
-    public void init(FragmentManager fragmentManager) {
+    public void init(FragmentManager fragmentManager, ContentDisposer disposer) {
         this.fragmentManager = fragmentManager;
+        this.disposer = disposer;
     }
 
     @Override
@@ -34,7 +44,7 @@ public final class Navigator implements INavigator {
         if (fragment.isVisible()) {
             return;
         }
-        MainApplication.getApp().getComponentsManager().releaseFragmentComponent();
+        disposer.disposeContent();
         if (isBackStack) {
             openWithBackStack(fragment, tag);
         } else {

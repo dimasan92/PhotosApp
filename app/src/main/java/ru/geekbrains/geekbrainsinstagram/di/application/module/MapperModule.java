@@ -2,25 +2,21 @@ package ru.geekbrains.geekbrainsinstagram.di.application.module;
 
 import javax.inject.Singleton;
 
+import dagger.Binds;
 import dagger.Module;
-import dagger.Provides;
 import ru.geekbrains.data.mapper.EntityMapper;
 import ru.geekbrains.data.mapper.IEntityMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IModelMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.ModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.PresentModelMapper;
 
 @Module
-public final class MapperModule {
+public interface MapperModule {
 
     @Singleton
-    @Provides
-    IEntityMapper provideEntityMapper() {
-        return new EntityMapper();
-    }
+    @Binds
+    IEntityMapper provideEntityMapper(EntityMapper entityMapper);
 
     @Singleton
-    @Provides
-    IModelMapper provideModelMapper() {
-        return new ModelMapper();
-    }
+    @Binds
+    IPresentModelMapper provideModelMapper(PresentModelMapper modelMapper);
 }

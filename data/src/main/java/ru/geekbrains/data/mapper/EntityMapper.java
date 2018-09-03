@@ -3,21 +3,27 @@ package ru.geekbrains.data.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
-import ru.geekbrains.domain.model.Photo;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
+import ru.geekbrains.domain.model.PhotoModel;
+
+@Singleton
 public final class EntityMapper implements IEntityMapper {
 
-    @Override
-    public PersonalPhotoEntity domainToData(Photo photo) {
-        return new PersonalPhotoEntity(photo.getId().toString(),
-                photo.getUri(),
-                photo.isFavorite());
+    @Inject
+    EntityMapper() {
     }
 
     @Override
-    public List<Photo> dataToDomain(List<PersonalPhotoEntity> entities) {
-        List<Photo> convertedPhotos = new ArrayList<>(entities.size());
+    public PersonalPhotoEntity domainToData(PhotoModel photo) {
+        return new PersonalPhotoEntity(photo.getId(), photo.isFavorite());
+    }
+
+    @Override
+    public List<PhotoModel> dataToDomain(List<PersonalPhotoEntity> entities) {
+        List<PhotoModel> convertedPhotos = new ArrayList<>(entities.size());
         for (PersonalPhotoEntity entity : entities) {
             convertedPhotos.add(dataToDomain(entity));
         }
@@ -25,7 +31,7 @@ public final class EntityMapper implements IEntityMapper {
     }
 
     @Override
-    public Photo dataToDomain(PersonalPhotoEntity entity) {
-        return new Photo(entity.getId(), entity.getUri(), entity.isFavorite());
+    public PhotoModel dataToDomain(PersonalPhotoEntity entity) {
+        return new PhotoModel(entity.getId(), entity.isFavorite());
     }
 }

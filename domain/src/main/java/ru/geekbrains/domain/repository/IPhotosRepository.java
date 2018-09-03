@@ -4,15 +4,15 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.geekbrains.domain.model.Photo;
+import ru.geekbrains.domain.model.PhotoModel;
 
 public interface IPhotosRepository {
 
-    Completable savePersonalPhoto(Photo photo);
+    Completable savePersonalPhoto(PhotoModel photo);
 
-    Single<List<Photo>> getPersonalPhotos();
+    Single<List<PhotoModel>> getPersonalPhotos();
 
-    Completable changeFavoriteStatusPersonalPhoto(Photo photo);
+    Completable changeFavoriteStatusPersonalPhoto(PhotoModel photo);
 
-    Completable deletePersonalPhoto(Photo photo);
+    Completable deletePersonalPhoto(PhotoModel photo);
 }

@@ -11,27 +11,19 @@ public final class PersonalPhotoEntity {
     @NonNull
     @PrimaryKey
     @ColumnInfo(name = "id")
-    private String id;
-
-    @ColumnInfo(name = "uri")
-    private String uri;
+    private final String id;
 
     @ColumnInfo(name = "is_favorite")
-    private boolean isFavorite;
+    private final boolean isFavorite;
 
-    public PersonalPhotoEntity(@NonNull String id, String uri, boolean isFavorite) {
+    public PersonalPhotoEntity(@NonNull String id, boolean isFavorite) {
         this.id = id;
-        this.uri = uri;
         this.isFavorite = isFavorite;
     }
 
     @NonNull
     public String getId() {
         return id;
-    }
-
-    public String getUri() {
-        return uri;
     }
 
     public boolean isFavorite() {

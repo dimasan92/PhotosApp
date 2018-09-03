@@ -1,8 +1,6 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -16,10 +14,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 
-public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
+public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
+        ContentDisposer {
 
     @Inject
     INavigator navigator;
@@ -29,21 +29,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private DrawerLayout drawerLayout;
     private FloatingActionButton fab;
-
-    private NavigationView.OnNavigationItemSelectedListener drawerListener = menuItem -> {
-        switch (menuItem.getItemId()) {
-            case R.id.nav_personal_photos:
-                fab.show();
-                navigator.navigateToPersonalPhotos();
-                break;
-            case R.id.nav_app_theme:
-                fab.hide();
-                navigator.navigateToAppTheme();
-                break;
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +41,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         setContentView(R.layout.activity_main);
         setupView();
 
-        navigator.init(getSupportFragmentManager());
+        navigator.init(getSupportFragmentManager(), this);
+        presenter.setNavigator(navigator);
+
         if (savedInstanceState == null) {
-            navigator.navigateToPersonalPhotos();
+            presenter.viewFirstCreated();
+        } else {
+            presenter.viewRecreated();
         }
         presenter.viewIsReady();
     }
@@ -96,6 +85,23 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         }
     }
 
+    @Override
+    public void showMainViewAction() {
+        fab.show();
+    }
+
+    @Override
+    public void hideMainViewAction() {
+        fab.hide();
+    }
+
+    @Override
+    public void disposeContent() {
+        MainApplication.getApp()
+                .getComponentsManager()
+                .releaseFragmentComponent();
+    }
+
     private void inject() {
         MainApplication.getApp()
                 .getComponentsManager()
@@ -128,7 +134,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupNavigationLayout(Toolbar toolbar) {
         drawerLayout = findViewById(R.id.main_navigator_layout);
-        drawerLayout.setLayoutParams(adjustParamsForNavigationLayout(drawerLayout.getLayoutParams()));
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.open_drawer, R.string.close_drawer);
@@ -138,13 +143,21 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupNavigationView() {
         NavigationView navigationView = findViewById(R.id.main_navigator);
-        navigationView.setNavigationItemSelectedListener(drawerListener);
+        navigationView.setNavigationItemSelectedListener(getDrawerListener());
     }
 
-    private ViewGroup.LayoutParams adjustParamsForNavigationLayout(ViewGroup.LayoutParams params) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        params.width = metrics.widthPixels;
-        return params;
+    private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
+        return menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.nav_personal_photos:
+                    presenter.personalPhotosSelected();
+                    break;
+                case R.id.nav_app_theme:
+                    presenter.appThemeSelected();
+                    break;
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        };
     }
 }

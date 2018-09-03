@@ -10,7 +10,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.MainActivity;
 @Subcomponent(modules = ActivityModule.class)
 public interface ActivityComponent {
 
-    FragmentComponent getFragmentComponent(FragmentModule fragmentModule);
+    FragmentComponent getFragmentComponent();
 
     void inject(MainActivity activity);
 }

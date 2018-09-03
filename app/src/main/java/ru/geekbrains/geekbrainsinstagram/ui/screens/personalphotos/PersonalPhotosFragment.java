@@ -23,11 +23,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
-import ru.geekbrains.geekbrainsinstagram.utils.ILayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
-        implements IPersonalPhotosPresenter.IView {
+        implements IPersonalPhotosPresenter.IView, PersonalPhotosAdapter.IPersonalPhotoListener {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
@@ -35,11 +38,15 @@ public final class PersonalPhotosFragment extends BaseFragment
     ILayoutUtils layoutUtils;
 
     @Inject
-    IPersonalPhotosPresenter presenter;
+    IPictureUtils pictureUtils;
 
     @Inject
-    PersonalPhotosAdapter adapter;
+    ICameraUtils cameraUtils;
 
+    @Inject
+    IPersonalPhotosPresenter presenter;
+
+    private PersonalPhotosAdapter adapter;
     private FloatingActionButton fab;
 
     public static PersonalPhotosFragment newInstance() {
@@ -60,8 +67,6 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
-        presenter.changePhotoFavoriteState(adapter.onFavoritesClick());
-        presenter.deleteRequest(adapter.onDeleteClick());
 
         presenter.viewIsReady();
         return view;
@@ -72,7 +77,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         super.onActivityCreated(savedInstanceState);
 
         fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
-        fab.setOnClickListener(v -> presenter.takeAPhoto());
+        fab.setOnClickListener(v -> presenter.takeAPhotoRequest());
     }
 
     @Override
@@ -93,50 +98,62 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void addPhotos(List<PhotoModel> photos) {
+    public void onFavoritesClick(PresentPhotoModel photo) {
+        presenter.changePhotoFavoriteState(photo);
+    }
+
+    @Override
+    public void onDeleteClick(PresentPhotoModel photo) {
+        presenter.deleteRequest(photo);
+    }
+
+    @Override
+    public void addPhotos(List<PresentPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
 
     @Override
-    public void addNewPhoto(PhotoModel photoModel) {
-        adapter.addPhoto(photoModel);
+    public void addNewPhoto(PresentPhotoModel photo) {
+        adapter.addPhoto(photo);
     }
 
     @Override
-    public void updatePhoto(PhotoModel photoModel) {
-        adapter.updatePhoto(photoModel);
+    public void updatePhoto(PresentPhotoModel photo) {
+        adapter.updatePhoto(photo);
     }
 
     @Override
-    public void deletePhoto(PhotoModel photoModel) {
-        adapter.deletePhoto(photoModel);
+    public void deletePhoto(PresentPhotoModel photo) {
+        adapter.deletePhoto(photo);
     }
 
     @Override
     public void showNotifyingMessage(@StringRes int message) {
-        if (getView() == null) {
-            return;
-        }
         Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showDeletePhotoDialog(PhotoModel photoModel) {
+    public void showDeletePhotoDialog(PresentPhotoModel photo) {
         if (getContext() == null) {
             return;
         }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle(R.string.delete_photo_dialog_title);
         dialogBuilder.setPositiveButton(android.R.string.yes,
-                (dialog, which) -> presenter.deletePhoto(photoModel));
+                (dialog, which) -> presenter.deletePhoto(photo));
         dialogBuilder.setNegativeButton(android.R.string.no, (dialog, which) -> {
         });
         dialogBuilder.show();
     }
 
     @Override
-    public void startCamera(Intent cameraIntent) {
-        startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
+    public void startCamera(PresentPhotoModel photo) {
+        try {
+            Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(photo);
+            startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
+        } catch (LaunchCameraException e) {
+            presenter.cameraCannotLaunch();
+        }
     }
 
     private void inject() {
@@ -147,6 +164,10 @@ public final class PersonalPhotosFragment extends BaseFragment
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
+        adapter = new PersonalPhotosAdapter(pictureUtils, this);
         photoRecyclerView.setAdapter(adapter);
+        if (photoRecyclerView.getItemAnimator() != null) {
+            photoRecyclerView.getItemAnimator().setChangeDuration(0);
+        }
     }
 }

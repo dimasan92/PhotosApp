@@ -1,42 +1,41 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
-import android.content.Intent;
-
 import java.util.List;
 
 import androidx.annotation.StringRes;
-import io.reactivex.Observable;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
     interface IView extends IBasePresenter.IView {
 
-        void startCamera(Intent cameraIntent);
+        void startCamera(PresentPhotoModel photo);
 
-        void addPhotos(List<PhotoModel> photos);
+        void addPhotos(List<PresentPhotoModel> photos);
 
-        void addNewPhoto(PhotoModel photoModel);
+        void addNewPhoto(PresentPhotoModel photo);
 
-        void updatePhoto(PhotoModel photoModel);
+        void updatePhoto(PresentPhotoModel photo);
 
-        void deletePhoto(PhotoModel photoModel);
+        void deletePhoto(PresentPhotoModel photo);
 
         void showNotifyingMessage(@StringRes int message);
 
-        void showDeletePhotoDialog(PhotoModel photoModel);
+        void showDeletePhotoDialog(PresentPhotoModel photo);
     }
 
-    void takeAPhoto();
+    void takeAPhotoRequest();
+
+    void cameraCannotLaunch();
 
     void photoHasTaken();
 
     void photoHasCanceled();
 
-    void changePhotoFavoriteState(Observable<PhotoModel> favoritesObservable);
+    void changePhotoFavoriteState(PresentPhotoModel photo);
 
-    void deletePhoto(PhotoModel photoModel);
+    void deletePhoto(PresentPhotoModel photo);
 
-    void deleteRequest(Observable<PhotoModel> deleteObservable);
+    void deleteRequest(PresentPhotoModel photo);
 }

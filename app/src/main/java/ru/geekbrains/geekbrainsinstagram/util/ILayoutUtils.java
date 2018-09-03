@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.utils;
+package ru.geekbrains.geekbrainsinstagram.util;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 

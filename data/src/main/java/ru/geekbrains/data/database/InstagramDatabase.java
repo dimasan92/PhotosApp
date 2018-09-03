@@ -8,5 +8,5 @@ import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
 @Database(entities = {PersonalPhotoEntity.class}, version = 1, exportSchema = false)
 public abstract class InstagramDatabase extends RoomDatabase {
 
-    public abstract PhotosDao innerStoragePhotosDao();
+    public abstract PhotosDao photosDao();
 }
