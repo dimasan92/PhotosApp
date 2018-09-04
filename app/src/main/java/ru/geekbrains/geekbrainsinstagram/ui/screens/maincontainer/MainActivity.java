@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -15,8 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
@@ -32,7 +31,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     IMainPresenter presenter;
 
     private DrawerLayout drawerLayout;
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +49,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
-        } else {
-            presenter.viewRecreated();
         }
         presenter.viewIsReady();
     }
@@ -91,16 +87,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     @Override
-    public void showMainViewAction() {
-        fab.show();
-    }
-
-    @Override
-    public void hideMainViewAction() {
-        fab.hide();
-    }
-
-    @Override
     public void disposeContent() {
         MainApplication.getApp()
                 .getComponentsManager()
@@ -127,7 +113,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     private void setupView() {
-        fab = findViewById(R.id.main_fab);
         setupDrawer();
     }
 

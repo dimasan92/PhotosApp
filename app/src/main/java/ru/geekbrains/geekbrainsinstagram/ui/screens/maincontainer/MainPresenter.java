@@ -14,7 +14,6 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
     private final IPresentModelMapper mapper;
 
-    private boolean isContentWithMainAction;
     private INavigator navigator;
 
     @Inject
@@ -41,34 +40,16 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void viewFirstCreated() {
-        isContentWithMainAction = true;
         navigator.navigateToPersonalPhotos();
     }
 
     @Override
-    public void viewRecreated() {
-        if (isContentWithMainAction) {
-            view.showMainViewAction();
-        } else {
-            view.hideMainViewAction();
-        }
-    }
-
-    @Override
     public void personalPhotosSelected() {
-        if (!isContentWithMainAction) {
-            view.showMainViewAction();
-            isContentWithMainAction = true;
-        }
         navigator.navigateToPersonalPhotos();
     }
 
     @Override
     public void appThemeSelected() {
-        if (isContentWithMainAction) {
-            view.hideMainViewAction();
-            isContentWithMainAction = false;
-        }
         navigator.navigateToAppTheme();
     }
 }
