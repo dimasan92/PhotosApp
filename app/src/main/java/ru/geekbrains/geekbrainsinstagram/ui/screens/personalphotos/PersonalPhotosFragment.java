@@ -25,6 +25,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
@@ -42,6 +43,9 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Inject
     ICameraUtils cameraUtils;
+
+    @Inject
+    IActivityUtils activityUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;
@@ -67,6 +71,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
+        activityUtils.setupToolbar(view.findViewById(R.id.personal_photos_toolbar));
 
         presenter.viewIsReady();
         return view;
