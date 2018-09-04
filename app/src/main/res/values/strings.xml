@@ -2,9 +2,7 @@
     <string name="app_name">GeekbrainsInstagram</string>
 
     <string name="appbar_personal_photos_title">Personal photos</string>
-    <string name="appbar_app_theme_title">Personal photos</string>
-
-    <string name="choose_app_theme">Color theme</string>
+    <string name="appbar_app_theme_title">Color theme</string>
 
     <string name="drawer_title">Instagram</string>
     <string name="drawer_subtitle">geekbrains.ru</string>
