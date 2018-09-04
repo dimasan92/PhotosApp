@@ -17,9 +17,10 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
-        ContentDisposer {
+        ContentDisposer, IActivityUtils.EventHandler {
 
     @Inject
     INavigator navigator;
@@ -102,6 +103,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 .releaseFragmentComponent();
     }
 
+    @Override
+    public void setToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        setupDrawerListener(toolbar);
+    }
+
     private void inject() {
         MainApplication.getApp()
                 .getComponentsManager()
@@ -117,33 +124,20 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupView() {
         fab = findViewById(R.id.main_fab);
-        Toolbar toolbar = setupAndGetToolbar();
-        setupDrawer(toolbar);
+        setupDrawer();
     }
 
-    private Toolbar setupAndGetToolbar() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-        return toolbar;
-    }
-
-    private void setupDrawer(Toolbar toolbar) {
-        setupNavigationLayout(toolbar);
-        setupNavigationView();
-    }
-
-    private void setupNavigationLayout(Toolbar toolbar) {
+    private void setupDrawer() {
         drawerLayout = findViewById(R.id.main_navigator_layout);
+        NavigationView navigationView = findViewById(R.id.main_navigator);
+        navigationView.setNavigationItemSelectedListener(getDrawerListener());
+    }
 
+    private void setupDrawerListener(Toolbar toolbar) {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-    }
-
-    private void setupNavigationView() {
-        NavigationView navigationView = findViewById(R.id.main_navigator);
-        navigationView.setNavigationItemSelectedListener(getDrawerListener());
     }
 
     private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
