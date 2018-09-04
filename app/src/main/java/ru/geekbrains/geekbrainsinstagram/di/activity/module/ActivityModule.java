@@ -7,6 +7,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.IMainPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.MainPresenter;
+import ru.geekbrains.geekbrainsinstagram.util.ActivityUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 
 @Module
 public interface ActivityModule {
@@ -14,6 +16,10 @@ public interface ActivityModule {
     @ActivityScope
     @Binds
     INavigator provideNavigator(Navigator navigator);
+
+    @ActivityScope
+    @Binds
+    IActivityUtils provideActivityUtils(ActivityUtils activityUtils);
 
     @ActivityScope
     @Binds
