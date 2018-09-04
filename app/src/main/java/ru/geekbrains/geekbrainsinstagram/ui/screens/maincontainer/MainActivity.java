@@ -26,6 +26,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     INavigator navigator;
 
     @Inject
+    IActivityUtils activityUtils;
+
+    @Inject
     IMainPresenter presenter;
 
     private DrawerLayout drawerLayout;
@@ -42,6 +45,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         setContentView(R.layout.activity_main);
         setupView();
 
+        activityUtils.init(this);
         navigator.init(getSupportFragmentManager(), this);
         presenter.setNavigator(navigator);
 
