@@ -1,17 +1,29 @@
 <resources>
     <string name="app_name">GeekbrainsInstagram</string>
 
-    <string name="appbar_personal_photos_title">Personal photos</string>
-
-    <string name="choose_app_theme">Color theme</string>
+    <string name="appbar_home_title">Main</string>
+    <string name="appbar_favorites_title">Favorites</string>
+    <string name="appbar_profile_title">Profile</string>
+    <string name="appbar_app_theme_title">Color theme</string>
 
     <string name="drawer_title">Instagram</string>
     <string name="drawer_subtitle">geekbrains.ru</string>
 
+    <string-array name="home_tabs">
+        <item>Database</item>
+        <item>Network</item>
+        <item>Camera</item>
+    </string-array>
+
     <string name="nav_main_title">Main</string>
     <string name="nav_settings_title">Settings</string>
-    <string name="nav_personal_photos_item">Personal photos gallery</string>
+    <string name="nav_home_item">Personal photos gallery</string>
+    <string name="nav_favorites_item">Favorites</string>
+    <string name="nav_profile_item">Profile</string>
     <string name="nav_app_theme_item">Application color theme</string>
+    <string name="nav_home_tab_item">Home</string>
+    <string name="nav_favorites_tab_item">Favorites</string>
+    <string name="nav_profile_tab_item">Profile</string>
 
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>

@@ -7,7 +7,11 @@ public interface INavigator {
 
     void init(FragmentManager fragmentManager, ContentDisposer disposer);
 
-    void navigateToPersonalPhotos();
+    void navigateToHome();
+
+    void navigateToFavorites();
+
+    void navigateToProfile();
 
     void navigateToAppTheme();
 }

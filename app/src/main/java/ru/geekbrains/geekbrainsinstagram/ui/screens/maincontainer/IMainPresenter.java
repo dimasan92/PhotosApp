@@ -9,10 +9,6 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
     interface IView extends IBasePresenter.IView {
 
         void setTheme(AppTheme theme);
-
-        void showMainViewAction();
-
-        void hideMainViewAction();
     }
 
     void readyToSetupTheme();
@@ -21,9 +17,11 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewFirstCreated();
 
-    void viewRecreated();
+    void homeSelected();
 
-    void personalPhotosSelected();
+    void favoritesSelected();
+
+    void profileSelected();
 
     void appThemeSelected();
 }

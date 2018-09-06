@@ -7,6 +7,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.IPersonalPhot
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.IAppThemePresenter;
+import ru.geekbrains.geekbrainsinstagram.util.FragmentUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
 
 @Module
 public interface FragmentModule {
@@ -14,6 +16,10 @@ public interface FragmentModule {
     @FragmentScope
     @Binds
     IAppThemePresenter provideAppThemePresenter(AppThemePresenter presenter);
+
+    @FragmentScope
+    @Binds
+    IFragmentUtils provideIFragmentUtils(FragmentUtils fragmentUtils);
 
     @FragmentScope
     @Binds

@@ -1,8 +1,10 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.View;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -15,20 +17,27 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
-        ContentDisposer {
+        ContentDisposer, IActivityUtils.EventHandler {
+
+    private static final String CURRENT_STATE_OF_BOTTOM_NAVIGATION = "current_state_of_bottom_navigation";
+    private int currentState;
 
     @Inject
     INavigator navigator;
 
     @Inject
+    IActivityUtils activityUtils;
+
+    @Inject
     IMainPresenter presenter;
 
     private DrawerLayout drawerLayout;
-    private FloatingActionButton fab;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +50,24 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         setContentView(R.layout.activity_main);
         setupView();
 
+        activityUtils.init(this);
         navigator.init(getSupportFragmentManager(), this);
         presenter.setNavigator(navigator);
 
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
         } else {
-            presenter.viewRecreated();
+            currentState = savedInstanceState.getInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION);
+            System.out.println("!!!!!!!!!" + currentState);
+            adjustBottomNavigation(currentState);
         }
         presenter.viewIsReady();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION, currentState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -86,20 +104,16 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     @Override
-    public void showMainViewAction() {
-        fab.show();
-    }
-
-    @Override
-    public void hideMainViewAction() {
-        fab.hide();
-    }
-
-    @Override
     public void disposeContent() {
         MainApplication.getApp()
                 .getComponentsManager()
                 .releaseFragmentComponent();
+    }
+
+    @Override
+    public void setToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        setupDrawerListener(toolbar);
     }
 
     private void inject() {
@@ -116,48 +130,73 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     private void setupView() {
-        fab = findViewById(R.id.main_fab);
-        Toolbar toolbar = setupAndGetToolbar();
-        setupDrawer(toolbar);
+        setupDrawer();
+        setupBottomNavigation();
     }
 
-    private Toolbar setupAndGetToolbar() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-        return toolbar;
-    }
-
-    private void setupDrawer(Toolbar toolbar) {
-        setupNavigationLayout(toolbar);
-        setupNavigationView();
-    }
-
-    private void setupNavigationLayout(Toolbar toolbar) {
+    private void setupDrawer() {
         drawerLayout = findViewById(R.id.main_navigator_layout);
+        NavigationView navigationView = findViewById(R.id.main_navigator);
+        navigationView.setNavigationItemSelectedListener(getDrawerListener());
+    }
 
+    private void setupDrawerListener(Toolbar toolbar) {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
                 toolbar, R.string.open_drawer, R.string.close_drawer);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    private void setupNavigationView() {
-        NavigationView navigationView = findViewById(R.id.main_navigator);
-        navigationView.setNavigationItemSelectedListener(getDrawerListener());
-    }
-
     private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
         return menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.nav_personal_photos:
-                    presenter.personalPhotosSelected();
+                case R.id.nav_home:
+                    presenter.homeSelected();
+                    adjustBottomNavigation(R.id.bottom_action_home);
+                    break;
+                case R.id.nav_favorites:
+                    presenter.favoritesSelected();
+                    adjustBottomNavigation(R.id.bottom_action_favorites);
+                    break;
+                case R.id.nav_profile:
+                    presenter.profileSelected();
+                    adjustBottomNavigation(R.id.bottom_action_profile);
                     break;
                 case R.id.nav_app_theme:
+                    adjustBottomNavigation(-1);
                     presenter.appThemeSelected();
                     break;
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         };
+    }
+
+    private void adjustBottomNavigation(int state) {
+        currentState = state;
+        if (state == -1) {
+            bottomNavigationView.setVisibility(View.GONE);
+        } else {
+            bottomNavigationView.setSelectedItemId(state);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupBottomNavigation() {
+        bottomNavigationView = findViewById(R.id.main_bottom_navigator);
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.bottom_action_home:
+                    presenter.homeSelected();
+                    return true;
+                case R.id.bottom_action_favorites:
+                    presenter.favoritesSelected();
+                    return true;
+                case R.id.bottom_action_profile:
+                    presenter.profileSelected();
+                    return true;
+            }
+            return false;
+        });
     }
 }

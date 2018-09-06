@@ -43,7 +43,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void viewIsReady() {
-        updatePhotos();
+        uploadPhotos();
     }
 
     @Override
@@ -94,7 +94,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                         throwable -> errorDeletePhoto())));
     }
 
-    private void updatePhotos() {
+    private void uploadPhotos() {
         addDisposable(getPersonalPhotosUseCase.execute()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(photos -> view.addPhotos(mapper.domainToView(photos)),
