@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 import javax.inject.Inject;
@@ -23,6 +24,11 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
     @Inject
     IActivityUtils activityUtils;
 
+    @Inject
+    IFragmentUtils fragmentUtils;
+
+    private FloatingActionButton homeFab;
+
     public static HomeFragment newInstance() {
         return new HomeFragment();
     }
@@ -38,6 +44,7 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        fragmentUtils.init(this);
         activityUtils.setupToolbar(view.findViewById(R.id.home_toolbar));
 
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
@@ -49,14 +56,14 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
         TabLayout tabLayout = view.findViewById(R.id.home_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-
+        homeFab = view.findViewById(R.id.home_fab);
 
         return view;
     }
 
     @Override
     public void setFabListener(View.OnClickListener listener) {
-
+        homeFab.setOnClickListener(listener);
     }
 
     private void inject() {
