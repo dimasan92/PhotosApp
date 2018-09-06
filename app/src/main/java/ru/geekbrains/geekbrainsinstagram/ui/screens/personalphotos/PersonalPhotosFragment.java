@@ -71,7 +71,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
-        activityUtils.setupToolbar(view.findViewById(R.id.personal_photos_toolbar));
+//        activityUtils.setupToolbar(view.findViewById(R.id.personal_photos_toolbar));
 
         presenter.viewIsReady();
         return view;
@@ -81,8 +81,8 @@ public final class PersonalPhotosFragment extends BaseFragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
-        fab.setOnClickListener(v -> presenter.takeAPhotoRequest());
+//        fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
+//        fab.setOnClickListener(v -> presenter.takeAPhotoRequest());
     }
 
     @Override
