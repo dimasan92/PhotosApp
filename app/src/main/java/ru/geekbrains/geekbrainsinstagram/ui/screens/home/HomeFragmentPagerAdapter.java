@@ -4,19 +4,31 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.databasephotos.DatabasePhotosFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.netphotos.NetPhotosFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
 
 public final class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final String[] tabsTitles;
 
-    public HomeFragmentPagerAdapter(FragmentManager fragmentManager, String[] titles) {
+    HomeFragmentPagerAdapter(FragmentManager fragmentManager, String[] titles) {
         super(fragmentManager);
         this.tabsTitles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return null;
+        switch (position) {
+            case 0:
+                return DatabasePhotosFragment.newInstance();
+            case 1:
+                return NetPhotosFragment.newInstance();
+            case 2:
+                return PersonalPhotosFragment.newInstance();
+            default:
+                throw new IllegalArgumentException("Illegal position " + position);
+        }
     }
 
     @Override
@@ -24,10 +36,8 @@ public final class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
         return tabsTitles.length;
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-
-        return super.getPageTitle(position);
+        return tabsTitles[position];
     }
 }
