@@ -6,9 +6,19 @@
     <item android:title="@string/nav_main_title">
         <menu>
             <item
-                android:id="@+id/nav_personal_photos"
-                android:icon="@drawable/ic_photo_camera_black_24dp"
-                android:title="@string/nav_personal_photos_item" />
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_home_black_24dp"
+                android:title="@string/nav_home_item" />
+
+            <item
+                android:id="@+id/nav_favorites"
+                android:icon="@drawable/ic_star_black_24dp"
+                android:title="@string/nav_home_item" />
+
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/ic_person_black_24dp"
+                android:title="@string/nav_home_item" />
         </menu>
     </item>
 
