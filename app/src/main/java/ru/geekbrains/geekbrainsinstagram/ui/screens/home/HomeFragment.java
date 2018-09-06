@@ -55,11 +55,13 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
 
         ViewPager viewPager = view.findViewById(R.id.home_pager);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(createPageChangeListener());
 
         TabLayout tabLayout = view.findViewById(R.id.home_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         homeFab = view.findViewById(R.id.home_fab);
+        homeFab.hide();
         homeLayout = view.findViewById(R.id.home_layout);
 
         return view;
@@ -79,4 +81,30 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
     }
 
+    private ViewPager.OnPageChangeListener createPageChangeListener() {
+        return new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                    case 1:
+                        homeFab.hide();
+                        break;
+                    case 2:
+                        homeFab.show();
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Illegal position " + position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        };
+    }
 }
