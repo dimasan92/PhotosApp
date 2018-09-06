@@ -9,6 +9,7 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.profile.ProfileFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 @ActivityScope
@@ -44,7 +45,7 @@ public final class Navigator implements INavigator {
 
     @Override
     public void navigateToProfile() {
-        open(PROFILE_TAG, FavoritesFragment::newInstance, false);
+        open(PROFILE_TAG, ProfileFragment::newInstance, false);
     }
 
     @Override
