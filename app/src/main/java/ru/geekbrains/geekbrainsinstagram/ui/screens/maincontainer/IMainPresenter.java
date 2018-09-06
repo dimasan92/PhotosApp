@@ -23,7 +23,5 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void profileSelected();
 
-    void personalPhotosSelected();
-
     void appThemeSelected();
 }

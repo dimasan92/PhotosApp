@@ -44,11 +44,6 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
-    public void personalPhotosSelected() {
-        navigator.navigateToHome();
-    }
-
-    @Override
     public void homeSelected() {
         navigator.navigateToHome();
     }

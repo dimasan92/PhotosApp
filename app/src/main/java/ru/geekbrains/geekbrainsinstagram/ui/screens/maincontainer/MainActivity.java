@@ -1,6 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +24,9 @@ import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
         ContentDisposer, IActivityUtils.EventHandler {
 
+    private static final String CURRENT_STATE_OF_BOTTOM_NAVIGATION = "current_state_of_bottom_navigation";
+    private int currentState;
+
     @Inject
     INavigator navigator;
 
@@ -32,6 +37,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     IMainPresenter presenter;
 
     private DrawerLayout drawerLayout;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +56,18 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
+        } else {
+            currentState = savedInstanceState.getInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION);
+            System.out.println("!!!!!!!!!" + currentState);
+            adjustBottomNavigation(currentState);
         }
         presenter.viewIsReady();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION, currentState);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -134,10 +150,20 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
         return menuItem -> {
             switch (menuItem.getItemId()) {
-                case R.id.nav_personal_photos:
-                    presenter.personalPhotosSelected();
+                case R.id.nav_home:
+                    presenter.homeSelected();
+                    adjustBottomNavigation(R.id.bottom_action_home);
+                    break;
+                case R.id.nav_favorites:
+                    presenter.favoritesSelected();
+                    adjustBottomNavigation(R.id.bottom_action_favorites);
+                    break;
+                case R.id.nav_profile:
+                    presenter.profileSelected();
+                    adjustBottomNavigation(R.id.bottom_action_profile);
                     break;
                 case R.id.nav_app_theme:
+                    adjustBottomNavigation(-1);
                     presenter.appThemeSelected();
                     break;
             }
@@ -146,8 +172,18 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         };
     }
 
+    private void adjustBottomNavigation(int state) {
+        currentState = state;
+        if (state == -1) {
+            bottomNavigationView.setVisibility(View.GONE);
+        } else {
+            bottomNavigationView.setSelectedItemId(state);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void setupBottomNavigation() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigator);
+        bottomNavigationView = findViewById(R.id.main_bottom_navigator);
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.bottom_action_home:
