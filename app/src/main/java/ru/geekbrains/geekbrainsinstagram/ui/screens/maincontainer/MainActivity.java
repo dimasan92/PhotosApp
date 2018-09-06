@@ -58,7 +58,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             presenter.viewFirstCreated();
         } else {
             currentState = savedInstanceState.getInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION);
-            System.out.println("!!!!!!!!!" + currentState);
             adjustBottomNavigation(currentState);
         }
         presenter.viewIsReady();
