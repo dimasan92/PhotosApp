@@ -17,6 +17,12 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewFirstCreated();
 
+    void homeSelected();
+
+    void favoritesSelected();
+
+    void profileSelected();
+
     void personalPhotosSelected();
 
     void appThemeSelected();

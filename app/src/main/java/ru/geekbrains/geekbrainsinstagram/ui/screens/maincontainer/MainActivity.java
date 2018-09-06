@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
 
 import android.os.Bundle;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import javax.inject.Inject;
@@ -114,6 +115,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupView() {
         setupDrawer();
+        setupBottomNavigation();
     }
 
     private void setupDrawer() {
@@ -142,5 +144,23 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         };
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.main_bottom_navigator);
+        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.bottom_action_home:
+                    presenter.homeSelected();
+                    return true;
+                case R.id.bottom_action_favorites:
+                    presenter.favoritesSelected();
+                    return true;
+                case R.id.bottom_action_profile:
+                    presenter.profileSelected();
+                    return true;
+            }
+            return false;
+        });
     }
 }

@@ -49,6 +49,21 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
+    public void homeSelected() {
+        navigator.navigateToHome();
+    }
+
+    @Override
+    public void favoritesSelected() {
+        navigator.navigateToFavorites();
+    }
+
+    @Override
+    public void profileSelected() {
+        navigator.navigateToProfile();
+    }
+
+    @Override
     public void appThemeSelected() {
         navigator.navigateToAppTheme();
     }
