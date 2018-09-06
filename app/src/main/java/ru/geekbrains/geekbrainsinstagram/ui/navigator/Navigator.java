@@ -7,13 +7,13 @@ import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 @ActivityScope
 public final class Navigator implements INavigator {
 
-    private static final String PERSONAL_PHOTOS_TAG = "personal_photos_tag";
+    private static final String HOME_TAG = "home_tag";
     private static final String APP_THEME_TAG = "color_chooser_tag";
 
     private FragmentManager fragmentManager;
@@ -30,8 +30,8 @@ public final class Navigator implements INavigator {
     }
 
     @Override
-    public void navigateToPersonalPhotos() {
-        open(PERSONAL_PHOTOS_TAG, PersonalPhotosFragment::newInstance, false);
+    public void navigateToHome() {
+        open(HOME_TAG, HomeFragment::newInstance, false);
     }
 
     @Override
