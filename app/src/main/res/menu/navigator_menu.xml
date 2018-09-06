@@ -8,17 +8,17 @@
             <item
                 android:id="@+id/nav_home"
                 android:icon="@drawable/ic_home_black_24dp"
-                android:title="@string/nav_home_item" />
+                android:title="@string/nav_home_tab_item" />
 
             <item
                 android:id="@+id/nav_favorites"
                 android:icon="@drawable/ic_star_black_24dp"
-                android:title="@string/nav_home_item" />
+                android:title="@string/nav_favorites_item" />
 
             <item
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/ic_person_black_24dp"
-                android:title="@string/nav_home_item" />
+                android:title="@string/nav_profile_item" />
         </menu>
     </item>
 
