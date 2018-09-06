@@ -11,7 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -25,8 +24,8 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
@@ -45,13 +44,12 @@ public final class PersonalPhotosFragment extends BaseFragment
     ICameraUtils cameraUtils;
 
     @Inject
-    IActivityUtils activityUtils;
+    IFragmentUtils fragmentUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;
 
     private PersonalPhotosAdapter adapter;
-    private FloatingActionButton fab;
 
     public static PersonalPhotosFragment newInstance() {
         return new PersonalPhotosFragment();
@@ -71,18 +69,10 @@ public final class PersonalPhotosFragment extends BaseFragment
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
         initRecyclerView(view);
-//        activityUtils.setupToolbar(view.findViewById(R.id.personal_photos_toolbar));
+        fragmentUtils.setFabListener(v -> presenter.takeAPhotoRequest());
 
         presenter.viewIsReady();
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-//        fab = Objects.requireNonNull(getActivity()).findViewById(R.id.main_fab);
-//        fab.setOnClickListener(v -> presenter.takeAPhotoRequest());
     }
 
     @Override
@@ -134,7 +124,7 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Override
     public void showNotifyingMessage(@StringRes int message) {
-        Snackbar.make(fab, message, Snackbar.LENGTH_SHORT).show();
+        fragmentUtils.showNotifyingMessage(message, Snackbar.LENGTH_SHORT);
     }
 
     @Override
