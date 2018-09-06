@@ -9,8 +9,8 @@
     <string name="drawer_subtitle">geekbrains.ru</string>
 
     <string-array name="home_tabs">
-        <item>Network</item>
         <item>Database</item>
+        <item>Network</item>
         <item>Camera</item>
     </string-array>
 
