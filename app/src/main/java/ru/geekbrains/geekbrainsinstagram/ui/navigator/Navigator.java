@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
@@ -14,6 +15,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 public final class Navigator implements INavigator {
 
     private static final String HOME_TAG = "home_tag";
+    private static final String FAVORITES_TAG = "favorites_tag";
+    private static final String PROFILE_TAG = "profile_tag";
     private static final String APP_THEME_TAG = "color_chooser_tag";
 
     private FragmentManager fragmentManager;
@@ -32,6 +35,16 @@ public final class Navigator implements INavigator {
     @Override
     public void navigateToHome() {
         open(HOME_TAG, HomeFragment::newInstance, false);
+    }
+
+    @Override
+    public void navigateToFavorites() {
+        open(FAVORITES_TAG, FavoritesFragment::newInstance, false);
+    }
+
+    @Override
+    public void navigateToProfile() {
+        open(PROFILE_TAG, FavoritesFragment::newInstance, false);
     }
 
     @Override

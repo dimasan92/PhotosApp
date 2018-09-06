@@ -9,5 +9,9 @@ public interface INavigator {
 
     void navigateToHome();
 
+    void navigateToFavorites();
+
+    void navigateToProfile();
+
     void navigateToAppTheme();
 }
