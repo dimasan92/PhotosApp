@@ -5,8 +5,9 @@ import android.view.View;
 import javax.inject.Inject;
 
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 
-@ActivityScope
+@FragmentScope
 public final class FragmentUtils implements IFragmentUtils {
 
     private EventHandler handler;
