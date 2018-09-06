@@ -17,7 +17,9 @@
 
     <string name="nav_main_title">Main</string>
     <string name="nav_settings_title">Settings</string>
-    <string name="nav_personal_photos_item">Personal photos gallery</string>
+    <string name="nav_home_item">Personal photos gallery</string>
+    <string name="nav_favorites_item">Favorites</string>
+    <string name="nav_profile_item">Profile</string>
     <string name="nav_app_theme_item">Application color theme</string>
     <string name="nav_home_tab_item">Home</string>
     <string name="nav_favorites_tab_item">Favorites</string>
