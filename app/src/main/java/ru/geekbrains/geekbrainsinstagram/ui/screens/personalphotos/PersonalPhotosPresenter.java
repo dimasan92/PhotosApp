@@ -21,7 +21,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     private final ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
     private final DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
     private final ICameraUtils cameraUtils;
-    private final IPresentModelPhotosMapper mapper;
+    private final IPresentModelPhotosMapper photosMapper;
 
     private PresentPhotoModel newCameraPhoto;
 
@@ -29,12 +29,12 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     PersonalPhotosPresenter(GetPersonalPhotosUseCase getPersonalPhotosUseCase,
                             ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
                             DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
-                            ICameraUtils cameraUtils, IPresentModelPhotosMapper mapper) {
+                            ICameraUtils cameraUtils, IPresentModelPhotosMapper photosMapper) {
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
         this.changeFavoriteStatusPersonalPhotoUseCase = changeFavoriteStatusPersonalPhotoUseCase;
         this.deletePersonalPhotoUseCase = deletePersonalPhotoUseCase;
         this.cameraUtils = cameraUtils;
-        this.mapper = mapper;
+        this.photosMapper = photosMapper;
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         PresentPhotoModel photoWithChangedState =
                 new PresentPhotoModel(photo.getId(), !photo.isFavorite());
         addDisposable(changeFavoriteStatusPersonalPhotoUseCase
-                .execute(mapper.viewToDomain(photoWithChangedState))
+                .execute(photosMapper.viewToDomain(photoWithChangedState))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> view.updatePhoto(photoWithChangedState),
                         throwable -> errorChangeFavoriteStatus(photo)));
@@ -84,7 +84,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     @Override
     public void deletePhoto(PresentPhotoModel photo) {
         addDisposable((deletePersonalPhotoUseCase
-                .execute(mapper.viewToDomain(photo))
+                .execute(photosMapper.viewToDomain(photo))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> successDeletePhoto(photo),
                         throwable -> errorDeletePhoto())));
@@ -93,7 +93,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     private void uploadPhotos() {
         addDisposable(getPersonalPhotosUseCase.execute()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(photos -> view.addPhotos(mapper.domainToView(photos)),
+                .subscribe(photos -> view.addPhotos(photosMapper.domainToView(photos)),
                         getDefaultErrorHandler()));
     }
 
