@@ -6,7 +6,7 @@ import java.io.File;
 
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
-public interface IFilesUtils {
+public interface IContentUtils {
 
     boolean isCatalogAvailable();
 

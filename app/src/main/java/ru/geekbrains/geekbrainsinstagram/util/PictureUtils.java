@@ -12,10 +12,10 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 @Singleton
 public final class PictureUtils implements IPictureUtils {
 
-    private final IFilesUtils filesUtils;
+    private final IContentUtils filesUtils;
 
     @Inject
-    PictureUtils(IFilesUtils filesUtils) {
+    PictureUtils(IContentUtils filesUtils) {
         this.filesUtils = filesUtils;
     }
 

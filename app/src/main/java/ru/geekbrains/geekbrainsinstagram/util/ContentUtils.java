@@ -12,14 +12,14 @@ import androidx.core.content.FileProvider;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @Singleton
-public final class FilesUtils implements IFilesUtils {
+public final class ContentUtils implements IContentUtils {
 
     private static final String AUTHORITY = "ru.geekbrains.geekbrainsinstagram.fileprovider";
 
     private final Context appContext;
 
     @Inject
-    FilesUtils(Context context) {
+    ContentUtils(Context context) {
         appContext = context;
     }
 
