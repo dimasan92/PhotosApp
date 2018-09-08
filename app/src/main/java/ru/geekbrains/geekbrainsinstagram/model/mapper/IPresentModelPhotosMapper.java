@@ -6,7 +6,7 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
-public interface IPresentModelMapper {
+public interface IPresentModelPhotosMapper {
 
     PhotoModel viewToDomain(final PresentPhotoModel photo);
 

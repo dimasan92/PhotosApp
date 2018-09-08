@@ -10,7 +10,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 
 @FragmentScope
@@ -21,7 +21,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     private final ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
     private final DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
     private final ICameraUtils cameraUtils;
-    private final IPresentModelMapper mapper;
+    private final IPresentModelPhotosMapper mapper;
 
     private PresentPhotoModel newCameraPhoto;
 
@@ -29,7 +29,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     PersonalPhotosPresenter(GetPersonalPhotosUseCase getPersonalPhotosUseCase,
                             ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
                             DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
-                            ICameraUtils cameraUtils, IPresentModelMapper mapper) {
+                            ICameraUtils cameraUtils, IPresentModelPhotosMapper mapper) {
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
         this.changeFavoriteStatusPersonalPhotoUseCase = changeFavoriteStatusPersonalPhotoUseCase;
         this.deletePersonalPhotoUseCase = deletePersonalPhotoUseCase;

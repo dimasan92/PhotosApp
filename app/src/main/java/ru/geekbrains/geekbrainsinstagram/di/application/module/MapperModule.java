@@ -6,8 +6,8 @@ import dagger.Binds;
 import dagger.Module;
 import ru.geekbrains.data.mapper.EntityMapper;
 import ru.geekbrains.data.mapper.IEntityMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.PresentModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.PresentModelPhotosMapper;
 
 @Module
 public interface MapperModule {
@@ -18,5 +18,5 @@ public interface MapperModule {
 
     @Singleton
     @Binds
-    IPresentModelMapper provideModelMapper(PresentModelMapper modelMapper);
+    IPresentModelPhotosMapper provideModelMapper(PresentModelPhotosMapper modelMapper);
 }

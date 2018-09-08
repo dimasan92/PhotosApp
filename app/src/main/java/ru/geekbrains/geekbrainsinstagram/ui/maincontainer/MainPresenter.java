@@ -5,19 +5,19 @@ import javax.inject.Inject;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 
 @ActivityScope
 public final class MainPresenter extends BasePresenter<IMainPresenter.IView> implements IMainPresenter {
 
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
-    private final IPresentModelMapper mapper;
+    private final IPresentModelPhotosMapper mapper;
 
     private INavigator navigator;
 
     @Inject
-    MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IPresentModelMapper mapper) {
+    MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IPresentModelPhotosMapper mapper) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
         this.mapper = mapper;
     }
