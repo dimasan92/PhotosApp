@@ -23,10 +23,6 @@ public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IV
     }
 
     @Override
-    public void viewIsReady() {
-    }
-
-    @Override
     public void redThemeSelected() {
         shouldThemeChange(AppTheme.RED_THEME);
     }

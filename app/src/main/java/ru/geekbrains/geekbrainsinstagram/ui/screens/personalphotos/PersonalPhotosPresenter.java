@@ -38,7 +38,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void viewIsReady() {
+    public void start() {
         uploadPhotos();
     }
 

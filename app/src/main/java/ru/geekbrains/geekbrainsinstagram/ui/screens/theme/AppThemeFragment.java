@@ -18,7 +18,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator
 public final class AppThemeFragment extends BaseFragment implements IAppThemePresenter.IView {
 
     @Inject
-    IActivityToFragmentMediator activityUtils;
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
     IAppThemePresenter presenter;
@@ -27,31 +27,31 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
         return new AppThemeFragment();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        inject();
-        presenter.setView(this);
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_app_theme, container, false);
 
+        inject();
         setListeners(view);
 
-        activityUtils.setupToolbar(view.findViewById(R.id.app_theme_toolbar));
-        presenter.viewIsReady();
+        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.app_theme_toolbar));
 
         return view;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.destroy();
+    public void onStart() {
+        super.onStart();
+        presenter.setView(this);
+        presenter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
     }
 
     @Override

@@ -43,7 +43,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     ICameraUtils cameraUtils;
 
     @Inject
-    IFragmentToFragmentMediator fragmentUtils;
+    IFragmentToFragmentMediator fragmentToFragmentMediator;
 
     @Inject
     IPersonalPhotosPresenter presenter;
@@ -54,30 +54,30 @@ public final class PersonalPhotosFragment extends BaseFragment
         return new PersonalPhotosFragment();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        inject();
-        presenter.setView(this);
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal_photos, container, false);
 
+        inject();
         initRecyclerView(view);
-        fragmentUtils.setFabListener(v -> presenter.takeAPhotoRequest());
+        fragmentToFragmentMediator.setFabListener(v -> presenter.takeAPhotoRequest());
 
-        presenter.viewIsReady();
         return view;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.destroy();
+    public void onStart() {
+        super.onStart();
+        presenter.setView(this);
+        presenter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
     }
 
     @Override
@@ -113,7 +113,7 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Override
     public void showNotifyingMessage(@StringRes int message) {
-        fragmentUtils.showNotifyingMessage(message, Snackbar.LENGTH_SHORT);
+        fragmentToFragmentMediator.showNotifyingMessage(message, Snackbar.LENGTH_SHORT);
     }
 
     @Override

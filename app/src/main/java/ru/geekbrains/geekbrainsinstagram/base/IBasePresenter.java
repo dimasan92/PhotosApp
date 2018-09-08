@@ -8,7 +8,7 @@ public interface IBasePresenter<V extends IBasePresenter.IView> {
 
     void setView(V view);
 
-    void viewIsReady();
+    void start();
 
-    void destroy();
+    void stop();
 }
