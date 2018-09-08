@@ -4,6 +4,7 @@ import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
+import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -15,8 +16,11 @@ public interface PhotosDao {
     @Query("SELECT * FROM FavoritePhotoEntity")
     List<FavoritePhotoEntity> getAllFavoritePhotos();
 
-    @Update(onConflict = OnConflictStrategy.IGNORE)
-    void updatePersonalPhoto(FavoritePhotoEntity entity);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void addFavoritePhoto(FavoritePhotoEntity entity);
+
+    @Delete
+    void deleteFavoritePhoto(FavoritePhotoEntity entity);
 
     @Delete
     void deletePersonalPhoto(FavoritePhotoEntity entity);
