@@ -5,8 +5,8 @@ import dagger.Module;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Navigator;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.IMainPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer.MainPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.maincontainer.IMainPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.maincontainer.MainPresenter;
 import ru.geekbrains.geekbrainsinstagram.util.ActivityUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 

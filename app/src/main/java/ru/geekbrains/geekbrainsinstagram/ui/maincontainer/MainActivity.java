@@ -1,7 +1,6 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;

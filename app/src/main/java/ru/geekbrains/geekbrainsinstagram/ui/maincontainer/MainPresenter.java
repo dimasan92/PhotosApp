@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
 import javax.inject.Inject;
 
