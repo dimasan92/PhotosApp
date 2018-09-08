@@ -2,5 +2,7 @@ package ru.geekbrains.data.util;
 
 public interface IFilesUtils {
 
-    String[] getPersonalPhotosIds();
+    String[] getPhotosIdsFromDevice();
+
+    boolean deletePhotoFromDevice(String photoId);
 }

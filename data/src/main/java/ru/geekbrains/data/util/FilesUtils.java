@@ -19,7 +19,7 @@ public class FilesUtils implements IFilesUtils {
     }
 
     @Override
-    public String[] getPersonalPhotosIds() {
+    public String[] getPhotosIdsFromDevice() {
         File[] files = mainPhotoDirectory.listFiles();
         String[] ids = new String[files.length];
         for (int i = 0; i < files.length; i++) {
@@ -28,7 +28,16 @@ public class FilesUtils implements IFilesUtils {
         return ids;
     }
 
+    @Override
+    public boolean deletePhotoFromDevice(String photoId) {
+        return getFileFromId(photoId).delete();
+    }
+
     private String getIdFromFile(File file) {
         return file.getName().split("_")[1];
+    }
+
+    private File getFileFromId(String id) {
+        return new File(mainPhotoDirectory, "PHOTO_" + id);
     }
 }
