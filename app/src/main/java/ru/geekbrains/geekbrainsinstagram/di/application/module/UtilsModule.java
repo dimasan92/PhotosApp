@@ -8,6 +8,8 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.data.util.FilesUtils;
+import ru.geekbrains.data.util.IFilesUtils;
 import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
@@ -49,4 +51,8 @@ public abstract class UtilsModule {
     @Singleton
     @Binds
     abstract ILayoutUtils provideLayoutUtils(LayoutUtils layoutUtils);
+
+    @Singleton
+    @Binds
+    abstract IFilesUtils provideIFilesUtils(FilesUtils filesUtils);
 }

@@ -4,22 +4,20 @@ import java.util.List;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
-import io.reactivex.Single;
-import ru.geekbrains.data.photos.personalphotos.PersonalPhotoEntity;
+import ru.geekbrains.data.photos.personalphotos.FavoritePhotoEntity;
 
 @Dao
 public interface PhotosDao {
 
-    @Query("SELECT * FROM PersonalPhotoEntity")
-    Single<List<PersonalPhotoEntity>> getAllPersonalPhotos();
+    @Query("SELECT * FROM FavoritePhotoEntity")
+    List<FavoritePhotoEntity> getAllFavoritePhotos();
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    void updatePersonalPhoto(PersonalPhotoEntity entity);
+    void updatePersonalPhoto(FavoritePhotoEntity entity);
 
     @Delete
-    void deletePersonalPhoto(PersonalPhotoEntity entity);
+    void deletePersonalPhoto(FavoritePhotoEntity entity);
 }

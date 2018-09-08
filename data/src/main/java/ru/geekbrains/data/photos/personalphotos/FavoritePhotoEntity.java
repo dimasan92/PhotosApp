@@ -6,7 +6,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity
-public final class PersonalPhotoEntity {
+public final class FavoritePhotoEntity {
 
     @NonNull
     @PrimaryKey
@@ -16,7 +16,7 @@ public final class PersonalPhotoEntity {
     @ColumnInfo(name = "is_favorite")
     private final boolean isFavorite;
 
-    public PersonalPhotoEntity(@NonNull String id, boolean isFavorite) {
+    public FavoritePhotoEntity(@NonNull String id, boolean isFavorite) {
         this.id = id;
         this.isFavorite = isFavorite;
     }
