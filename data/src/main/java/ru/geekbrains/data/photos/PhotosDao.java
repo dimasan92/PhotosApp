@@ -21,7 +21,4 @@ public interface PhotosDao {
 
     @Delete
     void deleteFavoritePhoto(FavoritePhotoEntity entity);
-
-    @Delete
-    void deletePersonalPhoto(FavoritePhotoEntity entity);
 }
