@@ -1,5 +1,6 @@
 package ru.geekbrains.data.photos;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,12 +49,19 @@ public final class PhotosRepository implements IPhotosRepository {
 
     @Override
     public Completable deletePersonalPhoto(PhotoModel photo) {
-        return Completable.fromAction(() -> dao.deletePersonalPhoto(mapper.domainToData(photo)))
-                .subscribeOn(Schedulers.io());
+        return Completable.fromAction(() -> {
+            if (photo.isFavorite()) {
+                dao.deleteFavoritePhoto(mapper.domainToData(photo));
+            }
+            if (filesUtils.deletePhotoFromDevice(photo.getId())) {
+                return;
+            }
+            throw new IOException("Photo is not been deleted");
+        }).subscribeOn(Schedulers.io());
     }
 
     private List<PhotoModel> getPersonalPhotosTask() {
-        String[] photoIds = filesUtils.getPersonalPhotosIds();
+        String[] photoIds = filesUtils.getPhotosIdsFromDevice();
         List<FavoritePhotoEntity> favorites = dao.getAllFavoritePhotos();
 
         List<PhotoModel> list = new ArrayList<>();
