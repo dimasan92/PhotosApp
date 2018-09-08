@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.di.fragment;
+package ru.geekbrains.geekbrainsinstagram.di;
 
 public interface ContentDisposer {
 

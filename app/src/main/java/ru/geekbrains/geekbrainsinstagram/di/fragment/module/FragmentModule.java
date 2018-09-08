@@ -20,8 +20,4 @@ public interface FragmentModule {
     @FragmentScope
     @Binds
     IFragmentToFragmentMediator provideIFragmentUtils(FragmentToFragmentMediator fragmentUtils);
-
-    @FragmentScope
-    @Binds
-    IPersonalPhotosPresenter providePersonalPhotosPresenter(PersonalPhotosPresenter presenter);
 }

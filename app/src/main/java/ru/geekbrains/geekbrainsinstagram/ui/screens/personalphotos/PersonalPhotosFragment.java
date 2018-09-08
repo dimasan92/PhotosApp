@@ -29,7 +29,7 @@ import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
-        implements IPersonalPhotosPresenter.IView, PersonalPhotosAdapter.IPersonalPhotoListener {
+        implements IPersonalPhotosPresenter.IView {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
@@ -92,16 +92,6 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void onFavoritesClick(PresentPhotoModel photo) {
-        presenter.changePhotoFavoriteState(photo);
-    }
-
-    @Override
-    public void onDeleteClick(PresentPhotoModel photo) {
-        presenter.deleteRequest(photo);
-    }
-
-    @Override
     public void addPhotos(List<PresentPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
@@ -151,17 +141,31 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     private void inject() {
-        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+        MainApplication.getApp().getComponentsManager().getChildFragmentComponent().inject(this);
     }
 
     private void initRecyclerView(View layout) {
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
-        adapter = new PersonalPhotosAdapter(pictureUtils, this);
+        adapter = new PersonalPhotosAdapter(pictureUtils, adapterListener());
         photoRecyclerView.setAdapter(adapter);
         if (photoRecyclerView.getItemAnimator() != null) {
             photoRecyclerView.getItemAnimator().setChangeDuration(0);
         }
+    }
+
+    private PersonalPhotosAdapter.IPersonalPhotoListener adapterListener() {
+        return new PersonalPhotosAdapter.IPersonalPhotoListener() {
+            @Override
+            public void onFavoritesClick(PresentPhotoModel photo) {
+                presenter.changePhotoFavoriteState(photo);
+            }
+
+            @Override
+            public void onDeleteClick(PresentPhotoModel photo) {
+                presenter.deleteRequest(photo);
+            }
+        };
     }
 }

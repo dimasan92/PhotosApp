@@ -15,9 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
-import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 

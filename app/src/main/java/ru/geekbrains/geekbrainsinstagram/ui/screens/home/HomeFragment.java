@@ -36,15 +36,11 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
         return new HomeFragment();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        inject();
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        inject();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         fragmentUtils.init(this);

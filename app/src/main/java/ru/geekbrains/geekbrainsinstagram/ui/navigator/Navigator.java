@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
+import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.profile.ProfileFragment;

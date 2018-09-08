@@ -6,6 +6,7 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.ApplicationModule;
+import ru.geekbrains.geekbrainsinstagram.di.childfragment.ChildFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
 public final class ComponentsManager {
@@ -13,6 +14,7 @@ public final class ComponentsManager {
     private ApplicationComponent applicationComponent;
     private ActivityComponent activityComponent;
     private FragmentComponent fragmentComponent;
+    private ChildFragmentComponent childFragmentComponent;
 
     public ComponentsManager(Context context) {
         initApplicationComponent(context);
@@ -38,8 +40,20 @@ public final class ComponentsManager {
         return fragmentComponent;
     }
 
+    public ChildFragmentComponent getChildFragmentComponent() {
+        if (childFragmentComponent == null) {
+            childFragmentComponent = fragmentComponent.getChildFragmentComponent();
+        }
+        return childFragmentComponent;
+    }
+
     public void releaseFragmentComponent() {
         fragmentComponent = null;
+        releaseChildFragmentComponent();
+    }
+
+    public void releaseChildFragmentComponent() {
+        childFragmentComponent = null;
     }
 
     private void initApplicationComponent(Context context) {
