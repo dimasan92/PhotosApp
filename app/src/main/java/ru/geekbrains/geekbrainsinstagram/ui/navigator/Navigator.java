@@ -67,12 +67,12 @@ public final class Navigator implements INavigator {
     @Override
     public void navigateBack() {
         backStackScreens.pop();
-        String currentScreen = backStackScreens.peek();
-        if (currentScreen == null) {
+        String currentScreenTag = backStackScreens.peek();
+        if (currentScreenTag == null) {
             backStackListener.backToScreen(null);
         } else {
-            backStackListener.backToScreen(mapTagToScreen(backStackScreens.peek()));
-            fragmentManager.popBackStack(backStackScreens.peek(), 0);
+            backStackListener.backToScreen(mapTagToScreen(currentScreenTag));
+            fragmentManager.popBackStack(currentScreenTag, 0);
         }
     }
 
