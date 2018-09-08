@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Single;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Singleton
@@ -16,7 +17,7 @@ public final class ShouldChangeThemeUseCase {
         this.settingsRepository = settingsRepository;
     }
 
-    public Single<Boolean> execute(String theme) {
+    public Single<Boolean> execute(AppThemeModel theme) {
         return settingsRepository.shouldChangeTheme(theme);
     }
 }

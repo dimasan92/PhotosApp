@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Single;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.domain.repository.ISettingsRepository;
 
 @Singleton
@@ -16,7 +17,7 @@ public final class GetCurrentThemeUseCase {
         this.settingsRepository = settingsRepository;
     }
 
-    public Single<String> execute() {
+    public Single<AppThemeModel> execute() {
         return settingsRepository.getCurrentTheme();
     }
 }

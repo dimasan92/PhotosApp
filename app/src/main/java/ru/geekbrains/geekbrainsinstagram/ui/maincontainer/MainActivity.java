@@ -15,7 +15,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 
@@ -91,7 +91,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     @Override
-    public void setTheme(AppTheme theme) {
+    public void setTheme(AppThemeModel theme) {
         switch (theme) {
             case RED_THEME:
                 setTheme(R.style.RedAppTheme);

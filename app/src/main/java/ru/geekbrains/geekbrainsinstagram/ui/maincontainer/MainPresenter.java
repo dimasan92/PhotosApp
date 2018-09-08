@@ -12,14 +12,12 @@ import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 public final class MainPresenter extends BasePresenter<IMainPresenter.IView> implements IMainPresenter {
 
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
-    private final IPresentModelPhotosMapper mapper;
 
     private INavigator navigator;
 
     @Inject
-    MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase, IPresentModelPhotosMapper mapper) {
+    MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
-        this.mapper = mapper;
     }
 
     @Override
@@ -30,7 +28,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     @Override
     public void readyToSetupTheme() {
         addDisposable(getCurrentThemeUseCase.execute()
-                .subscribe(theme -> view.setTheme(mapper.domainToView(theme)),
+                .subscribe(theme -> view.setTheme(theme),
                         getDefaultErrorHandler()));
     }
 

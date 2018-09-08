@@ -12,7 +12,7 @@ import ru.geekbrains.data.util.FilesUtils;
 import ru.geekbrains.data.util.IFilesUtils;
 import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ContentUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
@@ -26,7 +26,7 @@ import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 public abstract class UtilsModule {
 
     private static final String INSTAGRAM_PREFERENCES = "instagram_preferences";
-    private static final String DEFAULT_THEME = AppTheme.BLUE_THEME.toString();
+    private static final String DEFAULT_THEME = AppThemeModel.BLUE_THEME.toString();
 
     @Singleton
     @Provides
