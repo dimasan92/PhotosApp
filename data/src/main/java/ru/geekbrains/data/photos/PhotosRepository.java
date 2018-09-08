@@ -25,12 +25,6 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
-    public Completable savePersonalPhoto(PhotoModel photo) {
-        return Completable.fromAction(() -> dao.insertPersonalPhoto(mapper.domainToData(photo)))
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
     public Single<List<PhotoModel>> getPersonalPhotos() {
         return dao.getAllPersonalPhotos()
                 .map(mapper::dataToDomain)
