@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class FilesUtils implements IFilesUtils {
+public final class FilesUtils implements IFilesUtils {
 
     private final File mainPhotoDirectory;
 
