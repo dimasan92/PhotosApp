@@ -5,27 +5,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.viewpager.widget.ViewPager;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragmentPagerAdapter;
-import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 
 public final class FavoritesFragment extends BaseFragment {
 
     @Inject
-    IActivityUtils activityUtils;
+    IActivityToFragmentMediator activityUtils;
 
     public static FavoritesFragment newInstance() {
         return new FavoritesFragment();

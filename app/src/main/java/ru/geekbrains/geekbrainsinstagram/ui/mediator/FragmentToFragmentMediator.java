@@ -1,19 +1,18 @@
-package ru.geekbrains.geekbrainsinstagram.util;
+package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
 import android.view.View;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 
 @FragmentScope
-public final class FragmentUtils implements IFragmentUtils {
+public final class FragmentToFragmentMediator implements IFragmentToFragmentMediator {
 
     private EventHandler handler;
 
     @Inject
-    FragmentUtils() {
+    FragmentToFragmentMediator() {
     }
 
     @Override

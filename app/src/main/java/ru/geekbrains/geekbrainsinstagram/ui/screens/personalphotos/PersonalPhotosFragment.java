@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -25,7 +24,7 @@ import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
@@ -44,7 +43,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     ICameraUtils cameraUtils;
 
     @Inject
-    IFragmentUtils fragmentUtils;
+    IFragmentToFragmentMediator fragmentUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;

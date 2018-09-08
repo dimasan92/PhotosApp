@@ -17,11 +17,11 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
-import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
-        ContentDisposer, IActivityUtils.EventHandler {
+        ContentDisposer, IActivityToFragmentMediator.EventHandler {
 
     private static final String CURRENT_STATE_OF_BOTTOM_NAVIGATION = "current_state_of_bottom_navigation";
     private int currentState;
@@ -30,7 +30,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     INavigator navigator;
 
     @Inject
-    IActivityUtils activityUtils;
+    IActivityToFragmentMediator activityUtils;
 
     @Inject
     IMainPresenter presenter;
