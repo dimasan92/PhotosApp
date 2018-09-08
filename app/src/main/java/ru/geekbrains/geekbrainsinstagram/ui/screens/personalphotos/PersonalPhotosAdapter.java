@@ -63,9 +63,9 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
 
     void updatePhoto(final PresentPhotoModel photo) {
         int position = -1;
-        for (PresentPhotoModel model : photos) {
-            if (model.getId().equals(photo.getId())) {
-                position = photos.indexOf(model);
+        for (int i = 0; i < photos.size(); i++) {
+            if(photos.get(i).getId().equals(photo.getId())){
+                position = i;
                 break;
             }
         }
