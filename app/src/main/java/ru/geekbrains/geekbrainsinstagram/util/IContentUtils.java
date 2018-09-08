@@ -8,7 +8,5 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface IContentUtils {
 
-    boolean isCatalogAvailable();
-
     Uri getUriForPhoto(PresentPhotoModel photo);
 }

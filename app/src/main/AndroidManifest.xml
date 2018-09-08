@@ -29,13 +29,13 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="ru.geekbrains.geekbrainsinstagram.fileprovider"
+            android:authorities="@string/authority"
             android:exported="false"
             android:grantUriPermissions="true">
 
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/photos" />
+                android:resource="@xml/photos_path" />
         </provider>
     </application>
 </manifest>
