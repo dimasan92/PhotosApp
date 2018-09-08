@@ -82,6 +82,7 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        onStart();
         if (requestCode == REQUEST_CAMERA_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 presenter.photoHasTaken();

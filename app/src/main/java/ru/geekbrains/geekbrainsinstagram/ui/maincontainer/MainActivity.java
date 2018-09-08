@@ -36,6 +36,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         inject();
+        presenter.setView(this);
         presenter.readyToSetupTheme();
 
         super.onCreate(savedInstanceState);
@@ -58,7 +59,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.setView(this);
         presenter.start();
     }
 
