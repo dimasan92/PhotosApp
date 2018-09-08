@@ -106,8 +106,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             case PROFILE_PAGE_STATE:
                 bottomNavigationView.setSelectedItemId(R.id.bottom_action_profile);
                 break;
-            case VISIBLE_STATE:
-                break;
             case INVISIBLE_STATE:
                 bottomNavigationView.setVisibility(View.GONE);
                 return;
