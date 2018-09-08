@@ -30,7 +30,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     INavigator navigator;
 
     @Inject
-    IActivityToFragmentMediator activityUtils;
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
     IMainPresenter presenter;
@@ -46,10 +46,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
         setupView();
 
-        activityUtils.init(this);
+        activityToFragmentMediator.init(this);
         navigator.init(getSupportFragmentManager(), this);
         presenter.setNavigator(navigator);
 
@@ -128,6 +127,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     private void setupView() {
+        setContentView(R.layout.activity_main);
         setupDrawer();
         setupBottomNavigation();
     }
