@@ -3,7 +3,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.geekbrains.domain.interactor.photos.ChangeFavoriteStatusPersonalPhotoUseCase;
+import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -18,7 +18,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         implements IPersonalPhotosPresenter {
 
     private final GetPersonalPhotosUseCase getPersonalPhotosUseCase;
-    private final ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase;
+    private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
     private final ICameraUtils cameraUtils;
     private final IPresentModelPhotosMapper photosMapper;
@@ -27,11 +27,11 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Inject
     PersonalPhotosPresenter(GetPersonalPhotosUseCase getPersonalPhotosUseCase,
-                            ChangeFavoriteStatusPersonalPhotoUseCase changeFavoriteStatusPersonalPhotoUseCase,
+                            ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                             DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
                             ICameraUtils cameraUtils, IPresentModelPhotosMapper photosMapper) {
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
-        this.changeFavoriteStatusPersonalPhotoUseCase = changeFavoriteStatusPersonalPhotoUseCase;
+        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.deletePersonalPhotoUseCase = deletePersonalPhotoUseCase;
         this.cameraUtils = cameraUtils;
         this.photosMapper = photosMapper;
@@ -68,7 +68,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     public void changePhotoFavoriteState(PresentPhotoModel photo) {
         PresentPhotoModel photoWithChangedState =
                 new PresentPhotoModel(photo.getId(), !photo.isFavorite());
-        addDisposable(changeFavoriteStatusPersonalPhotoUseCase
+        addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photosMapper.viewToDomain(photoWithChangedState))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> view.updatePhoto(photoWithChangedState),
