@@ -13,20 +13,12 @@ public final class FavoritePhotoEntity {
     @ColumnInfo(name = "id")
     private final String id;
 
-    @ColumnInfo(name = "is_favorite")
-    private final boolean isFavorite;
-
-    public FavoritePhotoEntity(@NonNull String id, boolean isFavorite) {
+    public FavoritePhotoEntity(@NonNull String id) {
         this.id = id;
-        this.isFavorite = isFavorite;
     }
 
     @NonNull
     public String getId() {
         return id;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
     }
 }
