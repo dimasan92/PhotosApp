@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.util.DisplayMetrics;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -11,8 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 @Singleton
 public final class LayoutUtils implements ILayoutUtils {
 
-    private static final int PORTRAIT_SPAN_COUNT = 2;
-    private static final int LANDSCAPE_SPAN_COUNT = 3;
+    private static final int APPROX_WIDTH_IN_DP = 200;
 
     private final Context appContext;
 
@@ -22,11 +22,21 @@ public final class LayoutUtils implements ILayoutUtils {
     }
 
     @Override
-    public GridLayoutManager getAdjustedGridLayoutManager(int orientation) {
-        int spanCount = PORTRAIT_SPAN_COUNT;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            spanCount = LANDSCAPE_SPAN_COUNT;
-        }
-        return new GridLayoutManager(appContext, spanCount);
+    public GridLayoutManager getAdjustedGridLayoutManager() {
+        return new GridLayoutManager(appContext, getSpanCount());
+    }
+
+    @Override
+    public int getPhotoSize() {
+        return getDisplayMetrics().widthPixels / getSpanCount();
+    }
+
+    private int getSpanCount() {
+        float widthInDp = getDisplayMetrics().widthPixels / getDisplayMetrics().density;
+        return (int) (widthInDp / APPROX_WIDTH_IN_DP);
+    }
+
+    private DisplayMetrics getDisplayMetrics() {
+        return appContext.getResources().getDisplayMetrics();
     }
 }

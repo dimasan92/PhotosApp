@@ -4,5 +4,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 public interface ILayoutUtils {
 
-    GridLayoutManager getAdjustedGridLayoutManager(int orientation);
+    GridLayoutManager getAdjustedGridLayoutManager();
+
+    int getPhotoSize();
 }

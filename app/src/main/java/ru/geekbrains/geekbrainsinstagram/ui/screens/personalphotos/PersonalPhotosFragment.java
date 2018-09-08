@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -147,8 +148,7 @@ public final class PersonalPhotosFragment extends BaseFragment
 
     private void initRecyclerView(View layout) {
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
-        photoRecyclerView.setLayoutManager(layoutUtils
-                .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
+        photoRecyclerView.setLayoutManager(layoutUtils.getAdjustedGridLayoutManager());
         adapter = new PersonalPhotosAdapter(pictureUtils, adapterListener());
         photoRecyclerView.setAdapter(adapter);
         if (photoRecyclerView.getItemAnimator() != null) {

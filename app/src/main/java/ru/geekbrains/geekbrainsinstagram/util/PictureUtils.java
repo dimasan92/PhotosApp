@@ -14,16 +14,21 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 public final class PictureUtils implements IPictureUtils {
 
     private final IContentUtils filesUtils;
+    private final ILayoutUtils layoutUtils;
 
     @Inject
-    PictureUtils(IContentUtils filesUtils) {
+    PictureUtils(IContentUtils filesUtils, ILayoutUtils layoutUtils) {
         this.filesUtils = filesUtils;
+        this.layoutUtils = layoutUtils;
     }
 
     @Override
     public void loadImageIntoImageView(PresentPhotoModel photo, ImageView imageView) {
+
+        int photoSize = layoutUtils.getPhotoSize();
         Picasso.get()
                 .load(filesUtils.getUriForPhoto(photo))
+                .resize(photoSize, photoSize)
                 .placeholder(R.drawable.ic_image_black_24dp)
                 .error(R.drawable.ic_error_black_24dp)
                 .into(imageView);

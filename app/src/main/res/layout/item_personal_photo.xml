@@ -9,15 +9,14 @@
     app:cardCornerRadius="@dimen/card_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/iv_personal_photo"
-            android:layout_width="@dimen/photo_gallery_size_image"
-            android:layout_height="@dimen/photo_gallery_size_image"
-            android:layout_margin="@dimen/half_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/gallery_photo_description"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,9 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:src="@drawable/ic_star_filled_24dp"
             android:background="@drawable/ripple"
             android:padding="@dimen/smallest_margin"
+            android:src="@drawable/ic_star_filled_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription" />
