@@ -5,7 +5,6 @@ import android.content.Context;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.ApplicationComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.DaggerApplicationComponent;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.ApplicationModule;
 import ru.geekbrains.geekbrainsinstagram.di.childfragment.ChildFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 
@@ -58,7 +57,7 @@ public final class ComponentsManager {
 
     private void initApplicationComponent(Context context) {
         applicationComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(context))
+                .setContext(context)
                 .build();
     }
 }
