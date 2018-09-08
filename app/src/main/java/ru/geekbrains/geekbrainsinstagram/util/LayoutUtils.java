@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 public final class LayoutUtils implements ILayoutUtils {
 
     private static final int APPROX_WIDTH_IN_DP = 200;
+    private static final int MIN_SPAN_COUNT = 2;
 
     private final Context appContext;
 
@@ -33,7 +34,12 @@ public final class LayoutUtils implements ILayoutUtils {
 
     private int getSpanCount() {
         float widthInDp = getDisplayMetrics().widthPixels / getDisplayMetrics().density;
-        return (int) (widthInDp / APPROX_WIDTH_IN_DP);
+        int spanCount = (int) (widthInDp / APPROX_WIDTH_IN_DP);
+        if (spanCount < MIN_SPAN_COUNT) {
+            return MIN_SPAN_COUNT;
+        } else {
+            return spanCount;
+        }
     }
 
     private DisplayMetrics getDisplayMetrics() {
