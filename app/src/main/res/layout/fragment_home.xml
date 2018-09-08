@@ -18,7 +18,7 @@
             app:expandedTitleGravity="start|bottom"
             app:expandedTitleMarginStart="@dimen/small_margin"
             app:expandedTitleTextAppearance="?attr/textAppearanceHeadline4"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:scrimAnimationDuration="500"
             app:title="@string/appbar_home_title">
 
