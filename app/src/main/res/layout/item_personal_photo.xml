@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/smallest_margin"
@@ -16,10 +17,10 @@
             android:id="@+id/iv_personal_photo"
             android:layout_width="@dimen/photo_gallery_size_image"
             android:layout_height="@dimen/photo_gallery_size_image"
-            android:layout_margin="@dimen/smallest_margin"
+            android:layout_margin="@dimen/half_margin"
             android:contentDescription="@string/gallery_photo_description"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@id/iv_is_photo_favorite"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,19 +31,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_margin="@dimen/half_margin"
-            app:layout_constraintBottom_toBottomOf="@id/iv_is_photo_favorite"
+            app:layout_constraintBottom_toBottomOf="@id/cb_is_photo_favorite"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_is_photo_favorite" />
+            app:layout_constraintTop_toTopOf="@id/cb_is_photo_favorite" />
 
         <ImageView
-            android:id="@+id/iv_is_photo_favorite"
+            android:id="@+id/cb_is_photo_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="@dimen/half_margin"
+            android:src="@drawable/ic_star_filled_24dp"
+            android:background="@drawable/ripple"
+            android:padding="@dimen/smallest_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_personal_photo" />
+            tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
