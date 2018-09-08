@@ -17,11 +17,11 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 
-public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
-        ContentDisposer, IActivityToFragmentMediator.EventHandler {
+public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
 
     @Inject
     INavigator navigator;
@@ -45,8 +45,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         setupView();
 
-        activityToFragmentMediator.init(this);
-        navigator.init(getSupportFragmentManager(), this);
+        activityToFragmentMediator.init(toolbar -> {
+            setSupportActionBar(toolbar);
+            setupDrawerListener(toolbar);
+        });
+        navigator.init(getSupportFragmentManager(),
+                () -> MainApplication.getApp().getComponentsManager().releaseFragmentComponent());
         presenter.setNavigator(navigator);
 
         if (savedInstanceState == null) {
@@ -111,19 +115,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 return;
         }
         bottomNavigationView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void disposeContent() {
-        MainApplication.getApp()
-                .getComponentsManager()
-                .releaseFragmentComponent();
-    }
-
-    @Override
-    public void setToolbar(Toolbar toolbar) {
-        setSupportActionBar(toolbar);
-        setupDrawerListener(toolbar);
     }
 
     private void inject() {
