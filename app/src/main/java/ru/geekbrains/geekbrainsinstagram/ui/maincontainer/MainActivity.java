@@ -23,9 +23,6 @@ import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView,
         ContentDisposer, IActivityToFragmentMediator.EventHandler {
 
-    private static final String CURRENT_STATE_OF_BOTTOM_NAVIGATION = "current_state_of_bottom_navigation";
-    private int currentState;
-
     @Inject
     INavigator navigator;
 
@@ -54,17 +51,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
-        } else {
-            currentState = savedInstanceState.getInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION);
-            adjustBottomNavigation(currentState);
         }
-        presenter.viewIsReady();
-    }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(CURRENT_STATE_OF_BOTTOM_NAVIGATION, currentState);
-        super.onSaveInstanceState(outState);
+        presenter.viewIsReady();
     }
 
     @Override
@@ -81,8 +70,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            presenter.backPressed();
         }
+    }
+
+    @Override
+    public void closeApp() {
+        finish();
     }
 
     @Override
@@ -98,6 +92,27 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 setTheme(R.style.GreenAppTheme);
                 break;
         }
+    }
+
+    @Override
+    public void setMainScreenNavigationState(MainScreenNavigationState state) {
+        switch (state) {
+            case HOME_PAGE_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_home);
+                break;
+            case FAVORITES_PAGE_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_favorites);
+                break;
+            case PROFILE_PAGE_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_profile);
+                break;
+            case VISIBLE_STATE:
+                break;
+            case INVISIBLE_STATE:
+                bottomNavigationView.setVisibility(View.GONE);
+                return;
+        }
+        bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -149,19 +164,15 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         return menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.nav_home:
-                    presenter.homeSelected();
-                    adjustBottomNavigation(R.id.bottom_action_home);
+                    presenter.homeSelected(false);
                     break;
                 case R.id.nav_favorites:
-                    presenter.favoritesSelected();
-                    adjustBottomNavigation(R.id.bottom_action_favorites);
+                    presenter.favoritesSelected(false);
                     break;
                 case R.id.nav_profile:
-                    presenter.profileSelected();
-                    adjustBottomNavigation(R.id.bottom_action_profile);
+                    presenter.profileSelected(false);
                     break;
                 case R.id.nav_app_theme:
-                    adjustBottomNavigation(-1);
                     presenter.appThemeSelected();
                     break;
             }
@@ -170,28 +181,18 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         };
     }
 
-    private void adjustBottomNavigation(int state) {
-        currentState = state;
-        if (state == -1) {
-            bottomNavigationView.setVisibility(View.GONE);
-        } else {
-            bottomNavigationView.setSelectedItemId(state);
-            bottomNavigationView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void setupBottomNavigation() {
         bottomNavigationView = findViewById(R.id.main_bottom_navigator);
         bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.bottom_action_home:
-                    presenter.homeSelected();
+                    presenter.homeSelected(true);
                     return true;
                 case R.id.bottom_action_favorites:
-                    presenter.favoritesSelected();
+                    presenter.favoritesSelected(true);
                     return true;
                 case R.id.bottom_action_profile:
-                    presenter.profileSelected();
+                    presenter.profileSelected(true);
                     return true;
             }
             return false;
