@@ -2,7 +2,6 @@ package ru.geekbrains.data.photos;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -37,9 +36,14 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
-    public Completable changeFavoriteStatusPersonalPhoto(PhotoModel photo) {
-        return Completable.fromAction(() -> dao.updatePersonalPhoto(mapper.domainToData(photo)))
-                .subscribeOn(Schedulers.io());
+    public Completable changeFavoritePhotoStatus(PhotoModel photo) {
+        return Completable.fromAction(() -> {
+            if (photo.isFavorite()) {
+                dao.addFavoritePhoto(mapper.domainToData(photo));
+            } else {
+                dao.deleteFavoritePhoto(mapper.domainToData(photo));
+            }
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override
