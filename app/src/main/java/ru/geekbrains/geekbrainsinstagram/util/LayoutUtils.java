@@ -8,18 +8,23 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import ru.geekbrains.geekbrainsinstagram.R;
 
 @Singleton
 public final class LayoutUtils implements ILayoutUtils {
 
     private static final int APPROX_WIDTH_IN_DP = 200;
     private static final int MIN_SPAN_COUNT = 2;
+    private final int mainLayoutMargin;
+    private final int itemLayoutMargin;
 
     private final Context appContext;
 
     @Inject
     LayoutUtils(Context appContext) {
         this.appContext = appContext;
+        mainLayoutMargin = (int) (appContext.getResources().getDimension(R.dimen.smallest_margin));
+        itemLayoutMargin = (int) (appContext.getResources().getDimension(R.dimen.smallest_margin));
     }
 
     @Override
@@ -29,7 +34,11 @@ public final class LayoutUtils implements ILayoutUtils {
 
     @Override
     public int getPhotoSize() {
-        return getDisplayMetrics().widthPixels / getSpanCount();
+        return (getDisplayMetrics().widthPixels - getFullMargin()) / getSpanCount();
+    }
+
+    private int getFullMargin() {
+        return mainLayoutMargin * 2 + itemLayoutMargin * 2 * getSpanCount();
     }
 
     private int getSpanCount() {
