@@ -18,6 +18,6 @@ public final class ChangeFavoriteStatusPersonalPhotoUseCase {
     }
 
     public Completable execute(PhotoModel photo) {
-        return photosRepository.changeFavoriteStatusPersonalPhoto(photo);
+        return photosRepository.changeFavoritePhotoStatus(photo);
     }
 }
