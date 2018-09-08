@@ -10,7 +10,7 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import ru.geekbrains.data.mapper.IEntityMapper;
+import ru.geekbrains.data.mapper.IEntityPhotosMapper;
 import ru.geekbrains.data.photos.personalphotos.FavoritePhotoEntity;
 import ru.geekbrains.data.util.IFilesUtils;
 import ru.geekbrains.domain.model.PhotoModel;
@@ -20,11 +20,11 @@ import ru.geekbrains.domain.repository.IPhotosRepository;
 public final class PhotosRepository implements IPhotosRepository {
 
     private final PhotosDao dao;
-    private final IEntityMapper mapper;
+    private final IEntityPhotosMapper mapper;
     private final IFilesUtils filesUtils;
 
     @Inject
-    PhotosRepository(PhotosDao dao, IEntityMapper mapper, IFilesUtils filesUtils) {
+    PhotosRepository(PhotosDao dao, IEntityPhotosMapper mapper, IFilesUtils filesUtils) {
         this.dao = dao;
         this.mapper = mapper;
         this.filesUtils = filesUtils;
