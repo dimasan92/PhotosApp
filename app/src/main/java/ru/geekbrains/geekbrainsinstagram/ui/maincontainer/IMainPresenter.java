@@ -21,6 +21,8 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewFirstCreated();
 
+    void viewRecreated();
+
     void backPressed();
 
     void homeSelected(boolean isFromMainPageNavigationMenu);

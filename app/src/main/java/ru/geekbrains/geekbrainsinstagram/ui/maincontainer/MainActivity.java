@@ -53,6 +53,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
+        } else {
+            presenter.viewRecreated();
         }
     }
 
