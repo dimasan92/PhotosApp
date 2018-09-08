@@ -64,7 +64,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     void updatePhoto(final PresentPhotoModel photo) {
         int position = -1;
         for (int i = 0; i < photos.size(); i++) {
-            if(photos.get(i).getId().equals(photo.getId())){
+            if (photos.get(i).getId().equals(photo.getId())) {
                 position = i;
                 break;
             }
@@ -84,7 +84,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {
 
         private final ImageView photoImageView;
-        private final ImageView isFavoritesImageView;
+        private final ImageView isFavoriteImageView;
         private final IPictureUtils pictureUtils;
 
         private PresentPhotoModel photo;
@@ -95,21 +95,21 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             this.pictureUtils = pictureUtils;
 
             photoImageView = itemView.findViewById(R.id.iv_personal_photo);
-            isFavoritesImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
+            isFavoriteImageView = itemView.findViewById(R.id.cb_is_photo_favorite);
 
             itemView.setOnLongClickListener(v -> {
                 personalPhotoListener.onDeleteClick(photo);
                 return true;
             });
 
-            isFavoritesImageView.setOnClickListener((v ->
+            isFavoriteImageView.setOnClickListener((v ->
                     personalPhotoListener.onFavoritesClick(photo)));
         }
 
         void bind(final PresentPhotoModel photo) {
             this.photo = photo;
             pictureUtils.loadImageIntoImageView(photo, photoImageView);
-            isFavoritesImageView.setImageResource(photo.isFavorite() ?
+            isFavoriteImageView.setImageResource(photo.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);
         }
