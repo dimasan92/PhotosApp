@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,9 +29,10 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     private final IPictureUtils pictureUtils;
     private final IPersonalPhotoListener personalPhotoListener;
 
-    private List<PresentPhotoModel> photos = Collections.emptyList();
+    private List<PresentPhotoModel> photos;
 
     PersonalPhotosAdapter(IPictureUtils IPictureUtils, IPersonalPhotoListener listener) {
+        photos = new ArrayList<>();
         this.pictureUtils = IPictureUtils;
         this.personalPhotoListener = listener;
     }

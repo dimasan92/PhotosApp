@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,9 +30,10 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
     private final IPictureUtils pictureUtils;
     private final IFavoriteListener favoriteListener;
 
-    private List<PresentPhotoModel> photos = Collections.emptyList();
+    private List<PresentPhotoModel> photos;
 
     FavoritesAdapter(IPictureUtils IPictureUtils, IFavoriteListener favoriteListener) {
+        photos = new ArrayList<>();
         this.pictureUtils = IPictureUtils;
         this.favoriteListener = favoriteListener;
     }
