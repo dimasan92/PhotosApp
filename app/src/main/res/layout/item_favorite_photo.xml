@@ -30,7 +30,7 @@
             android:layout_gravity="end"
             android:background="@drawable/ripple"
             android:padding="@dimen/smallest_margin"
-            android:src="@drawable/ic_more_vert_black_24dp"
+            android:src="@drawable/ic_more_vert_white_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription" />
