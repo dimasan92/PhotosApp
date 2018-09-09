@@ -47,7 +47,8 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
         activityUtils.setupToolbar(view.findViewById(R.id.home_toolbar));
 
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
-                getResources().getStringArray(R.array.home_tabs));
+                getResources().getStringArray(R.array.home_tabs),
+                () -> MainApplication.getApp().getComponentsManager().releaseChildFragmentComponent());
 
         ViewPager viewPager = view.findViewById(R.id.home_pager);
         viewPager.setAdapter(adapter);

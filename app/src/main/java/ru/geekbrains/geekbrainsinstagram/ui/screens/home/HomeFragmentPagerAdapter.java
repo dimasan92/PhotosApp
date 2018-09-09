@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
+import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.databasephotos.DatabasePhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.netphotos.NetPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhotosFragment;
@@ -11,15 +12,18 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos.PersonalPhoto
 public final class HomeFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private final String[] tabsTitles;
+    private final ContentDisposer disposer;
 
-    HomeFragmentPagerAdapter(FragmentManager fragmentManager, String[] titles) {
+    HomeFragmentPagerAdapter(FragmentManager fragmentManager, String[] titles,
+                             ContentDisposer disposer) {
         super(fragmentManager);
         this.tabsTitles = titles;
+        this.disposer = disposer;
     }
 
     @Override
     public Fragment getItem(int position) {
-        MainApplication.getApp().getComponentsManager().releaseChildFragmentComponent();
+        disposer.disposeContent();
         switch (position) {
             case 0:
                 return DatabasePhotosFragment.newInstance();
