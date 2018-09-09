@@ -10,7 +10,7 @@
         android:id="@+id/photo_details_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/appbar_app_theme_title" />
+        app:title="@string/appbar_app_photo_details_title" />
 
     <ImageView
         android:id="@+id/iv_photo_details"
