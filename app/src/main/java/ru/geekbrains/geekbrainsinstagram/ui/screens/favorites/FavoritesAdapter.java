@@ -104,6 +104,8 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
                         return false;
                 }
             });
+
+            menu.show();
         }
     }
 }
