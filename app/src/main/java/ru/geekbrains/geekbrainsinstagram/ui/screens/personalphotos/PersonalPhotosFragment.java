@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -25,12 +24,12 @@ import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
-        implements IPersonalPhotosPresenter.IView, PersonalPhotosAdapter.IPersonalPhotoListener {
+        implements IPersonalPhotosPresenter.IView {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
@@ -44,7 +43,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     ICameraUtils cameraUtils;
 
     @Inject
-    IFragmentUtils fragmentUtils;
+    IFragmentToFragmentMediator fragmentUtils;
 
     @Inject
     IPersonalPhotosPresenter presenter;
@@ -90,16 +89,6 @@ public final class PersonalPhotosFragment extends BaseFragment
                 presenter.photoHasCanceled();
             }
         }
-    }
-
-    @Override
-    public void onFavoritesClick(PresentPhotoModel photo) {
-        presenter.changePhotoFavoriteState(photo);
-    }
-
-    @Override
-    public void onDeleteClick(PresentPhotoModel photo) {
-        presenter.deleteRequest(photo);
     }
 
     @Override
@@ -152,17 +141,31 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     private void inject() {
-        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+        MainApplication.getApp().getComponentsManager().getChildFragmentComponent().inject(this);
     }
 
     private void initRecyclerView(View layout) {
         RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils
                 .getAdjustedGridLayoutManager(getResources().getConfiguration().orientation));
-        adapter = new PersonalPhotosAdapter(pictureUtils, this);
+        adapter = new PersonalPhotosAdapter(pictureUtils, adapterListener());
         photoRecyclerView.setAdapter(adapter);
         if (photoRecyclerView.getItemAnimator() != null) {
             photoRecyclerView.getItemAnimator().setChangeDuration(0);
         }
+    }
+
+    private PersonalPhotosAdapter.IPersonalPhotoListener adapterListener() {
+        return new PersonalPhotosAdapter.IPersonalPhotoListener() {
+            @Override
+            public void onFavoritesClick(PresentPhotoModel photo) {
+                presenter.changePhotoFavoriteState(photo);
+            }
+
+            @Override
+            public void onDeleteClick(PresentPhotoModel photo) {
+                presenter.deleteRequest(photo);
+            }
+        };
     }
 }

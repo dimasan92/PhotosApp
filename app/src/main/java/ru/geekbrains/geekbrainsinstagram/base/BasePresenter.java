@@ -16,6 +16,10 @@ public abstract class BasePresenter<V extends IBasePresenter.IView> implements I
     }
 
     @Override
+    public void viewIsReady() {
+    }
+
+    @Override
     public void destroy() {
         viewDestroyed();
         clearSubscriptions();

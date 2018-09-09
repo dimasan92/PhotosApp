@@ -12,12 +12,12 @@ import androidx.annotation.Nullable;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 
 public final class ProfileFragment extends BaseFragment {
 
     @Inject
-    IActivityUtils activityUtils;
+    IActivityToFragmentMediator activityUtils;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();

@@ -6,9 +6,7 @@ import java.io.File;
 
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
-public interface IFilesUtils {
-
-    boolean isCatalogAvailable();
+public interface IContentUtils {
 
     Uri getUriForPhoto(PresentPhotoModel photo);
 }

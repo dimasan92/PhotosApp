@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
@@ -9,6 +9,10 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
     interface IView extends IBasePresenter.IView {
 
         void setTheme(AppTheme theme);
+
+        void setMainScreenNavigationState(MainScreenNavigationState state);
+
+        void closeApp();
     }
 
     void readyToSetupTheme();
@@ -17,11 +21,13 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewFirstCreated();
 
-    void homeSelected();
+    void backPressed();
 
-    void favoritesSelected();
+    void homeSelected(boolean isFromMainPageNavigationMenu);
 
-    void profileSelected();
+    void favoritesSelected(boolean isFromMainPageNavigationMenu);
+
+    void profileSelected(boolean isFromMainPageNavigationMenu);
 
     void appThemeSelected();
 }

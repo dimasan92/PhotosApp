@@ -1,10 +1,10 @@
-package ru.geekbrains.geekbrainsinstagram.util;
+package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
 import android.view.View;
 
 import androidx.annotation.StringRes;
 
-public interface IFragmentUtils {
+public interface IFragmentToFragmentMediator {
 
     interface EventHandler {
 

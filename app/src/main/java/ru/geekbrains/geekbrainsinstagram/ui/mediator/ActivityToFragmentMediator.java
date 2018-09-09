@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.util;
+package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
 import javax.inject.Inject;
 
@@ -6,12 +6,12 @@ import androidx.appcompat.widget.Toolbar;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 
 @ActivityScope
-public final class ActivityUtils implements IActivityUtils {
+public final class ActivityToFragmentMediator implements IActivityToFragmentMediator {
 
     private EventHandler handler;
 
     @Inject
-    public ActivityUtils() {
+    public ActivityToFragmentMediator() {
     }
 
     @Override

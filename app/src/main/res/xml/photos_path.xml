@@ -1,0 +1,5 @@
+<paths>
+    <external-path
+        name="camera_photos"
+        path="Android/data/ru.geekbrains.geekbrainsinstagram/files/Pictures" />
+</paths>

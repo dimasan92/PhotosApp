@@ -1,8 +1,8 @@
-package ru.geekbrains.geekbrainsinstagram.util;
+package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
 import androidx.appcompat.widget.Toolbar;
 
-public interface IActivityUtils {
+public interface IActivityToFragmentMediator {
 
     interface EventHandler {
 

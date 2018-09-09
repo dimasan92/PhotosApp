@@ -19,19 +19,19 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 public final class CameraUtils implements ICameraUtils {
 
     private final Context appContext;
-    private final IFilesUtils filesUtils;
+    private final IContentUtils contentUtils;
 
     @Inject
-    CameraUtils(Context appContext, IFilesUtils filesUtils) {
+    CameraUtils(Context appContext, IContentUtils contentUtils) {
         this.appContext = appContext;
-        this.filesUtils = filesUtils;
+        this.contentUtils = contentUtils;
     }
 
     @Override
     public Intent getAdjustedCameraInvoker(PresentPhotoModel photoModel) throws LaunchCameraException {
         final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (isCameraAvailable(cameraIntent) || filesUtils.isCatalogAvailable()) {
-            Uri uri = filesUtils.getUriForPhoto(photoModel);
+        if (isCameraAvailable(cameraIntent)) {
+            Uri uri = contentUtils.getUriForPhoto(photoModel);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             setCameraPermissions(cameraIntent, uri);
             return cameraIntent;
@@ -41,7 +41,7 @@ public final class CameraUtils implements ICameraUtils {
 
     @Override
     public void revokeCameraPermissions(PresentPhotoModel photoModel) {
-        appContext.revokeUriPermission(filesUtils.getUriForPhoto(photoModel),
+        appContext.revokeUriPermission(contentUtils.getUriForPhoto(photoModel),
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 

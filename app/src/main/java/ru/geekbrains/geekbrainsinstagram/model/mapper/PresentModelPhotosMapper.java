@@ -11,10 +11,10 @@ import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @Singleton
-public final class PresentModelMapper implements IPresentModelMapper {
+public final class PresentModelPhotosMapper implements IPresentModelPhotosMapper {
 
     @Inject
-    PresentModelMapper() {
+    PresentModelPhotosMapper() {
     }
 
     @Override

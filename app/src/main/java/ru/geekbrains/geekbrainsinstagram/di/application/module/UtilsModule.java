@@ -8,13 +8,15 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.data.util.FilesUtils;
+import ru.geekbrains.data.util.IFilesUtils;
 import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
 import ru.geekbrains.geekbrainsinstagram.model.AppTheme;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.FilesUtils;
+import ru.geekbrains.geekbrainsinstagram.util.ContentUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFilesUtils;
+import ru.geekbrains.geekbrainsinstagram.util.IContentUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
@@ -36,7 +38,7 @@ public abstract class UtilsModule {
 
     @Singleton
     @Binds
-    abstract IFilesUtils provideFilesUtils(FilesUtils filesUtils);
+    abstract IContentUtils provideContentUtils(ContentUtils filesContentUtils);
 
     @Singleton
     @Binds
@@ -49,4 +51,8 @@ public abstract class UtilsModule {
     @Singleton
     @Binds
     abstract ILayoutUtils provideLayoutUtils(LayoutUtils layoutUtils);
+
+    @Singleton
+    @Binds
+    abstract IFilesUtils provideIFilesUtils(FilesUtils filesUtils);
 }

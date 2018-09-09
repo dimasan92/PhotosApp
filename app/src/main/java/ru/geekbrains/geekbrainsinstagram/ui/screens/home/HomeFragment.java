@@ -18,16 +18,16 @@ import androidx.viewpager.widget.ViewPager;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.util.IActivityUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IFragmentUtils;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
 
-public final class HomeFragment extends BaseFragment implements IFragmentUtils.EventHandler {
-
-    @Inject
-    IActivityUtils activityUtils;
+public final class HomeFragment extends BaseFragment implements IFragmentToFragmentMediator.EventHandler {
 
     @Inject
-    IFragmentUtils fragmentUtils;
+    IActivityToFragmentMediator activityUtils;
+
+    @Inject
+    IFragmentToFragmentMediator fragmentUtils;
 
     private FloatingActionButton homeFab;
     private CoordinatorLayout homeLayout;
@@ -36,15 +36,11 @@ public final class HomeFragment extends BaseFragment implements IFragmentUtils.E
         return new HomeFragment();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        inject();
-    }
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        inject();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         fragmentUtils.init(this);

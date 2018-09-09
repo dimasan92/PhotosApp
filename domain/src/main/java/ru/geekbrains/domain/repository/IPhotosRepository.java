@@ -8,11 +8,9 @@ import ru.geekbrains.domain.model.PhotoModel;
 
 public interface IPhotosRepository {
 
-    Completable savePersonalPhoto(PhotoModel photo);
-
     Single<List<PhotoModel>> getPersonalPhotos();
 
-    Completable changeFavoriteStatusPersonalPhoto(PhotoModel photo);
+    Completable changeFavoritePhotoStatus(PhotoModel photo);
 
     Completable deletePersonalPhoto(PhotoModel photo);
 }

@@ -38,7 +38,6 @@
     <string name="error_add_photo_to_favorites_message">Cannot add photo to favorites</string>
     <string name="error_delete_photo_from_favorites_message">Cannot delete photo from favorites</string>
     <string name="error_delete_photo_message">Cannot delete photo</string>
-    <string name="error_add_photo_message">Cannot save photo</string>
 
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
 
