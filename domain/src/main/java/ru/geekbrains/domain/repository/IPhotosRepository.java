@@ -10,6 +10,8 @@ public interface IPhotosRepository {
 
     Single<List<PhotoModel>> getPersonalPhotos();
 
+    Single<List<PhotoModel>> getFavorites();
+
     Completable changeFavoritePhotoStatus(PhotoModel photo);
 
     Completable deletePhoto(PhotoModel photo);
