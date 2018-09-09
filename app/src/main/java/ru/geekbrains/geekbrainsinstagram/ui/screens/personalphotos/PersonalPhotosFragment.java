@@ -146,7 +146,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     private void initRecyclerView(View layout) {
-        RecyclerView photoRecyclerView = layout.findViewById(R.id.personal_photos_recycler_view);
+        RecyclerView photoRecyclerView = layout.findViewById(R.id.photos_recycler_view);
         photoRecyclerView.setLayoutManager(layoutUtils.getAdjustedGridLayoutManager());
         adapter = new PersonalPhotosAdapter(pictureUtils, adapterListener());
         photoRecyclerView.setAdapter(adapter);
