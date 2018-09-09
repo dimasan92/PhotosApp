@@ -44,6 +44,7 @@
     <string name="error_delete_photo_from_favorites_message">Cannot delete photo from favorites</string>
     <string name="error_delete_photo_from_device_message">Cannot delete photo from device</string>
     <string name="error_delete_photo_message">Cannot delete photo</string>
+    <string name="error_load_photo_message">Cannot load photo</string>
 
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
 
