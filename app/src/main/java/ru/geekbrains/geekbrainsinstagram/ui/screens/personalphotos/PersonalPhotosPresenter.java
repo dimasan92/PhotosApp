@@ -4,7 +4,7 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
-import ru.geekbrains.domain.interactor.photos.DeletePersonalPhotoUseCase;
+import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
@@ -19,7 +19,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     private final GetPersonalPhotosUseCase getPersonalPhotosUseCase;
     private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
-    private final DeletePersonalPhotoUseCase deletePersonalPhotoUseCase;
+    private final DeletePhotoUseCase deletePhotoUseCase;
     private final ICameraUtils cameraUtils;
     private final IPresentModelPhotosMapper photosMapper;
 
@@ -28,11 +28,11 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     @Inject
     PersonalPhotosPresenter(GetPersonalPhotosUseCase getPersonalPhotosUseCase,
                             ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
-                            DeletePersonalPhotoUseCase deletePersonalPhotoUseCase,
+                            DeletePhotoUseCase deletePhotoUseCase,
                             ICameraUtils cameraUtils, IPresentModelPhotosMapper photosMapper) {
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
         this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
-        this.deletePersonalPhotoUseCase = deletePersonalPhotoUseCase;
+        this.deletePhotoUseCase = deletePhotoUseCase;
         this.cameraUtils = cameraUtils;
         this.photosMapper = photosMapper;
     }
@@ -83,7 +83,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void deletePhoto(PresentPhotoModel photo) {
-        addDisposable((deletePersonalPhotoUseCase
+        addDisposable((deletePhotoUseCase
                 .execute(photosMapper.viewToDomain(photo))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> successDeletePhoto(photo),

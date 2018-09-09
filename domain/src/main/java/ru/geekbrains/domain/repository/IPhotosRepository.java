@@ -12,5 +12,5 @@ public interface IPhotosRepository {
 
     Completable changeFavoritePhotoStatus(PhotoModel photo);
 
-    Completable deletePersonalPhoto(PhotoModel photo);
+    Completable deletePhoto(PhotoModel photo);
 }

@@ -48,7 +48,7 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
-    public Completable deletePersonalPhoto(PhotoModel photo) {
+    public Completable deletePhoto(PhotoModel photo) {
         return Completable.fromAction(() -> {
             if (photo.isFavorite()) {
                 dao.deleteFavoritePhoto(mapper.domainToData(photo));

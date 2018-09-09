@@ -8,16 +8,16 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.IPhotosRepository;
 
 @Singleton
-public final class DeletePersonalPhotoUseCase {
+public final class DeletePhotoUseCase {
 
     private final IPhotosRepository repository;
 
     @Inject
-    DeletePersonalPhotoUseCase(IPhotosRepository repository) {
+    DeletePhotoUseCase(IPhotosRepository repository) {
         this.repository = repository;
     }
 
     public Completable execute(PhotoModel photo) {
-        return repository.deletePersonalPhoto(photo);
+        return repository.deletePhoto(photo);
     }
 }
