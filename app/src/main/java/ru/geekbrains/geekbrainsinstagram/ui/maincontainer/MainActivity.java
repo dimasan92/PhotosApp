@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -33,13 +34,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
-    private boolean isViewSetted;
+    private boolean isViewSet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         inject();
         presenter.setView(this);
-        isViewSetted = true;
+        isViewSet = true;
         presenter.readyToSetupTheme();
 
         super.onCreate(savedInstanceState);
@@ -61,9 +62,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onStart() {
         super.onStart();
-        if (!isViewSetted) {
+        if (!isViewSet) {
             presenter.setView(this);
-            isViewSetted = true;
+            isViewSet = true;
         }
         presenter.start();
     }
@@ -72,7 +73,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     protected void onStop() {
         super.onStop();
         presenter.stop();
-        isViewSetted = false;
+        isViewSet = false;
     }
 
     @Override
@@ -152,6 +153,10 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private void setupDrawer() {
         drawerLayout = findViewById(R.id.main_navigator_layout);
+        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setFillAfter(true);
+        animation.setDuration(500);
+        drawerLayout.startAnimation(animation);
         NavigationView navigationView = findViewById(R.id.main_navigator);
         navigationView.setNavigationItemSelectedListener(getDrawerListener());
     }
