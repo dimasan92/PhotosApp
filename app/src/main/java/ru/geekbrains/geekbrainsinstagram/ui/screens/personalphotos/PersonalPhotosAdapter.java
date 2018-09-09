@@ -21,6 +21,8 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         void onFavoritesClick(PresentPhotoModel photo);
 
         void onDeleteClick(PresentPhotoModel photo);
+
+        void onDetailsClick(PresentPhotoModel photo);
     }
 
     private final IPictureUtils pictureUtils;
@@ -100,6 +102,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             this.pictureUtils = pictureUtils;
 
             photoImageView = itemView.findViewById(R.id.iv_personal_photo);
+            photoImageView.setOnClickListener(v -> personalPhotoListener.onDetailsClick(photo));
 
             isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
             isFavoriteImageView.setOnClickListener((v ->
