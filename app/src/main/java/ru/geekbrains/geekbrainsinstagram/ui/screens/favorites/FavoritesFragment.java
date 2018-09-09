@@ -17,24 +17,18 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator
 public final class FavoritesFragment extends BaseFragment {
 
     @Inject
-    IActivityToFragmentMediator activityUtils;
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     public static FavoritesFragment newInstance() {
         return new FavoritesFragment();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        inject();
     }
 
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
-
-        activityUtils.setupToolbar(view.findViewById(R.id.favorites_toolbar));
+        inject();
+        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.favorites_toolbar));
 
         return view;
     }
