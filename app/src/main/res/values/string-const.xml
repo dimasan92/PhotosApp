@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="authority">ru.geekbrains.geekbrainsinstagram.fileprovider</string>
+    <string name="custom_fab_behaviour">ru.geekbrains.geekbrainsinstagram.ui.common.CustomFabBehavior</string>
 </resources>
