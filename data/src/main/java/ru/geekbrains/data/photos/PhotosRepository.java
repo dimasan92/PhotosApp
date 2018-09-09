@@ -37,6 +37,13 @@ public final class PhotosRepository implements IPhotosRepository {
     }
 
     @Override
+    public Single<List<PhotoModel>> getFavorites() {
+        return Single.fromCallable(dao::getAllFavorites)
+                .map(mapper::dataToDomain)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
     public Completable changeFavoritePhotoStatus(PhotoModel photo) {
         return Completable.fromAction(() -> {
             if (photo.isFavorite()) {
@@ -62,7 +69,7 @@ public final class PhotosRepository implements IPhotosRepository {
 
     private List<PhotoModel> getPersonalPhotosTask() {
         String[] photoIds = filesUtils.getPhotosIdsFromDevice();
-        List<FavoritePhotoEntity> favorites = dao.getAllFavoritePhotos();
+        List<FavoritePhotoEntity> favorites = dao.getAllFavorites();
 
         List<PhotoModel> list = new ArrayList<>();
 
