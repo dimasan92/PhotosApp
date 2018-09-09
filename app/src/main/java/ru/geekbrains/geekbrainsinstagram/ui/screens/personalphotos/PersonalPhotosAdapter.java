@@ -62,13 +62,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     }
 
     void updatePhoto(final PresentPhotoModel photo) {
-        int position = -1;
-        for (int i = 0; i < photos.size(); i++) {
-            if (photos.get(i).getId().equals(photo.getId())) {
-                position = i;
-                break;
-            }
-        }
+        int position = searchItemPosition(photo);
         if (position == -1) {
             return;
         }
@@ -79,6 +73,17 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
     void deletePhoto(final PresentPhotoModel photo) {
         notifyItemRemoved(photos.indexOf(photo));
         photos.remove(photo);
+    }
+
+    private int searchItemPosition(final PresentPhotoModel photo) {
+        int position = -1;
+        for (int i = 0; i < photos.size(); i++) {
+            if (photos.get(i).getId().equals(photo.getId())) {
+                position = i;
+                break;
+            }
+        }
+        return position;
     }
 
     static final class PersonalPhotoHolder extends RecyclerView.ViewHolder {
@@ -95,7 +100,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             this.pictureUtils = pictureUtils;
 
             photoImageView = itemView.findViewById(R.id.iv_personal_photo);
-            isFavoriteImageView = itemView.findViewById(R.id.cb_is_photo_favorite);
+            isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
 
             itemView.setOnLongClickListener(v -> {
                 personalPhotoListener.onDeleteClick(photo);
