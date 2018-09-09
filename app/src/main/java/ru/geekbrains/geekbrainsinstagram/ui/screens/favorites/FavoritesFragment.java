@@ -57,6 +57,19 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        presenter.setView(this);
+        presenter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
+    }
+
+    @Override
     public void addPhotos(List<PresentPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
