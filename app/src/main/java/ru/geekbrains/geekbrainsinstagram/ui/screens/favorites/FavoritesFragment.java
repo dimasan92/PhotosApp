@@ -5,10 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -18,7 +23,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
-public final class FavoritesFragment extends BaseFragment {
+public final class FavoritesFragment extends BaseFragment implements IFavoritesPresenter.IView {
 
     @Inject
     ILayoutUtils layoutUtils;
@@ -28,6 +33,9 @@ public final class FavoritesFragment extends BaseFragment {
 
     @Inject
     IActivityToFragmentMediator activityToFragmentMediator;
+
+    @Inject
+    IFavoritesPresenter presenter;
 
     private FavoritesAdapter adapter;
 
@@ -48,6 +56,24 @@ public final class FavoritesFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void addPhotos(List<PresentPhotoModel> photos) {
+        adapter.updatePhotos(photos);
+    }
+
+    @Override
+    public void deletePhoto(PresentPhotoModel photo) {
+        adapter.deletePhoto(photo);
+    }
+
+    @Override
+    public void showNotifyingMessage(@StringRes int messageId) {
+        if (getView() == null) {
+            return;
+        }
+        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
+    }
+
     private void inject() {
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
     }
@@ -63,12 +89,12 @@ public final class FavoritesFragment extends BaseFragment {
         return new FavoritesAdapter.IFavoriteListener() {
             @Override
             public void onDeleteFromFavoritesClick(PresentPhotoModel photo) {
-
+                presenter.deletePhotoFromFavorites(photo);
             }
 
             @Override
             public void onDeleteFromDeviceClick(PresentPhotoModel photo) {
-
+                presenter.deletePhotoFromDevice(photo);
             }
         };
     }
