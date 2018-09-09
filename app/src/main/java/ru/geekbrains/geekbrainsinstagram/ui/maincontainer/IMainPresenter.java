@@ -2,6 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.domain.model.AppThemeModel;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 
 public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
@@ -13,6 +14,8 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
         void setMainScreenNavigationState(MainScreenNavigationState state);
 
         void closeApp();
+
+        void lockDrawer(boolean isLock);
     }
 
     void readyToSetupTheme();
@@ -32,4 +35,6 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
     void profileSelected(boolean isFromMainPageNavigationMenu);
 
     void appThemeSelected();
+
+    void openFullSizePhoto(PresentPhotoModel photo);
 }

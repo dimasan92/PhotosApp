@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
@@ -39,6 +40,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
         currentScreen = Screen.HOME_SCREEN;
         navigator.navigateToHome();
         navigator.setupBackStackListener(backStackListener());
+        navigator.setupDrawerUnlockListener(() -> view.lockDrawer(false));
     }
 
     @Override
@@ -85,6 +87,14 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
         view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         currentScreen = Screen.APP_THEME_SCREEN;
         navigator.navigateToAppTheme();
+    }
+
+    @Override
+    public void openFullSizePhoto(PresentPhotoModel photo) {
+        currentScreen = Screen.PHOTO_DETAILS_SCREEN;
+        view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
+        view.lockDrawer(true);
+        navigator.navigateToPhotoDetails(photo.getId());
     }
 
     private INavigator.BackStackListener backStackListener() {

@@ -133,6 +133,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         bottomNavigationView.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void lockDrawer(boolean isLock) {
+        drawerLayout.setDrawerLockMode(isLock ?
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED :
+                DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
     private void inject() {
         MainApplication.getApp()
                 .getComponentsManager()
@@ -223,7 +230,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
             @Override
             public void openFullSizePhoto(PresentPhotoModel photo) {
-
+                presenter.openFullSizePhoto(photo);
             }
         };
     }
