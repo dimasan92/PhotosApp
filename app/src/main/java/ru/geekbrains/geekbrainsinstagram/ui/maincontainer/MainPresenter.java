@@ -45,7 +45,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void viewRecreated() {
-        if (currentScreen == Screen.APP_THEME_SCREEN) {
+        if (currentScreen == Screen.APP_THEME_SCREEN || currentScreen == Screen.PHOTO_DETAILS_SCREEN) {
             view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         }
     }
