@@ -6,5 +6,10 @@ public interface IPhotoDetailsPresenter extends IBasePresenter<IPhotoDetailsPres
 
     interface IView extends IBasePresenter.IView {
 
+        void loadPhoto();
+
+        void showNotifyingMessage(int messageId);
     }
+
+    void start(String photoId);
 }

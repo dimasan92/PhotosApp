@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
@@ -51,13 +54,30 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     public void onStart() {
         super.onStart();
         presenter.setView(this);
-        presenter.start();
+        if (getArguments() == null) {
+            presenter.start();
+        } else {
+            presenter.start(getArguments().getString(PHOTO_ID_KEY));
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         presenter.stop();
+    }
+
+    @Override
+    public void loadPhoto() {
+
+    }
+
+    @Override
+    public void showNotifyingMessage(@StringRes int messageId) {
+        if (getView() == null) {
+            return;
+        }
+        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
     }
 
     private void inject() {
