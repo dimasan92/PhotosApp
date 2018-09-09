@@ -6,5 +6,5 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface IPictureUtils {
 
-    void loadImageIntoImageView(PresentPhotoModel photoModel, ImageView imageView);
+    void loadImageIntoImageViewGrid(PresentPhotoModel photoModel, ImageView imageView);
 }

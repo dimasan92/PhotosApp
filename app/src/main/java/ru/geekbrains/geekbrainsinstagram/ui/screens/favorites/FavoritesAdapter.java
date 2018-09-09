@@ -85,7 +85,7 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
 
         void bind(final PresentPhotoModel photo) {
             this.photo = photo;
-            pictureUtils.loadImageIntoImageView(photo, photoImageView);
+            pictureUtils.loadImageIntoImageViewGrid(photo, photoImageView);
         }
 
         private void showMoreMenu(View view) {

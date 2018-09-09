@@ -111,7 +111,7 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
 
         void bind(final PresentPhotoModel photo) {
             this.photo = photo;
-            pictureUtils.loadImageIntoImageView(photo, photoImageView);
+            pictureUtils.loadImageIntoImageViewGrid(photo, photoImageView);
             isFavoriteImageView.setImageResource(photo.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);

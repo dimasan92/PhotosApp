@@ -23,7 +23,7 @@ public final class PictureUtils implements IPictureUtils {
     }
 
     @Override
-    public void loadImageIntoImageView(PresentPhotoModel photo, ImageView imageView) {
+    public void loadImageIntoImageViewGrid(PresentPhotoModel photo, ImageView imageView) {
 
         int photoSize = layoutUtils.getPhotoSize();
         Picasso.get()
