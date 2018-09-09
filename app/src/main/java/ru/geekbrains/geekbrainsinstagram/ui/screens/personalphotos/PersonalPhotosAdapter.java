@@ -100,15 +100,13 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             this.pictureUtils = pictureUtils;
 
             photoImageView = itemView.findViewById(R.id.iv_personal_photo);
+
             isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
-
-            itemView.setOnLongClickListener(v -> {
-                personalPhotoListener.onDeleteClick(photo);
-                return true;
-            });
-
             isFavoriteImageView.setOnClickListener((v ->
                     personalPhotoListener.onFavoritesClick(photo)));
+
+            ImageView deleteImageView = itemView.findViewById(R.id.iv_delete_favorite);
+            deleteImageView.setOnClickListener(v -> personalPhotoListener.onDeleteClick(photo));
         }
 
         void bind(final PresentPhotoModel photo) {
