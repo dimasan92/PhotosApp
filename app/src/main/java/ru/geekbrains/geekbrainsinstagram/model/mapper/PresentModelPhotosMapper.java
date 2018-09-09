@@ -18,8 +18,13 @@ public final class PresentModelPhotosMapper implements IPresentModelPhotosMapper
     }
 
     @Override
-    public PhotoModel viewToDomain(PresentPhotoModel photoModel) {
-        return new PhotoModel(photoModel.getId(), photoModel.isFavorite());
+    public PhotoModel viewToDomain(PresentPhotoModel photo) {
+        return new PhotoModel(photo.getId(), photo.isFavorite());
+    }
+
+    @Override
+    public PhotoModel viewToDomainWithFavoriteChange(PresentPhotoModel photo) {
+        return new PhotoModel(photo.getId(), !photo.isFavorite());
     }
 
     @Override
