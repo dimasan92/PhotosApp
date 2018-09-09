@@ -56,10 +56,7 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
 
     @Override
     public void applyTheme() {
-        if (getActivity() == null) {
-            return;
-        }
-        getActivity().recreate();
+        activityToFragmentMediator.themeChanged();
     }
 
     private void inject() {

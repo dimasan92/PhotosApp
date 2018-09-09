@@ -13,9 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.domain.model.AppThemeModel;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 
@@ -32,21 +33,20 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
+    private boolean isViewSetted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         inject();
         presenter.setView(this);
+        isViewSetted = true;
         presenter.readyToSetupTheme();
 
         super.onCreate(savedInstanceState);
 
         setupView();
 
-        activityToFragmentMediator.init(toolbar -> {
-            setSupportActionBar(toolbar);
-            setupDrawerListener(toolbar);
-        });
+        activityToFragmentMediator.init(getMediatorHandler());
         navigator.init(getSupportFragmentManager(),
                 () -> MainApplication.getApp().getComponentsManager().releaseFragmentComponent());
         presenter.setNavigator(navigator);
@@ -61,6 +61,10 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Override
     protected void onStart() {
         super.onStart();
+        if (!isViewSetted) {
+            presenter.setView(this);
+            isViewSetted = true;
+        }
         presenter.start();
     }
 
@@ -68,6 +72,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     protected void onStop() {
         super.onStop();
         presenter.stop();
+        isViewSetted = false;
     }
 
     @Override
@@ -195,5 +200,20 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             }
             return false;
         });
+    }
+
+    private ActivityToFragmentMediator.EventHandler getMediatorHandler() {
+        return new ActivityToFragmentMediator.EventHandler() {
+            @Override
+            public void setToolbar(Toolbar toolbar) {
+                setSupportActionBar(toolbar);
+                setupDrawerListener(toolbar);
+            }
+
+            @Override
+            public void recreate() {
+                MainActivity.this.recreate();
+            }
+        };
     }
 }

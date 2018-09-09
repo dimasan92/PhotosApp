@@ -11,7 +11,7 @@ public final class ActivityToFragmentMediator implements IActivityToFragmentMedi
     private EventHandler handler;
 
     @Inject
-    public ActivityToFragmentMediator() {
+    ActivityToFragmentMediator() {
     }
 
     @Override
@@ -22,5 +22,10 @@ public final class ActivityToFragmentMediator implements IActivityToFragmentMedi
     @Override
     public void setupToolbar(Toolbar toolbar) {
         handler.setToolbar(toolbar);
+    }
+
+    @Override
+    public void themeChanged() {
+        handler.recreate();
     }
 }

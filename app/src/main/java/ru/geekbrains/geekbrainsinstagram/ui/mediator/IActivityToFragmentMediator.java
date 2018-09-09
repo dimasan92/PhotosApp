@@ -7,9 +7,13 @@ public interface IActivityToFragmentMediator {
     interface EventHandler {
 
         void setToolbar(Toolbar toolbar);
+
+        void recreate();
     }
 
     void init(EventHandler handler);
 
     void setupToolbar(Toolbar toolbar);
+
+    void themeChanged();
 }
