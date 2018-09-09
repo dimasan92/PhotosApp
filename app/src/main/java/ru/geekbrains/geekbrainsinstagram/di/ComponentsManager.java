@@ -34,14 +34,14 @@ public final class ComponentsManager {
 
     public FragmentComponent getFragmentComponent() {
         if (fragmentComponent == null) {
-            fragmentComponent = activityComponent.getFragmentComponent();
+            fragmentComponent = getActivityComponent().getFragmentComponent();
         }
         return fragmentComponent;
     }
 
     public ChildFragmentComponent getChildFragmentComponent() {
         if (childFragmentComponent == null) {
-            childFragmentComponent = fragmentComponent.getChildFragmentComponent();
+            childFragmentComponent = getFragmentComponent().getChildFragmentComponent();
         }
         return childFragmentComponent;
     }
