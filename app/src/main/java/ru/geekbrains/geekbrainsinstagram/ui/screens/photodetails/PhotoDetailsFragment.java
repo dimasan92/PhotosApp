@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import javax.inject.Inject;
 
@@ -12,13 +13,14 @@ import androidx.annotation.Nullable;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 
 public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDetailsPresenter.IView {
 
     private static final String PHOTO_ID_KEY = "photo_id_key";
 
-//    @Inject
-//    ActivityToFragmentMediator activityToFragmentMediator;
+    @Inject
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
     IPhotoDetailsPresenter presenter;
@@ -39,11 +41,9 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
 
         inject();
 
-//
-//        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.single_photo_toolbar));
-//
-//        ImageView imageView = view.findViewById(R.id.iv_single_photo);
-//        imageView.setImageResource(R.drawable.toolbar);
+        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.photo_details_toolbar));
+        ImageView imageView = view.findViewById(R.id.iv_photo_details);
+
         return view;
     }
 
