@@ -25,6 +25,9 @@
     <string name="nav_favorites_tab_item">Favorites</string>
     <string name="nav_profile_tab_item">Profile</string>
 
+    <string name="delete_from_favorites_action">Delete from favorites</string>
+    <string name="delete_from_device_action">Delete from device</string>
+
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
 
