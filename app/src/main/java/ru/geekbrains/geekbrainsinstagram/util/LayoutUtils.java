@@ -1,7 +1,6 @@
 package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 import javax.inject.Inject;
@@ -29,19 +28,19 @@ public final class LayoutUtils implements ILayoutUtils {
 
     @Override
     public GridLayoutManager getAdjustedGridLayoutManager() {
-        return new GridLayoutManager(appContext, getSpanCount());
+        return new GridLayoutManager(appContext, getSpanCountGrid());
     }
 
     @Override
-    public int getPhotoSize() {
-        return (getDisplayMetrics().widthPixels - getFullMargin()) / getSpanCount();
+    public int getPhotoSizeGrid() {
+        return (getDisplayMetrics().widthPixels - getFullMarginGrid()) / getSpanCountGrid();
     }
 
-    private int getFullMargin() {
-        return mainLayoutMargin * 2 + itemLayoutMargin * 2 * getSpanCount();
+    private int getFullMarginGrid() {
+        return mainLayoutMargin * 2 + itemLayoutMargin * 2 * getSpanCountGrid();
     }
 
-    private int getSpanCount() {
+    private int getSpanCountGrid() {
         float widthInDp = getDisplayMetrics().widthPixels / getDisplayMetrics().density;
         int spanCount = (int) (widthInDp / APPROX_WIDTH_IN_DP);
         if (spanCount < MIN_SPAN_COUNT) {

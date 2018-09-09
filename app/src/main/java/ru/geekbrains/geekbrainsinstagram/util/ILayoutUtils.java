@@ -6,5 +6,5 @@ public interface ILayoutUtils {
 
     GridLayoutManager getAdjustedGridLayoutManager();
 
-    int getPhotoSize();
+    int getPhotoSizeGrid();
 }

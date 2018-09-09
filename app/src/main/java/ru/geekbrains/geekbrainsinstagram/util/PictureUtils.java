@@ -25,10 +25,19 @@ public final class PictureUtils implements IPictureUtils {
     @Override
     public void loadImageIntoImageViewGrid(PresentPhotoModel photo, ImageView imageView) {
 
-        int photoSize = layoutUtils.getPhotoSize();
+        int photoSize = layoutUtils.getPhotoSizeGrid();
         Picasso.get()
                 .load(filesUtils.getUriForPhoto(photo))
                 .resize(photoSize, photoSize)
+                .placeholder(R.drawable.ic_image_black_24dp)
+                .error(R.drawable.ic_error_black_24dp)
+                .into(imageView);
+    }
+
+    @Override
+    public void loadImageIntoImageViewFull(PresentPhotoModel photo, ImageView imageView) {
+        Picasso.get()
+                .load(filesUtils.getUriForPhoto(photo))
                 .placeholder(R.drawable.ic_image_black_24dp)
                 .error(R.drawable.ic_error_black_24dp)
                 .into(imageView);
