@@ -17,12 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
+import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
@@ -137,7 +136,7 @@ public final class PersonalPhotosFragment extends BaseFragment
         try {
             Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(photo);
             startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
-        } catch (LaunchCameraException e) {
+        } catch (CameraCannotLaunchException e) {
             presenter.cameraCannotLaunch();
         }
     }

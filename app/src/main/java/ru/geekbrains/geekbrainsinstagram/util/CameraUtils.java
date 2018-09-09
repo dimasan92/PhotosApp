@@ -12,7 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.geekbrains.geekbrainsinstagram.exception.LaunchCameraException;
+import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @Singleton
@@ -28,7 +28,7 @@ public final class CameraUtils implements ICameraUtils {
     }
 
     @Override
-    public Intent getAdjustedCameraInvoker(PresentPhotoModel photoModel) throws LaunchCameraException {
+    public Intent getAdjustedCameraInvoker(PresentPhotoModel photoModel) throws CameraCannotLaunchException {
         final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (isCameraAvailable(cameraIntent)) {
             Uri uri = contentUtils.getUriForPhoto(photoModel);
@@ -36,7 +36,7 @@ public final class CameraUtils implements ICameraUtils {
             setCameraPermissions(cameraIntent, uri);
             return cameraIntent;
         }
-        throw new LaunchCameraException();
+        throw new CameraCannotLaunchException();
     }
 
     @Override
