@@ -51,7 +51,6 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
 
         inject();
 
-        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.photo_details_toolbar));
         mainImageView = view.findViewById(R.id.iv_photo_details);
 
         return view;
