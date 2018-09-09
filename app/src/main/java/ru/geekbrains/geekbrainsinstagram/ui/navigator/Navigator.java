@@ -10,8 +10,10 @@ import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.photodetails.PhotoDetailsFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.profile.ProfileFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
@@ -22,11 +24,13 @@ public final class Navigator implements INavigator {
     private static final String FAVORITES_TAG = "favorites_tag";
     private static final String PROFILE_TAG = "profile_tag";
     private static final String APP_THEME_TAG = "color_chooser_tag";
+    private static final String PHOTO_DETAILS_TAG = "photo_details_tag";
 
     private FragmentManager fragmentManager;
     private ContentDisposer disposer;
     private Deque<String> backStackScreens;
     private BackStackListener backStackListener;
+    private DrawerUnlockListener drawerUnlockListener;
 
     @Inject
     Navigator() {
@@ -42,6 +46,11 @@ public final class Navigator implements INavigator {
     @Override
     public void setupBackStackListener(BackStackListener backStackListener) {
         this.backStackListener = backStackListener;
+    }
+
+    @Override
+    public void setupDrawerUnlockListener(DrawerUnlockListener drawerUnlockListener) {
+        this.drawerUnlockListener = drawerUnlockListener;
     }
 
     @Override
@@ -65,8 +74,15 @@ public final class Navigator implements INavigator {
     }
 
     @Override
+    public void navigateToPhotoDetails(String photoId) {
+        openWithoutSaveState(PHOTO_DETAILS_TAG, () -> PhotoDetailsFragment.newInstance(photoId));
+    }
+
+    @Override
     public void navigateBack() {
-        backStackScreens.pop();
+        if (Screen.PHOTO_DETAILS_SCREEN == mapTagToScreen(backStackScreens.pop())) {
+            drawerUnlockListener.drawerUnlock();
+        }
         String currentScreenTag = backStackScreens.peek();
         if (currentScreenTag == null) {
             backStackListener.backToScreen(null);
@@ -85,6 +101,15 @@ public final class Navigator implements INavigator {
         disposer.disposeContent();
         fragmentManager.beginTransaction()
                 .replace(R.id.main_fragment_container, fragment, tag)
+                .addToBackStack(tag)
+                .commit();
+    }
+
+    private void openWithoutSaveState(String tag, FragmentSupplier fragmentSupplier) {
+        addToBackStack(tag);
+        disposer.disposeContent();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_container, fragmentSupplier.supplyFragment())
                 .addToBackStack(tag)
                 .commit();
     }
@@ -112,6 +137,8 @@ public final class Navigator implements INavigator {
                 return Screen.PROFILE_SCREEN;
             case APP_THEME_TAG:
                 return Screen.APP_THEME_SCREEN;
+            case PHOTO_DETAILS_TAG:
+                return Screen.PHOTO_DETAILS_SCREEN;
             default:
                 throw new IllegalArgumentException("Wrong tag");
         }
