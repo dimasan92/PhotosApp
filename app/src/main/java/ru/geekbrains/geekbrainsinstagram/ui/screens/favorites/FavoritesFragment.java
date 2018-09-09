@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -51,7 +52,9 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
 
         inject();
         initRecyclerView(view);
-        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.favorites_toolbar));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.appbar_favorites_title);
+        activityToFragmentMediator.setupToolbar(toolbar);
 
         return view;
     }

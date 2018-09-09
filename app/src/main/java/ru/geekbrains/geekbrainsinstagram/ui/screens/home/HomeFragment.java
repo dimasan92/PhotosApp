@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
@@ -24,10 +25,10 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator
 public final class HomeFragment extends BaseFragment implements IFragmentToFragmentMediator.EventHandler {
 
     @Inject
-    IActivityToFragmentMediator activityUtils;
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
-    IFragmentToFragmentMediator fragmentUtils;
+    IFragmentToFragmentMediator fragmentToFragmentMediator;
 
     private FloatingActionButton homeFab;
     private CoordinatorLayout homeLayout;
@@ -43,8 +44,10 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
         inject();
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        fragmentUtils.init(this);
-        activityUtils.setupToolbar(view.findViewById(R.id.home_toolbar));
+        fragmentToFragmentMediator.init(this);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.appbar_home_title);
+        activityToFragmentMediator.setupToolbar(toolbar);
 
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
                 getResources().getStringArray(R.array.home_tabs),

@@ -9,6 +9,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
@@ -17,7 +18,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator
 public final class ProfileFragment extends BaseFragment {
 
     @Inject
-    IActivityToFragmentMediator activityUtils;
+    IActivityToFragmentMediator activityToFragmentMediator;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -34,7 +35,9 @@ public final class ProfileFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        activityUtils.setupToolbar(view.findViewById(R.id.profile_toolbar));
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.appbar_profile_title);
+        activityToFragmentMediator.setupToolbar(toolbar);
 
         return view;
     }

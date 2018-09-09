@@ -48,4 +48,5 @@
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
 
     <string name="gallery_photo_description">Photo</string>
+    <string name="toolbar_photo_description">Toolbar</string>
 </resources>
