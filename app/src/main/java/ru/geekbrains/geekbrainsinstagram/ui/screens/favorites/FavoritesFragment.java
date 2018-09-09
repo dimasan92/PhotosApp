@@ -112,6 +112,11 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
             public void onDeleteFromDeviceClick(PresentPhotoModel photo) {
                 presenter.deletePhotoFromDevice(photo);
             }
+
+            @Override
+            public void onDetailsClick(PresentPhotoModel photo) {
+                activityToFragmentMediator.openFullSizePhoto(photo);
+            }
         };
     }
 }

@@ -22,6 +22,8 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
         void onDeleteFromFavoritesClick(PresentPhotoModel photo);
 
         void onDeleteFromDeviceClick(PresentPhotoModel photo);
+
+        void onDetailsClick(PresentPhotoModel photo);
     }
 
     private final IPictureUtils pictureUtils;
@@ -66,7 +68,6 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
 
         private final ImageView photoImageView;
         private final ImageView moreImageView;
-        private final IFavoriteListener favoriteListener;
         private final IPictureUtils pictureUtils;
 
         private PresentPhotoModel photo;
@@ -75,12 +76,12 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
                         IFavoriteListener favoriteListener) {
             super(itemView);
             this.pictureUtils = pictureUtils;
-            this.favoriteListener = favoriteListener;
 
             photoImageView = itemView.findViewById(R.id.iv_favorite_photo);
-            moreImageView = itemView.findViewById(R.id.iv_more_menu);
+            photoImageView.setOnClickListener(v -> favoriteListener.onDetailsClick(photo));
 
-            moreImageView.setOnClickListener(this::showMoreMenu);
+            moreImageView = itemView.findViewById(R.id.iv_more_menu);
+            moreImageView.setOnClickListener(v -> showMoreMenu(v, favoriteListener));
         }
 
         void bind(final PresentPhotoModel photo) {
@@ -88,17 +89,17 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
             pictureUtils.loadImageIntoImageViewGrid(photo, photoImageView);
         }
 
-        private void showMoreMenu(View view) {
+        private void showMoreMenu(View view, IFavoriteListener listener) {
             PopupMenu menu = new PopupMenu(view.getContext(), view);
             menu.inflate(R.menu.more_favorite_menu);
 
             menu.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.delete_from_favorites_action:
-                        favoriteListener.onDeleteFromFavoritesClick(photo);
+                        listener.onDeleteFromFavoritesClick(photo);
                         return true;
                     case R.id.delete_from_device_action:
-                        favoriteListener.onDeleteFromDeviceClick(photo);
+                        listener.onDeleteFromDeviceClick(photo);
                         return true;
                     default:
                         return false;
