@@ -16,7 +16,9 @@ import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
+import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
 public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDetailsPresenter.IView {
 
@@ -26,7 +28,12 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
+    IPictureUtils pictureUtils;
+
+    @Inject
     IPhotoDetailsPresenter presenter;
+
+    private ImageView mainImageView;
 
     public static PhotoDetailsFragment newInstance(String photoId) {
         PhotoDetailsFragment fragment = new PhotoDetailsFragment();
@@ -45,7 +52,7 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
         inject();
 
         activityToFragmentMediator.setupToolbar(view.findViewById(R.id.photo_details_toolbar));
-        ImageView imageView = view.findViewById(R.id.iv_photo_details);
+        mainImageView = view.findViewById(R.id.iv_photo_details);
 
         return view;
     }
@@ -68,8 +75,8 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     }
 
     @Override
-    public void loadPhoto() {
-
+    public void loadPhoto(PresentPhotoModel photo) {
+        pictureUtils.loadImageIntoImageViewFull(photo, mainImageView);
     }
 
     @Override

@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @FragmentScope
 public final class PhotoDetailsPresenter extends BasePresenter<IPhotoDetailsPresenter.IView>
@@ -21,6 +22,7 @@ public final class PhotoDetailsPresenter extends BasePresenter<IPhotoDetailsPres
 
     @Override
     public void start(String photoId) {
-
+        PresentPhotoModel photo = new PresentPhotoModel(photoId);
+        view.loadPhoto(photo);
     }
 }
