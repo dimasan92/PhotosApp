@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GeekbrainsInstagram</string>
 
-    <string name="appbar_home_title">Main</string>
+    <string name="appbar_home_title">Home</string>
     <string name="appbar_favorites_title">Favorites</string>
     <string name="appbar_profile_title">Profile</string>
     <string name="appbar_app_theme_title">Color theme</string>
