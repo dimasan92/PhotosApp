@@ -19,5 +19,5 @@ public interface FragmentModule {
 
     @FragmentScope
     @Binds
-    IFragmentToFragmentMediator provideIFragmentUtils(FragmentToFragmentMediator fragmentUtils);
+    IFragmentToFragmentMediator provideIFragmentToFragmentMediator(FragmentToFragmentMediator fragmentUtils);
 }
