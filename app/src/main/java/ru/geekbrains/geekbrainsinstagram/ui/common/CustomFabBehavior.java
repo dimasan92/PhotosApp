@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 
-public class CustomFabBehavior extends FloatingActionButton.Behavior {
+public final class CustomFabBehavior extends FloatingActionButton.Behavior {
     public CustomFabBehavior() {
     }
 
