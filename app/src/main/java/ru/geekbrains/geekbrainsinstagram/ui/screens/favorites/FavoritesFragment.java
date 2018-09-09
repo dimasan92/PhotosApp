@@ -25,7 +25,8 @@ public final class FavoritesFragment extends BaseFragment {
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         inject();
         activityToFragmentMediator.setupToolbar(view.findViewById(R.id.favorites_toolbar));
