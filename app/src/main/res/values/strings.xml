@@ -36,10 +36,12 @@
     <string name="btn_green_theme">Green Theme</string>
 
     <string name="photo_successfully_added_message">Photo successfully added</string>
-    <string name="photo_successfully_deleted_message">Photo successfully deleted</string>
+    <string name="photo_successfully_deleted_from_favorites_message">Photo successfully deleted from favorites</string>
+    <string name="photo_successfully_deleted_from_device_message">Photo successfully deleted from device</string>
     <string name="error_take_photo_message">Cannot open the camera</string>
     <string name="error_add_photo_to_favorites_message">Cannot add photo to favorites</string>
     <string name="error_delete_photo_from_favorites_message">Cannot delete photo from favorites</string>
+    <string name="error_delete_photo_from_device_message">Cannot delete photo from device</string>
     <string name="error_delete_photo_message">Cannot delete photo</string>
 
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
