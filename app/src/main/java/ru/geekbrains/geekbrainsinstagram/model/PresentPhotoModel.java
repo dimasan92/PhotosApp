@@ -13,6 +13,11 @@ public final class PresentPhotoModel {
         this.isFavorite = false;
     }
 
+    public PresentPhotoModel(String id) {
+        this.id = id;
+        isFavorite = false;
+    }
+
     public PresentPhotoModel(final String id, boolean isFavorite) {
         this.id = id;
         this.isFavorite = isFavorite;
