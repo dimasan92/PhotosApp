@@ -4,6 +4,7 @@ import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
+import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @ActivityScope
 public final class ActivityToFragmentMediator implements IActivityToFragmentMediator {
@@ -27,5 +28,10 @@ public final class ActivityToFragmentMediator implements IActivityToFragmentMedi
     @Override
     public void themeChanged() {
         handler.recreate();
+    }
+
+    @Override
+    public void openFullSizePhoto(PresentPhotoModel photo) {
+        handler.openFullSizePhoto(photo);
     }
 }
