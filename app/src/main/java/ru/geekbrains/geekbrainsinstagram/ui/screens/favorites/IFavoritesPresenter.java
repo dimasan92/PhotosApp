@@ -14,7 +14,7 @@ public interface IFavoritesPresenter extends IBasePresenter<IFavoritesPresenter.
 
         void deletePhoto(PresentPhotoModel photo);
 
-        void showNotifyingMessage(@StringRes int message);
+        void showNotifyingMessage(int messageId);
     }
 
     void deletePhotoFromFavorites(PresentPhotoModel photo);
