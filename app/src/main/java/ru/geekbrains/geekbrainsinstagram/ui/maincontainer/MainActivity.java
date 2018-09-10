@@ -21,8 +21,11 @@ import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
 
 public final class MainActivity extends AppCompatActivity implements IMainPresenter.IView {
+
+    private static final String CURRENT_SCREEN = "current_screen";
 
     @Inject
     INavigator navigator;
@@ -36,6 +39,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
     private boolean isViewSet;
+    private Screen currentScreen;
+    private Screen.Mapper screenMapper = new Screen.Mapper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +61,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         if (savedInstanceState == null) {
             presenter.viewFirstCreated();
         } else {
-            presenter.viewRecreated();
+            currentScreen = screenMapper.getScreen(savedInstanceState.getString(CURRENT_SCREEN));
+            presenter.viewRecreated(currentScreen);
         }
     }
 
@@ -86,6 +92,12 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(CURRENT_SCREEN, screenMapper.mapScreen(currentScreen));
+    }
+
+    @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -112,6 +124,11 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                 setTheme(R.style.GreenAppTheme);
                 break;
         }
+    }
+
+    @Override
+    public void setCurrentScreen(Screen screen) {
+        currentScreen = screen;
     }
 
     @Override

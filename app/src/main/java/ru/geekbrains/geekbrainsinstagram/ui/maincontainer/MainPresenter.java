@@ -15,7 +15,6 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
 
     private INavigator navigator;
-    private Screen currentScreen;
 
     @Inject
     MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
@@ -36,14 +35,14 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void viewFirstCreated() {
-        currentScreen = Screen.HOME_SCREEN;
+        view.setCurrentScreen(Screen.HOME_SCREEN);
         navigator.navigateToHome();
         navigator.setupBackStackListener(backStackListener());
         navigator.setupDrawerUnlockListener(() -> view.lockDrawer(false));
     }
 
     @Override
-    public void viewRecreated() {
+    public void viewRecreated(Screen currentScreen) {
         if (currentScreen == Screen.APP_THEME_SCREEN || currentScreen == Screen.PHOTO_DETAILS_SCREEN) {
             view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         }
@@ -59,7 +58,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
         if (!isFromMainPageNavigationMenu) {
             view.setMainScreenNavigationState(MainScreenNavigationState.HOME_PAGE_STATE);
         }
-        currentScreen = Screen.HOME_SCREEN;
+        view.setCurrentScreen(Screen.HOME_SCREEN);
         navigator.navigateToHome();
     }
 
@@ -68,7 +67,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
         if (!isFromMainPageNavigationMenu) {
             view.setMainScreenNavigationState(MainScreenNavigationState.FAVORITES_PAGE_STATE);
         }
-        currentScreen = Screen.FAVORITES_SCREEN;
+        view.setCurrentScreen(Screen.FAVORITES_SCREEN);
         navigator.navigateToFavorites();
     }
 
@@ -77,20 +76,20 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
         if (!isFromMainPageNavigationMenu) {
             view.setMainScreenNavigationState(MainScreenNavigationState.PROFILE_PAGE_STATE);
         }
-        currentScreen = Screen.PROFILE_SCREEN;
+        view.setCurrentScreen(Screen.PROFILE_SCREEN);
         navigator.navigateToProfile();
     }
 
     @Override
     public void appThemeSelected() {
         view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
-        currentScreen = Screen.APP_THEME_SCREEN;
+        view.setCurrentScreen(Screen.APP_THEME_SCREEN);
         navigator.navigateToAppTheme();
     }
 
     @Override
     public void openFullSizePhoto(PresentPhotoModel photo) {
-        currentScreen = Screen.PHOTO_DETAILS_SCREEN;
+        view.setCurrentScreen(Screen.PHOTO_DETAILS_SCREEN);
         view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         view.lockDrawer(true);
         navigator.navigateToPhotoDetails(photo.getId());
@@ -102,21 +101,18 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
                 view.closeApp();
                 return;
             }
+            view.setCurrentScreen(screen);
             switch (screen) {
                 case HOME_SCREEN:
-                    currentScreen = Screen.HOME_SCREEN;
                     view.setMainScreenNavigationState(MainScreenNavigationState.HOME_PAGE_STATE);
                     break;
                 case FAVORITES_SCREEN:
-                    currentScreen = Screen.FAVORITES_SCREEN;
                     view.setMainScreenNavigationState(MainScreenNavigationState.FAVORITES_PAGE_STATE);
                     break;
                 case PROFILE_SCREEN:
-                    currentScreen = Screen.PROFILE_SCREEN;
                     view.setMainScreenNavigationState(MainScreenNavigationState.PROFILE_PAGE_STATE);
                     break;
                 case APP_THEME_SCREEN:
-                    currentScreen = Screen.APP_THEME_SCREEN;
                     view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
                     break;
             }

@@ -4,6 +4,7 @@ import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
 
 public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
@@ -16,6 +17,8 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
         void closeApp();
 
         void lockDrawer(boolean isLock);
+
+        void setCurrentScreen(Screen screen);
     }
 
     void readyToSetupTheme();
@@ -24,7 +27,7 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewFirstCreated();
 
-    void viewRecreated();
+    void viewRecreated(Screen currentScreen);
 
     void backPressed();
 
