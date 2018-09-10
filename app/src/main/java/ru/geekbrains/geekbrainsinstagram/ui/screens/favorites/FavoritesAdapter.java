@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.NonNull;

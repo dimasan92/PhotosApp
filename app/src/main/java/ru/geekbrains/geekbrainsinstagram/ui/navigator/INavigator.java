@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
 import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface INavigator {
 

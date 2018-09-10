@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.favorites;
 
 import java.util.List;
 
-import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 

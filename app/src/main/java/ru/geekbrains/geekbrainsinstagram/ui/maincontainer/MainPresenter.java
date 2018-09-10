@@ -6,7 +6,6 @@ import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
 

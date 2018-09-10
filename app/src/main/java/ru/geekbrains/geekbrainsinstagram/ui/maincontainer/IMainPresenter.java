@@ -1,7 +1,7 @@
 package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
 
-import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.domain.model.AppThemeModel;
+import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 

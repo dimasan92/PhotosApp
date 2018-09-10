@@ -4,9 +4,9 @@ import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
 
 @FragmentScope

@@ -3,7 +3,6 @@ package ru.geekbrains.geekbrainsinstagram.model.mapper;
 import java.util.List;
 
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 public interface IPresentModelPhotosMapper {

@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 
 @Singleton

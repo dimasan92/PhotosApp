@@ -24,8 +24,8 @@ import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
-import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
+import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
