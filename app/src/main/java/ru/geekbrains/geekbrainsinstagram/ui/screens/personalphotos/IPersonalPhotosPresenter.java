@@ -20,7 +20,7 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
         void deletePhoto(PresentPhotoModel photo);
 
-        void showNotifyingMessage(@StringRes int message);
+        void showNotifyingMessage(int message);
 
         void showDeletePhotoDialog(PresentPhotoModel photo);
     }
