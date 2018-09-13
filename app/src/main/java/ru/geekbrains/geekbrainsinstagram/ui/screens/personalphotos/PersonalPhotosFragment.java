@@ -23,6 +23,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
@@ -116,10 +117,6 @@ public final class PersonalPhotosFragment extends BaseFragment
         adapter.deletePhoto(photo);
     }
 
-    @Override
-    public void showNotifyingMessage(@StringRes int message) {
-        fragmentToFragmentMediator.showNotifyingMessage(message, Snackbar.LENGTH_SHORT);
-    }
 
     @Override
     public void showDeletePhotoDialog(PresentPhotoModel photo) {
@@ -142,6 +139,30 @@ public final class PersonalPhotosFragment extends BaseFragment
             startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
         } catch (CameraCannotLaunchException e) {
             presenter.cameraCannotLaunch();
+        }
+    }
+
+    @Override
+    public void showNotifyingMessage(NotifyingMessage message) {
+        switch (message) {
+            case ERROR_CAMERA_OPEN:
+                showNotifyingMessage(R.string.error_camera_open_message);
+                break;
+            case ERROR_DELETE_PHOTO:
+                showNotifyingMessage(R.string.error_delete_photo_message);
+                break;
+            case PHOTO_SUCCESSFULLY_ADDED:
+                showNotifyingMessage(R.string.photo_successfully_added_message);
+                break;
+            case PHOTO_SUCCESSFULLY_DELETED:
+                showNotifyingMessage(R.string.photo_successfully_deleted_message);
+                break;
+            case ERROR_ADD_PHOTO_TO_FAVORITES:
+                showNotifyingMessage(R.string.error_add_photo_to_favorites_message);
+                break;
+            case PHOTO_SUCCESSFULLY_DELETED_FROM_FAVORITES:
+                showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+                break;
         }
     }
 
@@ -176,5 +197,9 @@ public final class PersonalPhotosFragment extends BaseFragment
                 activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };
+    }
+
+    private void showNotifyingMessage(@StringRes int message) {
+        fragmentToFragmentMediator.showNotifyingMessage(message, Snackbar.LENGTH_SHORT);
     }
 }

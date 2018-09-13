@@ -20,6 +20,7 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
@@ -83,11 +84,21 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
     }
 
     @Override
-    public void showNotifyingMessage(@StringRes int messageId) {
-        if (getView() == null) {
-            return;
+    public void showNotifyingMessage(NotifyingMessage message) {
+        switch (message){
+            case PHOTO_SUCCESSFULLY_DELETED_FROM_FAVORITES:
+                showNotifyingMessage(R.string.photo_successfully_deleted_from_favorites_message);
+                break;
+            case PHOTO_SUCCESSFULLY_DELETED_FROM_DEVICE:
+                showNotifyingMessage(R.string.photo_successfully_deleted_from_device_message);
+                break;
+            case ERROR_DELETE_PHOTO_FROM_FAVORITES:
+                showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+                break;
+            case ERROR_DELETE_PHOTO_FROM_DEVICE:
+                showNotifyingMessage(R.string.error_delete_photo_from_device_message);
+                break;
         }
-        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
     }
 
     private void inject() {
@@ -118,5 +129,12 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
                 activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };
+    }
+
+    private void showNotifyingMessage(@StringRes int messageId) {
+        if (getView() == null) {
+            return;
+        }
+        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
 public interface IFavoritesPresenter extends IBasePresenter<IFavoritesPresenter.IView> {
 
@@ -13,7 +14,7 @@ public interface IFavoritesPresenter extends IBasePresenter<IFavoritesPresenter.
 
         void deletePhoto(PresentPhotoModel photo);
 
-        void showNotifyingMessage(int messageId);
+        void showNotifyingMessage(NotifyingMessage message);
     }
 
     void deletePhotoFromFavorites(PresentPhotoModel photo);

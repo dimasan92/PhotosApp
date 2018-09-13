@@ -6,6 +6,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
 @FragmentScope
 public final class PhotoDetailsPresenter extends BasePresenter<IPhotoDetailsPresenter.IView>
@@ -17,7 +18,7 @@ public final class PhotoDetailsPresenter extends BasePresenter<IPhotoDetailsPres
 
     @Override
     public void start() {
-        view.showNotifyingMessage(R.string.error_load_photo_message);
+        view.showNotifyingMessage(NotifyingMessage.ERROR_LOAD_PHOTO);
     }
 
     @Override

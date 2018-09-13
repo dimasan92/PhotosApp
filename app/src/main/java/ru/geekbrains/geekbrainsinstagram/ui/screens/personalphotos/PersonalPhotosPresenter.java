@@ -6,11 +6,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
-import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.childfragment.ChildFragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 
 @ChildFragmentScope
@@ -50,7 +50,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void cameraCannotLaunch() {
-        errorLaunchCamera();
+        view.showNotifyingMessage(NotifyingMessage.ERROR_CAMERA_OPEN);
         newCameraPhoto = null;
     }
 
@@ -87,7 +87,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                 .execute(photosMapper.viewToDomain(photo))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(() -> successDeletePhoto(photo),
-                        throwable -> errorDeletePhoto())));
+                        throwable -> view.showNotifyingMessage(NotifyingMessage.ERROR_DELETE_PHOTO))));
     }
 
     private void uploadPhotos() {
@@ -101,7 +101,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
         if (newCameraPhoto != null) {
             if (isPhotoTaken) {
                 view.addNewPhoto(newCameraPhoto);
-                view.showNotifyingMessage(R.string.photo_successfully_added_message);
+                view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_ADDED);
             }
             cameraUtils.revokeCameraPermissions(newCameraPhoto);
         }
@@ -110,22 +110,14 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     private void successDeletePhoto(PresentPhotoModel photo) {
         view.deletePhoto(photo);
-        view.showNotifyingMessage(R.string.photo_successfully_deleted_message);
-    }
-
-    private void errorLaunchCamera() {
-        view.showNotifyingMessage(R.string.error_take_photo_message);
+        view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED);
     }
 
     private void errorChangeFavoriteStatus(PresentPhotoModel photo) {
         if (photo.isFavorite()) {
-            view.showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+            view.showNotifyingMessage(NotifyingMessage.ERROR_DELETE_PHOTO_FROM_FAVORITES);
         } else {
-            view.showNotifyingMessage(R.string.error_add_photo_to_favorites_message);
+            view.showNotifyingMessage(NotifyingMessage.ERROR_ADD_PHOTO_TO_FAVORITES);
         }
-    }
-
-    private void errorDeletePhoto() {
-        view.showNotifyingMessage(R.string.error_delete_photo_message);
     }
 }

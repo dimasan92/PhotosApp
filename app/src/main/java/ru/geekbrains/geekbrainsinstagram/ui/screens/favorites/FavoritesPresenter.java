@@ -7,11 +7,11 @@ import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetFavoritesUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
 @FragmentScope
 public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.IView>
@@ -65,19 +65,19 @@ public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.
 
     private void successDeletePhotoFromFavorites(PresentPhotoModel photo) {
         view.deletePhoto(photo);
-        view.showNotifyingMessage(R.string.photo_successfully_deleted_from_favorites_message);
+        view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED_FROM_FAVORITES);
     }
 
     private void successDeletePhotoFromDevice(PresentPhotoModel photo) {
         view.deletePhoto(photo);
-        view.showNotifyingMessage(R.string.photo_successfully_deleted_from_device_message);
+        view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED_FROM_DEVICE);
     }
 
     private void errorDeletePhotoFromFavorites() {
-        view.showNotifyingMessage(R.string.error_delete_photo_from_favorites_message);
+        view.showNotifyingMessage(NotifyingMessage.ERROR_DELETE_PHOTO_FROM_FAVORITES);
     }
 
     private void errorDeletePhotoFromDevice() {
-        view.showNotifyingMessage(R.string.error_delete_photo_from_device_message);
+        view.showNotifyingMessage(NotifyingMessage.ERROR_DELETE_PHOTO_FROM_DEVICE);
     }
 }

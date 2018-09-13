@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -73,7 +74,7 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
     }
 
     @Override
-    public void makeNotifyingMessage(int messageId, int duration) {
+    public void makeNotifyingMessage(@StringRes int messageId, int duration) {
         Snackbar.make(homeLayout, messageId, Snackbar.LENGTH_SHORT).show();
     }
 

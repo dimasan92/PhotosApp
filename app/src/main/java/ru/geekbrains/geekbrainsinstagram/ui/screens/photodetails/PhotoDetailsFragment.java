@@ -17,6 +17,7 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 
@@ -79,14 +80,22 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     }
 
     @Override
-    public void showNotifyingMessage(@StringRes int messageId) {
-        if (getView() == null) {
-            return;
+    public void showNotifyingMessage(NotifyingMessage message) {
+        switch (message) {
+            case ERROR_LOAD_PHOTO:
+                showNotifyingMessage(R.string.error_load_photo_message);
+                break;
         }
-        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
     }
 
     private void inject() {
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+    }
+
+    private void showNotifyingMessage(@StringRes int messageId) {
+        if (getView() == null) {
+            return;
+        }
+        Snackbar.make(getView(), messageId, Snackbar.LENGTH_SHORT).show();
     }
 }
