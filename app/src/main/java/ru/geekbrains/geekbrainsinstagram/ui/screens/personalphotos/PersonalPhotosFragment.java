@@ -54,6 +54,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     IPersonalPhotosPresenter presenter;
 
     private PersonalPhotosAdapter adapter;
+    private boolean isViewSet;
 
     public static PersonalPhotosFragment newInstance() {
         return new PersonalPhotosFragment();
@@ -75,7 +76,10 @@ public final class PersonalPhotosFragment extends BaseFragment
     @Override
     public void onStart() {
         super.onStart();
-        presenter.setView(this);
+        if (!isViewSet) {
+            presenter.setView(this);
+            isViewSet = true;
+        }
         presenter.start();
     }
 
@@ -83,11 +87,15 @@ public final class PersonalPhotosFragment extends BaseFragment
     public void onStop() {
         super.onStop();
         presenter.stop();
+        isViewSet = false;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        onStart();
+        if (!isViewSet) {
+            presenter.setView(this);
+            isViewSet = true;
+        }
         if (requestCode == REQUEST_CAMERA_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
                 presenter.photoHasTaken();
