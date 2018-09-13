@@ -99,11 +99,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            presenter.backPressed();
-        }
+        presenter.backPressed();
     }
 
     @Override
@@ -155,6 +151,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
         drawerLayout.setDrawerLockMode(isLock ?
                 DrawerLayout.LOCK_MODE_LOCKED_CLOSED :
                 DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     private void inject() {
@@ -209,7 +212,6 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                     presenter.appThemeSelected();
                     break;
             }
-            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         };
     }

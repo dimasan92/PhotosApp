@@ -18,6 +18,8 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
         void lockDrawer(boolean isLock);
 
+        void closeDrawer();
+
         void setCurrentScreen(Screen screen);
     }
 

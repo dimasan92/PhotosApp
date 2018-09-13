@@ -16,6 +16,8 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     private INavigator navigator;
 
+    private boolean isDrawerOpened;
+
     @Inject
     MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
@@ -50,34 +52,44 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void backPressed() {
-        navigator.navigateBack();
+        if (isDrawerOpened) {
+            view.closeDrawer();
+        } else {
+            navigator.navigateBack();
+        }
     }
 
     @Override
     public void homeSelected(boolean isFromMainPageNavigationMenu) {
-        if (!isFromMainPageNavigationMenu) {
-            view.setMainScreenNavigationState(MainScreenNavigationState.HOME_PAGE_STATE);
-        }
         view.setCurrentScreen(Screen.HOME_SCREEN);
         navigator.navigateToHome();
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.HOME_PAGE_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override
     public void favoritesSelected(boolean isFromMainPageNavigationMenu) {
-        if (!isFromMainPageNavigationMenu) {
-            view.setMainScreenNavigationState(MainScreenNavigationState.FAVORITES_PAGE_STATE);
-        }
         view.setCurrentScreen(Screen.FAVORITES_SCREEN);
         navigator.navigateToFavorites();
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.FAVORITES_PAGE_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override
     public void profileSelected(boolean isFromMainPageNavigationMenu) {
-        if (!isFromMainPageNavigationMenu) {
-            view.setMainScreenNavigationState(MainScreenNavigationState.PROFILE_PAGE_STATE);
-        }
         view.setCurrentScreen(Screen.PROFILE_SCREEN);
         navigator.navigateToProfile();
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.PROFILE_PAGE_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override
