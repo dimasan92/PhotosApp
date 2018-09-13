@@ -17,6 +17,8 @@ import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
         implements IPersonalPhotosPresenter {
 
+    private static final int RESULT_OK = -1;
+
     private final GetPersonalPhotosUseCase getPersonalPhotosUseCase;
     private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
@@ -55,13 +57,15 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void photoHasTaken() {
-        cameraHasClosed(true);
-    }
-
-    @Override
-    public void photoHasCanceled() {
-        cameraHasClosed(false);
+    public void cameraHasClosed(int resultCode) {
+        if (newCameraPhoto != null) {
+            if (resultCode == RESULT_OK) {
+                view.addNewPhoto(newCameraPhoto);
+                view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_ADDED);
+            }
+            cameraUtils.revokeCameraPermissions(newCameraPhoto);
+        }
+        newCameraPhoto = null;
     }
 
     @Override
@@ -95,17 +99,6 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(photos -> view.addPhotos(photosMapper.domainToView(photos)),
                         getDefaultErrorHandler()));
-    }
-
-    private void cameraHasClosed(boolean isPhotoTaken) {
-        if (newCameraPhoto != null) {
-            if (isPhotoTaken) {
-                view.addNewPhoto(newCameraPhoto);
-                view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_ADDED);
-            }
-            cameraUtils.revokeCameraPermissions(newCameraPhoto);
-        }
-        newCameraPhoto = null;
     }
 
     private void successDeletePhoto(PresentPhotoModel photo) {

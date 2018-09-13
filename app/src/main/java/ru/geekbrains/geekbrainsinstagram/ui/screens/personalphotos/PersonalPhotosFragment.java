@@ -97,11 +97,7 @@ public final class PersonalPhotosFragment extends BaseFragment
             isViewSet = true;
         }
         if (requestCode == REQUEST_CAMERA_PHOTO) {
-            if (resultCode == Activity.RESULT_OK) {
-                presenter.photoHasTaken();
-            } else {
-                presenter.photoHasCanceled();
-            }
+            presenter.cameraHasClosed(resultCode);
         }
     }
 

@@ -29,9 +29,7 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void cameraCannotLaunch();
 
-    void photoHasTaken();
-
-    void photoHasCanceled();
+    void cameraHasClosed(int resultCode);
 
     void changePhotoFavoriteState(PresentPhotoModel photo);
 
