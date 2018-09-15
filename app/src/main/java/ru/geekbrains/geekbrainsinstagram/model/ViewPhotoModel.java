@@ -3,22 +3,22 @@ package ru.geekbrains.geekbrainsinstagram.model;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class PresentPhotoModel {
+public final class ViewPhotoModel {
 
     private final String id;
     private final boolean isFavorite;
 
-    public PresentPhotoModel() {
+    public ViewPhotoModel() {
         id = UUID.randomUUID().toString();
         this.isFavorite = false;
     }
 
-    public PresentPhotoModel(String id) {
+    public ViewPhotoModel(final String id) {
         this.id = id;
         isFavorite = false;
     }
 
-    public PresentPhotoModel(final String id, boolean isFavorite) {
+    public ViewPhotoModel(final String id, final boolean isFavorite) {
         this.id = id;
         this.isFavorite = isFavorite;
     }
@@ -28,7 +28,7 @@ public final class PresentPhotoModel {
     }
 
     public String getPhotoFileName() {
-        return "PHOTO_" + id;
+        return id;
     }
 
     public boolean isFavorite() {
@@ -43,7 +43,7 @@ public final class PresentPhotoModel {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PresentPhotoModel photoModel = (PresentPhotoModel) o;
+        ViewPhotoModel photoModel = (ViewPhotoModel) o;
         return isFavorite == photoModel.isFavorite &&
                 id.equals(photoModel.id);
     }
