@@ -66,7 +66,7 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
     }
 
-    private void initContainer(View layout){
+    private void initContainer(View layout) {
         Toolbar toolbar = layout.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appbar_home_title);
         activityToFragmentMediator.setupToolbar(toolbar);
@@ -77,7 +77,7 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
         homeLayout = layout.findViewById(R.id.home_layout);
     }
 
-    private void initContent(View layout){
+    private void initContent(View layout) {
         HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
                 getResources().getStringArray(R.array.home_tabs),
                 () -> MainApplication.getApp().getComponentsManager().releaseChildFragmentComponent());
