@@ -10,10 +10,10 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 
 @Singleton
-public final class ViewPhotoPhotoModelMapperImpl implements ViewPhotoModelMapper {
+public final class ViewPhotoModelMapperImpl implements ViewPhotoModelMapper {
 
     @Inject
-    ViewPhotoPhotoModelMapperImpl() {
+    ViewPhotoModelMapperImpl() {
     }
 
     @Override

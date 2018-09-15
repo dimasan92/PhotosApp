@@ -8,8 +8,8 @@ import ru.geekbrains.data.mapper.EntityPhotosMapper;
 import ru.geekbrains.data.mapper.IEntityPhotosMapper;
 import ru.geekbrains.data.mapper.IThemeMapper;
 import ru.geekbrains.data.mapper.ThemeMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.PresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapperImpl;
 
 @Module
 public interface MapperModule {
@@ -24,5 +24,5 @@ public interface MapperModule {
 
     @Singleton
     @Binds
-    IPresentModelPhotosMapper provideModelMapper(PresentModelPhotosMapper modelMapper);
+    ViewPhotoModelMapper provideModelMapper(ViewPhotoModelMapperImpl modelMapper);
 }
