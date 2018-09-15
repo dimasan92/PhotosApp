@@ -41,31 +41,15 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View layout = inflater.inflate(R.layout.fragment_home, container, false);
 
         inject();
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         fragmentToFragmentMediator.init(this);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.appbar_home_title);
-        activityToFragmentMediator.setupToolbar(toolbar);
 
-        HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
-                getResources().getStringArray(R.array.home_tabs),
-                () -> MainApplication.getApp().getComponentsManager().releaseChildFragmentComponent());
+        initContainer(layout);
+        initContent(layout);
 
-        ViewPager viewPager = view.findViewById(R.id.home_pager);
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(createPageChangeListener());
-
-        TabLayout tabLayout = view.findViewById(R.id.home_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-        homeFab = view.findViewById(R.id.home_fab);
-        homeFab.hide();
-        homeLayout = view.findViewById(R.id.home_layout);
-
-        return view;
+        return layout;
     }
 
     @Override
@@ -80,6 +64,30 @@ public final class HomeFragment extends BaseFragment implements IFragmentToFragm
 
     private void inject() {
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+    }
+
+    private void initContainer(View layout){
+        Toolbar toolbar = layout.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.appbar_home_title);
+        activityToFragmentMediator.setupToolbar(toolbar);
+
+        homeFab = layout.findViewById(R.id.home_fab);
+        homeFab.hide();
+
+        homeLayout = layout.findViewById(R.id.home_layout);
+    }
+
+    private void initContent(View layout){
+        HomeFragmentPagerAdapter adapter = new HomeFragmentPagerAdapter(getChildFragmentManager(),
+                getResources().getStringArray(R.array.home_tabs),
+                () -> MainApplication.getApp().getComponentsManager().releaseChildFragmentComponent());
+
+        ViewPager viewPager = layout.findViewById(R.id.home_pager);
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(createPageChangeListener());
+
+        TabLayout tabLayout = layout.findViewById(R.id.home_tabs);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     private ViewPager.OnPageChangeListener createPageChangeListener() {
