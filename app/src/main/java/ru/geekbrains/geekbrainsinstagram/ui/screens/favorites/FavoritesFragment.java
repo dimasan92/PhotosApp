@@ -19,19 +19,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
-import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class FavoritesFragment extends BaseFragment implements IFavoritesPresenter.IView {
 
     @Inject
-    ILayoutUtils layoutUtils;
+    LayoutUtils layoutUtils;
 
     @Inject
-    IPictureUtils pictureUtils;
+    PictureUtils pictureUtils;
 
     @Inject
     IActivityToFragmentMediator activityToFragmentMediator;
@@ -74,12 +74,12 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
     }
 
     @Override
-    public void addPhotos(List<PresentPhotoModel> photos) {
+    public void addPhotos(List<ViewPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
 
     @Override
-    public void deletePhoto(PresentPhotoModel photo) {
+    public void deletePhoto(ViewPhotoModel photo) {
         adapter.deletePhoto(photo);
     }
 
@@ -115,17 +115,17 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
     private FavoritesAdapter.IFavoriteListener adapterListener() {
         return new FavoritesAdapter.IFavoriteListener() {
             @Override
-            public void onDeleteFromFavoritesClick(PresentPhotoModel photo) {
+            public void onDeleteFromFavoritesClick(ViewPhotoModel photo) {
                 presenter.deletePhotoFromFavorites(photo);
             }
 
             @Override
-            public void onDeleteFromDeviceClick(PresentPhotoModel photo) {
+            public void onDeleteFromDeviceClick(ViewPhotoModel photo) {
                 presenter.deletePhotoFromDevice(photo);
             }
 
             @Override
-            public void onDetailsClick(PresentPhotoModel photo) {
+            public void onDetailsClick(ViewPhotoModel photo) {
                 activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };

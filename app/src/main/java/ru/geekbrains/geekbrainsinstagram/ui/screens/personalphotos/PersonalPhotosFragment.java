@@ -1,6 +1,5 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,13 +21,13 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
-import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class PersonalPhotosFragment extends BaseFragment
         implements IPersonalPhotosPresenter.IView {
@@ -36,13 +35,13 @@ public final class PersonalPhotosFragment extends BaseFragment
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
     @Inject
-    ILayoutUtils layoutUtils;
+    LayoutUtils layoutUtils;
 
     @Inject
-    IPictureUtils pictureUtils;
+    PictureUtils pictureUtils;
 
     @Inject
-    ICameraUtils cameraUtils;
+    CameraUtils cameraUtils;
 
     @Inject
     IActivityToFragmentMediator activityToFragmentMediator;
@@ -102,28 +101,28 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void addPhotos(List<PresentPhotoModel> photos) {
+    public void addPhotos(List<ViewPhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
 
     @Override
-    public void addNewPhoto(PresentPhotoModel photo) {
+    public void addNewPhoto(ViewPhotoModel photo) {
         adapter.addPhoto(photo);
     }
 
     @Override
-    public void updatePhoto(PresentPhotoModel photo) {
+    public void updatePhoto(ViewPhotoModel photo) {
         adapter.updatePhoto(photo);
     }
 
     @Override
-    public void deletePhoto(PresentPhotoModel photo) {
+    public void deletePhoto(ViewPhotoModel photo) {
         adapter.deletePhoto(photo);
     }
 
 
     @Override
-    public void showDeletePhotoDialog(PresentPhotoModel photo) {
+    public void showDeletePhotoDialog(ViewPhotoModel photo) {
         if (getContext() == null) {
             return;
         }
@@ -137,7 +136,7 @@ public final class PersonalPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void startCamera(PresentPhotoModel photo) {
+    public void startCamera(ViewPhotoModel photo) {
         try {
             Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(photo);
             startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
@@ -187,17 +186,17 @@ public final class PersonalPhotosFragment extends BaseFragment
     private PersonalPhotosAdapter.IPersonalPhotoListener adapterListener() {
         return new PersonalPhotosAdapter.IPersonalPhotoListener() {
             @Override
-            public void onFavoritesClick(PresentPhotoModel photo) {
+            public void onFavoritesClick(ViewPhotoModel photo) {
                 presenter.changePhotoFavoriteState(photo);
             }
 
             @Override
-            public void onDeleteClick(PresentPhotoModel photo) {
+            public void onDeleteClick(ViewPhotoModel photo) {
                 presenter.deleteRequest(photo);
             }
 
             @Override
-            public void onDetailsClick(PresentPhotoModel photo) {
+            public void onDetailsClick(ViewPhotoModel photo) {
                 activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };

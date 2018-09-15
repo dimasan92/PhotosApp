@@ -16,10 +16,10 @@ import androidx.annotation.StringRes;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDetailsPresenter.IView {
 
@@ -29,7 +29,7 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     IActivityToFragmentMediator activityToFragmentMediator;
 
     @Inject
-    IPictureUtils pictureUtils;
+    PictureUtils pictureUtils;
 
     @Inject
     IPhotoDetailsPresenter presenter;
@@ -75,8 +75,8 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     }
 
     @Override
-    public void loadPhoto(PresentPhotoModel photo) {
-        pictureUtils.loadImageIntoImageViewFull(photo, mainImageView);
+    public void loadPhoto(ViewPhotoModel photo) {
+        pictureUtils.loadImageIntoFullImageView(photo, mainImageView);
     }
 
     @Override

@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import ru.geekbrains.domain.interactor.settings.GetCurrentThemeUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
 
@@ -100,7 +100,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
-    public void openFullSizePhoto(PresentPhotoModel photo) {
+    public void openFullSizePhoto(ViewPhotoModel photo) {
         view.setCurrentScreen(Screen.PHOTO_DETAILS_SCREEN);
         view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         view.lockDrawer(true);

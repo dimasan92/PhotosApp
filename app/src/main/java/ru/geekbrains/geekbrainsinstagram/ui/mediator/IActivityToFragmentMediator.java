@@ -1,7 +1,7 @@
 package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
 import androidx.appcompat.widget.Toolbar;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 
 public interface IActivityToFragmentMediator {
 
@@ -11,7 +11,7 @@ public interface IActivityToFragmentMediator {
 
         void recreate();
 
-        void openFullSizePhoto(PresentPhotoModel photo);
+        void openFullSizePhoto(ViewPhotoModel photo);
     }
 
     void init(EventHandler handler);
@@ -20,5 +20,5 @@ public interface IActivityToFragmentMediator {
 
     void themeChanged();
 
-    void openFullSizePhoto(PresentPhotoModel photo);
+    void openFullSizePhoto(ViewPhotoModel photo);
 }

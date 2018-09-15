@@ -7,7 +7,7 @@ import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
 
 @FragmentScope
 public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IView>
@@ -16,7 +16,7 @@ public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IV
     private final ShouldChangeThemeUseCase shouldChangeThemeUseCase;
 
     @Inject
-    AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase, IPresentModelPhotosMapper mapper) {
+    AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase, ViewPhotoModelMapper mapper) {
         this.shouldChangeThemeUseCase = shouldChangeThemeUseCase;
     }
 

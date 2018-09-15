@@ -9,8 +9,8 @@ import ru.geekbrains.domain.interactor.photos.GetFavoritesUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
 @FragmentScope
@@ -20,13 +20,13 @@ public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.
     private final GetFavoritesUseCase getFavoritesUseCase;
     private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
-    private final IPresentModelPhotosMapper photosMapper;
+    private final ViewPhotoModelMapper photosMapper;
 
     @Inject
     FavoritesPresenter(GetFavoritesUseCase getFavoritesUseCase,
                        ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                        DeletePhotoUseCase deletePhotoUseCase,
-                       IPresentModelPhotosMapper photosMapper) {
+                       ViewPhotoModelMapper photosMapper) {
         this.getFavoritesUseCase = getFavoritesUseCase;
         this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
@@ -39,7 +39,7 @@ public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.
     }
 
     @Override
-    public void deletePhotoFromFavorites(PresentPhotoModel photo) {
+    public void deletePhotoFromFavorites(ViewPhotoModel photo) {
         PhotoModel photoModel = photosMapper.viewToDomainWithFavoriteChange(photo);
         addDisposable(changeFavoritePhotoStatusUseCase.execute(photoModel)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,7 +48,7 @@ public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.
     }
 
     @Override
-    public void deletePhotoFromDevice(PresentPhotoModel photo) {
+    public void deletePhotoFromDevice(ViewPhotoModel photo) {
         PhotoModel photoModel = photosMapper.viewToDomain(photo);
         addDisposable(deletePhotoUseCase.execute(photoModel)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -63,12 +63,12 @@ public final class FavoritesPresenter extends BasePresenter<IFavoritesPresenter.
                         getDefaultErrorHandler()));
     }
 
-    private void successDeletePhotoFromFavorites(PresentPhotoModel photo) {
+    private void successDeletePhotoFromFavorites(ViewPhotoModel photo) {
         view.deletePhoto(photo);
         view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED_FROM_FAVORITES);
     }
 
-    private void successDeletePhotoFromDevice(PresentPhotoModel photo) {
+    private void successDeletePhotoFromDevice(ViewPhotoModel photo) {
         view.deletePhoto(photo);
         view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED_FROM_DEVICE);
     }

@@ -11,28 +11,28 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPhotosAdapter.PersonalPhotoHolder> {
 
     interface IPersonalPhotoListener {
 
-        void onFavoritesClick(PresentPhotoModel photo);
+        void onFavoritesClick(ViewPhotoModel photo);
 
-        void onDeleteClick(PresentPhotoModel photo);
+        void onDeleteClick(ViewPhotoModel photo);
 
-        void onDetailsClick(PresentPhotoModel photo);
+        void onDetailsClick(ViewPhotoModel photo);
     }
 
-    private final IPictureUtils pictureUtils;
+    private final PictureUtils pictureUtils;
     private final IPersonalPhotoListener personalPhotoListener;
 
-    private List<PresentPhotoModel> photos;
+    private List<ViewPhotoModel> photos;
 
-    PersonalPhotosAdapter(IPictureUtils IPictureUtils, IPersonalPhotoListener listener) {
+    PersonalPhotosAdapter(PictureUtils PictureUtils, IPersonalPhotoListener listener) {
         photos = new ArrayList<>();
-        this.pictureUtils = IPictureUtils;
+        this.pictureUtils = PictureUtils;
         this.personalPhotoListener = listener;
     }
 
@@ -54,17 +54,17 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         return photos.size();
     }
 
-    void updatePhotos(final List<PresentPhotoModel> photos) {
+    void updatePhotos(final List<ViewPhotoModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
 
-    void addPhoto(final PresentPhotoModel photo) {
+    void addPhoto(final ViewPhotoModel photo) {
         photos.add(photo);
         notifyItemChanged(photos.indexOf(photo));
     }
 
-    void updatePhoto(final PresentPhotoModel photo) {
+    void updatePhoto(final ViewPhotoModel photo) {
         int position = searchItemPosition(photo);
         if (position == -1) {
             return;
@@ -73,12 +73,12 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
         notifyItemChanged(position);
     }
 
-    void deletePhoto(final PresentPhotoModel photo) {
+    void deletePhoto(final ViewPhotoModel photo) {
         notifyItemRemoved(photos.indexOf(photo));
         photos.remove(photo);
     }
 
-    private int searchItemPosition(final PresentPhotoModel photo) {
+    private int searchItemPosition(final ViewPhotoModel photo) {
         int position = -1;
         for (int i = 0; i < photos.size(); i++) {
             if (photos.get(i).getId().equals(photo.getId())) {
@@ -93,11 +93,11 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
-        private final IPictureUtils pictureUtils;
+        private final PictureUtils pictureUtils;
 
-        private PresentPhotoModel photo;
+        private ViewPhotoModel photo;
 
-        PersonalPhotoHolder(@NonNull View itemView, IPictureUtils pictureUtils,
+        PersonalPhotoHolder(@NonNull View itemView, PictureUtils pictureUtils,
                             IPersonalPhotoListener personalPhotoListener) {
             super(itemView);
             this.pictureUtils = pictureUtils;
@@ -113,9 +113,9 @@ public final class PersonalPhotosAdapter extends RecyclerView.Adapter<PersonalPh
             deleteImageView.setOnClickListener(v -> personalPhotoListener.onDeleteClick(photo));
         }
 
-        void bind(final PresentPhotoModel photo) {
+        void bind(final ViewPhotoModel photo) {
             this.photo = photo;
-            pictureUtils.loadImageIntoImageViewGrid(photo, photoImageView);
+            pictureUtils.loadImageIntoGridImageView(photo, photoImageView);
             isFavoriteImageView.setImageResource(photo.isFavorite() ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);

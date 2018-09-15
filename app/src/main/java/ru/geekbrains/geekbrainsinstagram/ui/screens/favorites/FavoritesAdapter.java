@@ -12,28 +12,28 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesHolder> {
 
     interface IFavoriteListener {
 
-        void onDeleteFromFavoritesClick(PresentPhotoModel photo);
+        void onDeleteFromFavoritesClick(ViewPhotoModel photo);
 
-        void onDeleteFromDeviceClick(PresentPhotoModel photo);
+        void onDeleteFromDeviceClick(ViewPhotoModel photo);
 
-        void onDetailsClick(PresentPhotoModel photo);
+        void onDetailsClick(ViewPhotoModel photo);
     }
 
-    private final IPictureUtils pictureUtils;
+    private final PictureUtils pictureUtils;
     private final IFavoriteListener favoriteListener;
 
-    private List<PresentPhotoModel> photos;
+    private List<ViewPhotoModel> photos;
 
-    FavoritesAdapter(IPictureUtils IPictureUtils, IFavoriteListener favoriteListener) {
+    FavoritesAdapter(PictureUtils PictureUtils, IFavoriteListener favoriteListener) {
         photos = new ArrayList<>();
-        this.pictureUtils = IPictureUtils;
+        this.pictureUtils = PictureUtils;
         this.favoriteListener = favoriteListener;
     }
 
@@ -55,12 +55,12 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
         return photos.size();
     }
 
-    void updatePhotos(final List<PresentPhotoModel> photos) {
+    void updatePhotos(final List<ViewPhotoModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
 
-    void deletePhoto(final PresentPhotoModel photo) {
+    void deletePhoto(final ViewPhotoModel photo) {
         notifyItemRemoved(photos.indexOf(photo));
         photos.remove(photo);
     }
@@ -69,11 +69,11 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
 
         private final ImageView photoImageView;
         private final ImageView moreImageView;
-        private final IPictureUtils pictureUtils;
+        private final PictureUtils pictureUtils;
 
-        private PresentPhotoModel photo;
+        private ViewPhotoModel photo;
 
-        FavoritesHolder(@NonNull View itemView, IPictureUtils pictureUtils,
+        FavoritesHolder(@NonNull View itemView, PictureUtils pictureUtils,
                         IFavoriteListener favoriteListener) {
             super(itemView);
             this.pictureUtils = pictureUtils;
@@ -85,9 +85,9 @@ public final class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapte
             moreImageView.setOnClickListener(v -> showMoreMenu(v, favoriteListener));
         }
 
-        void bind(final PresentPhotoModel photo) {
+        void bind(final ViewPhotoModel photo) {
             this.photo = photo;
-            pictureUtils.loadImageIntoImageViewGrid(photo, photoImageView);
+            pictureUtils.loadImageIntoGridImageView(photo, photoImageView);
         }
 
         private void showMoreMenu(View view, IFavoriteListener listener) {

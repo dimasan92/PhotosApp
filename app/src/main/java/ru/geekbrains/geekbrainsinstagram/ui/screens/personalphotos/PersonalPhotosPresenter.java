@@ -8,10 +8,10 @@ import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPersonalPhotosUseCase;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.di.childfragment.ChildFragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.IPresentModelPhotosMapper;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
-import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
 
 @ChildFragmentScope
 public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotosPresenter.IView>
@@ -22,16 +22,16 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     private final GetPersonalPhotosUseCase getPersonalPhotosUseCase;
     private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
-    private final ICameraUtils cameraUtils;
-    private final IPresentModelPhotosMapper photosMapper;
+    private final CameraUtils cameraUtils;
+    private final ViewPhotoModelMapper photosMapper;
 
-    private PresentPhotoModel newCameraPhoto;
+    private ViewPhotoModel newCameraPhoto;
 
     @Inject
     PersonalPhotosPresenter(GetPersonalPhotosUseCase getPersonalPhotosUseCase,
                             ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                             DeletePhotoUseCase deletePhotoUseCase,
-                            ICameraUtils cameraUtils, IPresentModelPhotosMapper photosMapper) {
+                            CameraUtils cameraUtils, ViewPhotoModelMapper photosMapper) {
         this.getPersonalPhotosUseCase = getPersonalPhotosUseCase;
         this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
@@ -46,7 +46,7 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
     @Override
     public void takeAPhotoRequest() {
-        newCameraPhoto = new PresentPhotoModel();
+        newCameraPhoto = new ViewPhotoModel();
         view.startCamera(newCameraPhoto);
     }
 
@@ -69,9 +69,9 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
     }
 
     @Override
-    public void changePhotoFavoriteState(PresentPhotoModel photo) {
-        PresentPhotoModel photoWithChangedState =
-                new PresentPhotoModel(photo.getId(), !photo.isFavorite());
+    public void changePhotoFavoriteState(ViewPhotoModel photo) {
+        ViewPhotoModel photoWithChangedState =
+                new ViewPhotoModel(photo.getId(), !photo.isFavorite());
         addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photosMapper.viewToDomain(photoWithChangedState))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,12 +81,12 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
 
 
     @Override
-    public void deleteRequest(PresentPhotoModel photo) {
+    public void deleteRequest(ViewPhotoModel photo) {
         view.showDeletePhotoDialog(photo);
     }
 
     @Override
-    public void deletePhoto(PresentPhotoModel photo) {
+    public void deletePhoto(ViewPhotoModel photo) {
         addDisposable((deletePhotoUseCase
                 .execute(photosMapper.viewToDomain(photo))
                 .observeOn(AndroidSchedulers.mainThread())
@@ -101,12 +101,12 @@ public final class PersonalPhotosPresenter extends BasePresenter<IPersonalPhotos
                         getDefaultErrorHandler()));
     }
 
-    private void successDeletePhoto(PresentPhotoModel photo) {
+    private void successDeletePhoto(ViewPhotoModel photo) {
         view.deletePhoto(photo);
         view.showNotifyingMessage(NotifyingMessage.PHOTO_SUCCESSFULLY_DELETED);
     }
 
-    private void errorChangeFavoriteStatus(PresentPhotoModel photo) {
+    private void errorChangeFavoriteStatus(ViewPhotoModel photo) {
         if (photo.isFavorite()) {
             view.showNotifyingMessage(NotifyingMessage.ERROR_DELETE_PHOTO_FROM_FAVORITES);
         } else {

@@ -3,26 +3,26 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.personalphotos;
 import java.util.List;
 
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
 public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotosPresenter.IView> {
 
     interface IView extends IBasePresenter.IView {
 
-        void startCamera(PresentPhotoModel photo);
+        void startCamera(ViewPhotoModel photo);
 
-        void addPhotos(List<PresentPhotoModel> photos);
+        void addPhotos(List<ViewPhotoModel> photos);
 
-        void addNewPhoto(PresentPhotoModel photo);
+        void addNewPhoto(ViewPhotoModel photo);
 
-        void updatePhoto(PresentPhotoModel photo);
+        void updatePhoto(ViewPhotoModel photo);
 
-        void deletePhoto(PresentPhotoModel photo);
+        void deletePhoto(ViewPhotoModel photo);
 
         void showNotifyingMessage(NotifyingMessage message);
 
-        void showDeletePhotoDialog(PresentPhotoModel photo);
+        void showDeletePhotoDialog(ViewPhotoModel photo);
     }
 
     void takeAPhotoRequest();
@@ -31,9 +31,9 @@ public interface IPersonalPhotosPresenter extends IBasePresenter<IPersonalPhotos
 
     void cameraHasClosed(int resultCode);
 
-    void changePhotoFavoriteState(PresentPhotoModel photo);
+    void changePhotoFavoriteState(ViewPhotoModel photo);
 
-    void deletePhoto(PresentPhotoModel photo);
+    void deletePhoto(ViewPhotoModel photo);
 
-    void deleteRequest(PresentPhotoModel photo);
+    void deleteRequest(ViewPhotoModel photo);
 }

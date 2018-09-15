@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
@@ -248,7 +248,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             }
 
             @Override
-            public void openFullSizePhoto(PresentPhotoModel photo) {
+            public void openFullSizePhoto(ViewPhotoModel photo) {
                 presenter.openFullSizePhoto(photo);
             }
         };
