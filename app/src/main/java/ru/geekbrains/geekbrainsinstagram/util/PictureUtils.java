@@ -2,44 +2,11 @@ package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+public interface PictureUtils {
 
-import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.PresentPhotoModel;
+    void loadImageIntoGridImageView(final ViewPhotoModel photo, final ImageView imageView);
 
-@Singleton
-public final class PictureUtils implements IPictureUtils {
-
-    private final IContentUtils filesUtils;
-    private final ILayoutUtils layoutUtils;
-
-    @Inject
-    PictureUtils(IContentUtils filesUtils, ILayoutUtils layoutUtils) {
-        this.filesUtils = filesUtils;
-        this.layoutUtils = layoutUtils;
-    }
-
-    @Override
-    public void loadImageIntoImageViewGrid(PresentPhotoModel photo, ImageView imageView) {
-
-        int photoSize = layoutUtils.getPhotoSizeGrid();
-        Picasso.get()
-                .load(filesUtils.getUriForPhoto(photo))
-                .resize(photoSize, photoSize)
-                .placeholder(R.drawable.ic_image_black_24dp)
-                .error(R.drawable.ic_error_black_24dp)
-                .into(imageView);
-    }
-
-    @Override
-    public void loadImageIntoImageViewFull(PresentPhotoModel photo, ImageView imageView) {
-        Picasso.get()
-                .load(filesUtils.getUriForPhoto(photo))
-                .placeholder(R.drawable.ic_image_black_24dp)
-                .error(R.drawable.ic_error_black_24dp)
-                .into(imageView);
-    }
+    void loadImageIntoFullImageView(final ViewPhotoModel photo, final ImageView imageView);
 }

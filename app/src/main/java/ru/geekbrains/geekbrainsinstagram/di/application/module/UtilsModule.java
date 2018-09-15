@@ -8,51 +8,49 @@ import javax.inject.Singleton;
 import dagger.Binds;
 import dagger.Module;
 import dagger.Provides;
+import ru.geekbrains.data.util.FilesUtilsImpl;
 import ru.geekbrains.data.util.FilesUtils;
-import ru.geekbrains.data.util.IFilesUtils;
-import ru.geekbrains.data.util.IPrefUtils;
 import ru.geekbrains.data.util.PrefUtils;
-import ru.geekbrains.domain.model.AppThemeModel;
+import ru.geekbrains.data.util.PrefUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
+import ru.geekbrains.geekbrainsinstagram.util.CameraUtilsImpl;
+import ru.geekbrains.geekbrainsinstagram.util.ContentUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.util.ContentUtils;
-import ru.geekbrains.geekbrainsinstagram.util.ICameraUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IContentUtils;
-import ru.geekbrains.geekbrainsinstagram.util.ILayoutUtils;
-import ru.geekbrains.geekbrainsinstagram.util.IPictureUtils;
 import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
+import ru.geekbrains.geekbrainsinstagram.util.LayoutUtilsImpl;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
+import ru.geekbrains.geekbrainsinstagram.util.PictureUtilsImpl;
 
 @Module
 public abstract class UtilsModule {
 
     private static final String INSTAGRAM_PREFERENCES = "instagram_preferences";
-    private static final String DEFAULT_THEME = AppThemeModel.BLUE_THEME.toString();
 
     @Singleton
     @Provides
-    static IPrefUtils providePrefUtils(Context context) {
+    static PrefUtils providePrefUtils(Context context) {
         SharedPreferences preferences =
                 context.getSharedPreferences(INSTAGRAM_PREFERENCES, Context.MODE_PRIVATE);
-        return new PrefUtils(preferences, DEFAULT_THEME);
+        return new PrefUtilsImpl(preferences);
     }
 
     @Singleton
     @Binds
-    abstract IContentUtils provideContentUtils(ContentUtils filesContentUtils);
+    abstract ContentUtils provideContentUtils(ContentUtilsImpl contentUtilsImpl);
 
     @Singleton
     @Binds
-    abstract IPictureUtils providePictureUtils(PictureUtils pictureUtils);
+    abstract PictureUtils providePictureUtils(PictureUtilsImpl pictureUtilsImpl);
 
     @Singleton
     @Binds
-    abstract ICameraUtils provideCameraUtils(CameraUtils cameraUtils);
+    abstract CameraUtils provideCameraUtils(CameraUtilsImpl cameraUtilsImpl);
 
     @Singleton
     @Binds
-    abstract ILayoutUtils provideLayoutUtils(LayoutUtils layoutUtils);
+    abstract LayoutUtils provideLayoutUtils(LayoutUtilsImpl layoutUtilsImpl);
 
     @Singleton
     @Binds
-    abstract IFilesUtils provideIFilesUtils(FilesUtils filesUtils);
+    abstract FilesUtils provideFilesUtils(FilesUtilsImpl filesUtilsImpl);
 }
