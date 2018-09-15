@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/app_theme_appbar"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/photo_details_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="@string/appbar_app_photo_details_title" />
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/iv_photo_details"
@@ -19,4 +10,4 @@
         android:layout_margin="@dimen/normal_margin"
         android:contentDescription="@string/gallery_photo_description" />
 
-</com.google.android.material.appbar.AppBarLayout>
+</FrameLayout>
