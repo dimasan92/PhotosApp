@@ -6,13 +6,13 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 import ru.geekbrains.domain.model.PhotoModel;
 
-public interface IPhotosRepository {
+public interface PhotosRepository {
 
     Single<List<PhotoModel>> getPersonalPhotos();
 
     Single<List<PhotoModel>> getFavorites();
 
-    Completable changeFavoritePhotoStatus(PhotoModel photo);
+    Completable changeFavoritePhotoStatus(final PhotoModel photo);
 
-    Completable deletePhoto(PhotoModel photo);
+    Completable deletePhoto(final PhotoModel photo);
 }

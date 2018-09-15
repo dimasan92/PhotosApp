@@ -10,10 +10,10 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.data.database.InstagramDatabase;
 import ru.geekbrains.data.photos.PhotosDao;
-import ru.geekbrains.data.photos.PhotosRepository;
-import ru.geekbrains.data.settings.SettingsRepository;
-import ru.geekbrains.domain.repository.IPhotosRepository;
-import ru.geekbrains.domain.repository.ISettingsRepository;
+import ru.geekbrains.data.photos.PhotosRepositoryImpl;
+import ru.geekbrains.data.settings.SettingsRepositoryImpl;
+import ru.geekbrains.domain.repository.PhotosRepository;
+import ru.geekbrains.domain.repository.SettingsRepository;
 
 @Module
 public abstract class DataModule {
@@ -22,9 +22,9 @@ public abstract class DataModule {
 
     @Singleton
     @Provides
-    static InstagramDatabase provideDatabase(Context appContext) {
+    static InstagramDatabase provideDatabase(Context context) {
         return Room
-                .databaseBuilder(appContext, InstagramDatabase.class, DB_NAME)
+                .databaseBuilder(context, InstagramDatabase.class, DB_NAME)
                 .build();
     }
 
@@ -36,9 +36,9 @@ public abstract class DataModule {
 
     @Singleton
     @Binds
-    abstract ISettingsRepository provideSettingsRepository(SettingsRepository repository);
+    abstract SettingsRepository provideSettingsRepository(SettingsRepositoryImpl repository);
 
     @Singleton
     @Binds
-    abstract IPhotosRepository providePhotosRepository(PhotosRepository repository);
+    abstract PhotosRepository providePhotosRepository(PhotosRepositoryImpl repository);
 }

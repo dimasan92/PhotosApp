@@ -10,23 +10,23 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
-import ru.geekbrains.data.mapper.IEntityPhotosMapper;
-import ru.geekbrains.data.photos.personalphotos.FavoritePhotoEntity;
-import ru.geekbrains.data.util.IFilesUtils;
+import ru.geekbrains.data.mapper.EntityPhotoMapper;
+import ru.geekbrains.data.photos.entities.FavoritePhotoEntity;
+import ru.geekbrains.data.util.FilesUtils;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
-public final class PhotosRepository implements IPhotosRepository {
+public final class PhotosRepositoryImpl implements PhotosRepository {
 
-    private final PhotosDao dao;
-    private final IEntityPhotosMapper mapper;
-    private final IFilesUtils filesUtils;
+    private final PhotosDao photosDao;
+    private final EntityPhotoMapper entityPhotoMapper;
+    private final FilesUtils filesUtils;
 
     @Inject
-    PhotosRepository(PhotosDao dao, IEntityPhotosMapper mapper, IFilesUtils filesUtils) {
-        this.dao = dao;
-        this.mapper = mapper;
+    PhotosRepositoryImpl(PhotosDao photosDao, EntityPhotoMapper entityPhotoMapper, FilesUtils filesUtils) {
+        this.photosDao = photosDao;
+        this.entityPhotoMapper = entityPhotoMapper;
         this.filesUtils = filesUtils;
     }
 
@@ -38,27 +38,27 @@ public final class PhotosRepository implements IPhotosRepository {
 
     @Override
     public Single<List<PhotoModel>> getFavorites() {
-        return Single.fromCallable(dao::getAllFavorites)
-                .map(mapper::dataToDomain)
+        return Single.fromCallable(photosDao::getAllFavorites)
+                .map(entityPhotoMapper::dataToDomain)
                 .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable changeFavoritePhotoStatus(PhotoModel photo) {
+    public Completable changeFavoritePhotoStatus(final PhotoModel photo) {
         return Completable.fromAction(() -> {
             if (photo.isFavorite()) {
-                dao.addFavoritePhoto(mapper.domainToData(photo));
+                photosDao.addFavoritePhoto(entityPhotoMapper.domainToData(photo));
             } else {
-                dao.deleteFavoritePhoto(mapper.domainToData(photo));
+                photosDao.deleteFavoritePhoto(entityPhotoMapper.domainToData(photo));
             }
         }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Completable deletePhoto(PhotoModel photo) {
+    public Completable deletePhoto(final PhotoModel photo) {
         return Completable.fromAction(() -> {
             if (photo.isFavorite()) {
-                dao.deleteFavoritePhoto(mapper.domainToData(photo));
+                photosDao.deleteFavoritePhoto(entityPhotoMapper.domainToData(photo));
             }
             if (filesUtils.deletePhotoFromDevice(photo.getId())) {
                 return;
@@ -69,9 +69,9 @@ public final class PhotosRepository implements IPhotosRepository {
 
     private List<PhotoModel> getPersonalPhotosTask() {
         String[] photoIds = filesUtils.getPhotosIdsFromDevice();
-        List<FavoritePhotoEntity> favorites = dao.getAllFavorites();
+        List<FavoritePhotoEntity> favorites = photosDao.getAllFavorites();
 
-        List<PhotoModel> list = new ArrayList<>();
+        List<PhotoModel> personalPhotos = new ArrayList<>();
 
         boolean isFavorite;
         for (String photoId : photoIds) {
@@ -82,8 +82,8 @@ public final class PhotosRepository implements IPhotosRepository {
                     break;
                 }
             }
-            list.add(new PhotoModel(photoId, isFavorite));
+            personalPhotos.add(new PhotoModel(photoId, isFavorite));
         }
-        return list;
+        return personalPhotos;
     }
 }
