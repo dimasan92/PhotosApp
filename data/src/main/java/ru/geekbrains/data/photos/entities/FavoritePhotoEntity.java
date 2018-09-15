@@ -1,4 +1,4 @@
-package ru.geekbrains.data.photos.personalphotos;
+package ru.geekbrains.data.photos.entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
