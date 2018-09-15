@@ -15,6 +15,7 @@
         android:contentDescription="@string/gallery_photo_description" />
 
     <TextView
+        android:id="@+id/tv_delete_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/half_margin"
