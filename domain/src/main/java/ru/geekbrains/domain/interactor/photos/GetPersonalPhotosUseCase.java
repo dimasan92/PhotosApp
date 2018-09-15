@@ -7,19 +7,19 @@ import javax.inject.Singleton;
 
 import io.reactivex.Single;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
 public final class GetPersonalPhotosUseCase {
 
-    private final IPhotosRepository repository;
+    private final PhotosRepository photosRepository;
 
     @Inject
-    GetPersonalPhotosUseCase(IPhotosRepository repository) {
-        this.repository = repository;
+    GetPersonalPhotosUseCase(PhotosRepository photosRepository) {
+        this.photosRepository = photosRepository;
     }
 
     public Single<List<PhotoModel>> execute() {
-        return repository.getPersonalPhotos();
+        return photosRepository.getPersonalPhotos();
     }
 }

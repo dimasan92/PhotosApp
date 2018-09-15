@@ -5,19 +5,19 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
 public final class DeletePhotoUseCase {
 
-    private final IPhotosRepository repository;
+    private final PhotosRepository photosRepository;
 
     @Inject
-    DeletePhotoUseCase(IPhotosRepository repository) {
-        this.repository = repository;
+    DeletePhotoUseCase(PhotosRepository photosRepository) {
+        this.photosRepository = photosRepository;
     }
 
-    public Completable execute(PhotoModel photo) {
-        return repository.deletePhoto(photo);
+    public Completable execute(final PhotoModel photo) {
+        return photosRepository.deletePhoto(photo);
     }
 }

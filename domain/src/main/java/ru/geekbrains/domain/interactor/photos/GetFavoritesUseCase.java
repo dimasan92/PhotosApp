@@ -7,19 +7,19 @@ import javax.inject.Singleton;
 
 import io.reactivex.Single;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
 public final class GetFavoritesUseCase {
 
-    private final IPhotosRepository repository;
+    private final PhotosRepository photosRepository;
 
     @Inject
-    GetFavoritesUseCase(IPhotosRepository repository) {
-        this.repository = repository;
+    GetFavoritesUseCase(PhotosRepository photosRepository) {
+        this.photosRepository = photosRepository;
     }
 
     public Single<List<PhotoModel>> execute() {
-        return repository.getFavorites();
+        return photosRepository.getFavorites();
     }
 }

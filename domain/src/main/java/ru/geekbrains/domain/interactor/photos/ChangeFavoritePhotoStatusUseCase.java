@@ -5,19 +5,19 @@ import javax.inject.Singleton;
 
 import io.reactivex.Completable;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.domain.repository.IPhotosRepository;
+import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
 public final class ChangeFavoritePhotoStatusUseCase {
 
-    private final IPhotosRepository photosRepository;
+    private final PhotosRepository photosRepository;
 
     @Inject
-    ChangeFavoritePhotoStatusUseCase(IPhotosRepository photosRepository) {
+    ChangeFavoritePhotoStatusUseCase(PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Completable execute(PhotoModel photo) {
+    public Completable execute(final PhotoModel photo) {
         return photosRepository.changeFavoritePhotoStatus(photo);
     }
 }
