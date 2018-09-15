@@ -7,9 +7,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
-import io.reactivex.Single;
-import ru.geekbrains.data.photos.personalphotos.FavoritePhotoEntity;
+import ru.geekbrains.data.photos.entities.FavoritePhotoEntity;
 
 @Dao
 public interface PhotosDao {
@@ -18,8 +16,8 @@ public interface PhotosDao {
     List<FavoritePhotoEntity> getAllFavorites();
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addFavoritePhoto(FavoritePhotoEntity entity);
+    void addFavoritePhoto(final FavoritePhotoEntity entity);
 
     @Delete
-    void deleteFavoritePhoto(FavoritePhotoEntity entity);
+    void deleteFavoritePhoto(final FavoritePhotoEntity entity);
 }
