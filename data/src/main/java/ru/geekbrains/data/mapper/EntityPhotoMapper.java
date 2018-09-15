@@ -5,7 +5,7 @@ import java.util.List;
 import ru.geekbrains.data.photos.entities.FavoritePhotoEntity;
 import ru.geekbrains.domain.model.PhotoModel;
 
-public interface EntityPhotosMapper {
+public interface EntityPhotoMapper {
 
     FavoritePhotoEntity domainToData(final PhotoModel photo);
 

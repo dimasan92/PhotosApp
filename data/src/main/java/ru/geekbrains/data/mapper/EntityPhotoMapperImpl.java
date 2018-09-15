@@ -10,10 +10,10 @@ import ru.geekbrains.data.photos.entities.FavoritePhotoEntity;
 import ru.geekbrains.domain.model.PhotoModel;
 
 @Singleton
-public final class EntityPhotosMapperImpl implements EntityPhotosMapper {
+public final class EntityPhotoMapperImpl implements EntityPhotoMapper {
 
     @Inject
-    EntityPhotosMapperImpl() {
+    EntityPhotoMapperImpl() {
     }
 
     @Override
