@@ -249,7 +249,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
             @Override
             public void openFullSizePhoto(ViewPhotoModel photo) {
-                presenter.openFullSizePhoto(photo);
+                //temporary
+//                presenter.openFullSizePhoto(photo);
             }
         };
     }
