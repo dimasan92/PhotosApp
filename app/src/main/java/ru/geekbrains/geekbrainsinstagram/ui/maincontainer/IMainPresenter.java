@@ -31,7 +31,7 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void viewRecreated(Screen currentScreen);
 
-    void backPressed();
+    void backPressed(boolean isDrawerOpen);
 
     void homeSelected(boolean isFromMainPageNavigationMenu);
 

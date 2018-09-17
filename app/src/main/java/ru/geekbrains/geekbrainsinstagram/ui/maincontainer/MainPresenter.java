@@ -16,8 +16,6 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     private INavigator navigator;
 
-    private boolean isDrawerOpened;
-
     @Inject
     MainPresenter(GetCurrentThemeUseCase getCurrentThemeUseCase) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
@@ -51,8 +49,8 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
-    public void backPressed() {
-        if (isDrawerOpened) {
+    public void backPressed(boolean isDrawerOpen) {
+        if (isDrawerOpen) {
             view.closeDrawer();
         } else {
             navigator.navigateBack();

@@ -99,7 +99,7 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
 
     @Override
     public void onBackPressed() {
-        presenter.backPressed();
+        presenter.backPressed(drawerLayout.isDrawerOpen(GravityCompat.START));
     }
 
     @Override
