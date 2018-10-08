@@ -196,8 +196,8 @@ public final class PersonalPhotosFragment extends BaseFragment
             }
 
             @Override
-            public void onDetailsClick(ViewPhotoModel photo) {
-                activityToFragmentMediator.openFullSizePhoto(photo);
+            public void onDetailsClick(List<ViewPhotoModel> photos) {
+//                activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };
     }

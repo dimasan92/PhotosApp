@@ -29,7 +29,7 @@ public interface INavigator {
 
     void navigateToAppTheme();
 
-    void navigateToPhotoDetails(String photoId);
+    void navigateToPhotoDetails(String[] photoIds);
 
     void navigateBack();
 }

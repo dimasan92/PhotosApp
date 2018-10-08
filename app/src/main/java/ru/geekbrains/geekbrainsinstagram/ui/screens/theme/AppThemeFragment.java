@@ -36,7 +36,7 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
         inject();
         setListeners(view);
 
-        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.app_theme_toolbar));
+//        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.app_theme_toolbar));
 
         return view;
     }

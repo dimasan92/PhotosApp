@@ -1,5 +1,7 @@
 package ru.geekbrains.geekbrainsinstagram.ui.mediator;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
@@ -31,7 +33,7 @@ public final class ActivityToFragmentMediator implements IActivityToFragmentMedi
     }
 
     @Override
-    public void openFullSizePhoto(ViewPhotoModel photo) {
-        handler.openFullSizePhoto(photo);
+    public void openFullSizePhoto(List<ViewPhotoModel> photoIds) {
+        handler.openFullSizePhoto(photoIds);
     }
 }

@@ -12,7 +12,7 @@ import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityScope;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.home.HomeFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.photodetails.PhotoDetailsFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos.FullscreenPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.profile.ProfileFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
@@ -73,13 +73,13 @@ public final class Navigator implements INavigator {
     }
 
     @Override
-    public void navigateToPhotoDetails(String photoId) {
-        openWithoutSaveState(PHOTO_DETAILS_TAG, () -> PhotoDetailsFragment.newInstance(photoId));
+    public void navigateToPhotoDetails(String[] photoIds) {
+        openWithoutSaveState(PHOTO_DETAILS_TAG, () -> FullscreenPhotosFragment.newInstance(photoIds));
     }
 
     @Override
     public void navigateBack() {
-        if (Screen.PHOTO_DETAILS_SCREEN == mapTagToScreen(backStackScreens.pop())) {
+        if (Screen.FULLSCREEN_PHOTOS_SCREEN == mapTagToScreen(backStackScreens.pop())) {
             drawerUnlockListener.drawerUnlock();
         }
         String currentScreenTag = backStackScreens.peek();
@@ -137,7 +137,7 @@ public final class Navigator implements INavigator {
             case APP_THEME_TAG:
                 return Screen.APP_THEME_SCREEN;
             case PHOTO_DETAILS_TAG:
-                return Screen.PHOTO_DETAILS_SCREEN;
+                return Screen.FULLSCREEN_PHOTOS_SCREEN;
             default:
                 throw new IllegalArgumentException("Wrong tag");
         }

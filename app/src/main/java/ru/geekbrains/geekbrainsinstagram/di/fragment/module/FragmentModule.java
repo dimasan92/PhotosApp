@@ -7,8 +7,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.mediator.FragmentToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IFragmentToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.IFavoritesPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.photodetails.IPhotoDetailsPresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.photodetails.PhotoDetailsPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos.FullscreenPhotosPresenterImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos.FullscreenPhotosPresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.IAppThemePresenter;
 
@@ -25,7 +25,7 @@ public interface FragmentModule {
 
     @FragmentScope
     @Binds
-    IPhotoDetailsPresenter providePhotoDetailsPresenter(PhotoDetailsPresenter presenter);
+    FullscreenPhotosPresenter providePhotoDetailsPresenter(FullscreenPhotosPresenterImpl presenter);
 
     @FragmentScope
     @Binds

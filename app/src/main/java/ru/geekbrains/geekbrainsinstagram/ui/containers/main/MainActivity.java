@@ -20,6 +20,7 @@ import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.ActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
@@ -213,7 +214,9 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
                     presenter.profileSelected(false);
                     break;
                 case R.id.nav_app_theme:
-                    presenter.appThemeSelected();
+//                    presenter.appThemeSelected();
+                    startActivity(SettingsActivity.getStartIntent(this, getIntent(),
+                            screenMapper.mapScreen(Screen.APP_THEME_SCREEN)));
                     break;
             }
             return true;

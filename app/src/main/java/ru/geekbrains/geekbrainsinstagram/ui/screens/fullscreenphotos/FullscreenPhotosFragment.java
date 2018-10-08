@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.photodetails;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +8,16 @@ import android.widget.ImageView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
@@ -21,9 +26,10 @@ import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
-public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDetailsPresenter.IView {
+public final class FullscreenPhotosFragment extends BaseFragment
+        implements FullscreenPhotosPresenter.IView {
 
-    private static final String PHOTO_ID_KEY = "photo_id_key";
+    private static final String PHOTO_IDS_KEY = "photo_ids_key";
 
     @Inject
     IActivityToFragmentMediator activityToFragmentMediator;
@@ -32,14 +38,15 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     PictureUtils pictureUtils;
 
     @Inject
-    IPhotoDetailsPresenter presenter;
+    FullscreenPhotosPresenter presenter;
 
     private ImageView mainImageView;
+    private FullscreenPhotosAdapter adapter;
 
-    public static PhotoDetailsFragment newInstance(String photoId) {
-        PhotoDetailsFragment fragment = new PhotoDetailsFragment();
+    public static FullscreenPhotosFragment newInstance(String[] photoIds) {
+        FullscreenPhotosFragment fragment = new FullscreenPhotosFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(PHOTO_ID_KEY, photoId);
+        bundle.putStringArray(PHOTO_IDS_KEY, photoIds);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -48,13 +55,12 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_photo_deatails, container, false);
+        View layout = inflater.inflate(R.layout.fragment_fullscreen_photos, container, false);
 
         inject();
+        initRecyclerView(layout);
 
-        mainImageView = view.findViewById(R.id.iv_photo_details);
-
-        return view;
+        return layout;
     }
 
     @Override
@@ -64,7 +70,7 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
         if (getArguments() == null) {
             presenter.start();
         } else {
-            presenter.start(getArguments().getString(PHOTO_ID_KEY));
+            presenter.start(getArguments().getStringArray(PHOTO_IDS_KEY));
         }
     }
 
@@ -75,8 +81,13 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
     }
 
     @Override
-    public void loadPhoto(ViewPhotoModel photo) {
-        pictureUtils.loadImageIntoFullImageView(photo, mainImageView);
+    public void updatePhotos(List<ViewPhotoModel> photos) {
+        adapter.updatePhotos(photos);
+    }
+
+    @Override
+    public void deletePhoto(ViewPhotoModel photo) {
+        adapter.deletePhoto(photo);
     }
 
     @Override
@@ -90,6 +101,18 @@ public final class PhotoDetailsFragment extends BaseFragment implements IPhotoDe
 
     private void inject() {
         MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+    }
+
+    private void initRecyclerView(View layout) {
+        RecyclerView fullscreenRecyclerView = layout.findViewById(R.id.rv_fullscreen_photos);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        adapter = new FullscreenPhotosAdapter(pictureUtils, photo -> presenter.deletePhoto(photo));
+
+        fullscreenRecyclerView.setLayoutManager(layoutManager);
+        fullscreenRecyclerView.setAdapter(adapter);
+        snapHelper.attachToRecyclerView(fullscreenRecyclerView);
     }
 
     private void showNotifyingMessage(@StringRes int messageId) {

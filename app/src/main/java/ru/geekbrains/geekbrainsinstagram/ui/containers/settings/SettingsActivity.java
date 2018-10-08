@@ -27,6 +27,8 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
     @Inject
     Screen.Mapper screenMapper;
 
+    private boolean isViewSet;
+
     public static Intent getStartIntent(Context packageContext, Intent ownStartIntent, String settingsScreen) {
         Intent startIntent = new Intent(packageContext, SettingsActivity.class);
         startIntent.putExtra(PREVIOUS_START_INTENT, ownStartIntent);
@@ -38,6 +40,7 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
     protected void onCreate(Bundle savedInstanceState) {
         inject();
         presenter.setView(this);
+        isViewSet = true;
         presenter.beforeOnCreate();
 
         super.onCreate(savedInstanceState);
@@ -47,6 +50,22 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
                 () -> MainApplication.getApp().getComponentsManager().releaseFragmentComponent());
 
         presenter.afterOnCreate();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isViewSet) {
+            presenter.setView(this);
+            isViewSet = true;
+        }
+        presenter.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.stop();
     }
 
     @Override

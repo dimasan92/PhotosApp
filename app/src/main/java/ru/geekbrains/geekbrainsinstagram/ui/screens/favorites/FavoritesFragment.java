@@ -126,7 +126,7 @@ public final class FavoritesFragment extends BaseFragment implements IFavoritesP
 
             @Override
             public void onDetailsClick(ViewPhotoModel photo) {
-                activityToFragmentMediator.openFullSizePhoto(photo);
+//                activityToFragmentMediator.openFullSizePhoto(photo);
             }
         };
     }
