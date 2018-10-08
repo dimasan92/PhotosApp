@@ -1,4 +1,6 @@
-package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
+
+import java.util.List;
 
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
@@ -41,5 +43,5 @@ public interface IMainPresenter extends IBasePresenter<IMainPresenter.IView> {
 
     void appThemeSelected();
 
-    void openFullSizePhoto(ViewPhotoModel photo);
+    void openFullSizePhoto(List<ViewPhotoModel> photoIds);
 }

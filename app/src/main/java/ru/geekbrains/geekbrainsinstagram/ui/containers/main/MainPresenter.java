@@ -1,4 +1,6 @@
-package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -43,7 +45,7 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
 
     @Override
     public void viewRecreated(Screen currentScreen) {
-        if (currentScreen == Screen.APP_THEME_SCREEN || currentScreen == Screen.PHOTO_DETAILS_SCREEN) {
+        if (currentScreen == Screen.APP_THEME_SCREEN || currentScreen == Screen.FULLSCREEN_PHOTOS_SCREEN) {
             view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         }
     }
@@ -98,11 +100,15 @@ public final class MainPresenter extends BasePresenter<IMainPresenter.IView> imp
     }
 
     @Override
-    public void openFullSizePhoto(ViewPhotoModel photo) {
-        view.setCurrentScreen(Screen.PHOTO_DETAILS_SCREEN);
+    public void openFullSizePhoto(List<ViewPhotoModel> photos) {
+        view.setCurrentScreen(Screen.FULLSCREEN_PHOTOS_SCREEN);
         view.setMainScreenNavigationState(MainScreenNavigationState.INVISIBLE_STATE);
         view.lockDrawer(true);
-        navigator.navigateToPhotoDetails(photo.getId());
+        String[] photoIds = new String[photos.size()];
+        for (int i = 0; i < photos.size(); i++) {
+            photoIds[i] = photos.get(i).getId();
+        }
+        navigator.navigateToPhotoDetails(photoIds);
     }
 
     private INavigator.BackStackListener backStackListener() {

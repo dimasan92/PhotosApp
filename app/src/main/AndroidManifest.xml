@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/RedAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.maincontainer.MainActivity">
+        <activity android:name=".ui.containers.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

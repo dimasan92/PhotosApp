@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
 
 public enum MainScreenNavigationState {
 

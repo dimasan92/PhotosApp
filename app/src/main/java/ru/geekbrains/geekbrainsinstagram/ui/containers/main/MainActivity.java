@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.maincontainer;
+package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.animation.AlphaAnimation;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -248,9 +250,8 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
             }
 
             @Override
-            public void openFullSizePhoto(ViewPhotoModel photo) {
-                //temporary
-//                presenter.openFullSizePhoto(photo);
+            public void openFullSizePhoto(List<ViewPhotoModel> photoIds) {
+                presenter.openFullSizePhoto(photoIds);
             }
         };
     }
