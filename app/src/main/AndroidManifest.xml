@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/RedAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.containers.settings.SettingsActivity"></activity>
         <activity android:name=".ui.containers.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,10 +33,10 @@
             android:authorities="@string/authority"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/photos_path" />
         </provider>
     </application>
+
 </manifest>
