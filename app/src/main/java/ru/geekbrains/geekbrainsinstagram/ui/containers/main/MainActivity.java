@@ -38,11 +38,13 @@ public final class MainActivity extends AppCompatActivity implements IMainPresen
     @Inject
     IMainPresenter presenter;
 
+    @Inject
+    Screen.Mapper screenMapper;
+
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
     private boolean isViewSet;
     private Screen currentScreen;
-    private Screen.Mapper screenMapper = new Screen.Mapper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
