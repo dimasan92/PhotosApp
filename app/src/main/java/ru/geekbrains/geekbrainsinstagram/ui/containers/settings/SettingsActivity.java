@@ -7,10 +7,11 @@ import android.os.Bundle;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screen;
 
 public final class SettingsActivity extends AppCompatActivity implements SettingsPresenter.View {
 
@@ -22,6 +23,9 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
 
     @Inject
     SettingsPresenter presenter;
+
+    @Inject
+    Screen.Mapper screenMapper;
 
     public static Intent getStartIntent(Context packageContext, Intent ownStartIntent, String settingsScreen) {
         Intent startIntent = new Intent(packageContext, SettingsActivity.class);
@@ -43,10 +47,6 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
                 () -> MainApplication.getApp().getComponentsManager().releaseFragmentComponent());
 
         presenter.afterOnCreate();
-
-        Toolbar toolbar = findViewById(R.id.settings_toolbar);
-        toolbar.setTitle("Title");
-        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -54,6 +54,21 @@ public final class SettingsActivity extends AppCompatActivity implements Setting
         super.onDestroy();
         if (isFinishing()) {
             release();
+        }
+    }
+
+    @Override
+    public void setTheme(AppThemeModel theme) {
+        switch (theme) {
+            case RED_THEME:
+                setTheme(R.style.RedAppTheme);
+                break;
+            case BLUE_THEME:
+                setTheme(R.style.BlueAppTheme);
+                break;
+            case GREEN_THEME:
+                setTheme(R.style.GreenAppTheme);
+                break;
         }
     }
 
