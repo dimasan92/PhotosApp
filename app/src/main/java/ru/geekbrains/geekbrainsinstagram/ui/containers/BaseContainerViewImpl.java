@@ -49,10 +49,10 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (isFinishing()) {
             release();
         }
+        super.onDestroy();
     }
 
     @Override
