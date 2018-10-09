@@ -13,7 +13,7 @@ import ru.terrakok.cicerone.android.support.SupportAppScreen;
 
 public final class Screens {
 
-    enum Screen {
+    public enum Screen {
         APP_THEME_SCREEN
     }
 
