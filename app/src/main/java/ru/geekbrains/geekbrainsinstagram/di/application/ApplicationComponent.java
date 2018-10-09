@@ -10,11 +10,16 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.DataModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.MapperModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.module.NavigationModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.SchedulersModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
 
 @Singleton
-@Component(modules = {DataModule.class, MapperModule.class, UtilsModule.class, SchedulersModule.class})
+@Component(modules = {DataModule.class,
+        MapperModule.class,
+        UtilsModule.class,
+        SchedulersModule.class,
+        NavigationModule.class})
 public interface ApplicationComponent {
 
     MainActivityComponent getMainActivityComponent();
