@@ -11,28 +11,28 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 public final class ComponentsManager {
 
     private ApplicationComponent applicationComponent;
-    private Map<Object, ActivityComponent> activityComponents;
+    private Map<Class<?>, ActivityComponent> activityComponents;
 
     public ComponentsManager(Context context) {
         initApplicationComponent(context);
         activityComponents = new HashMap<>();
     }
 
-    public ActivityComponent getActivityComponent(Object activity) {
-        ActivityComponent component = activityComponents.get(activity);
+    public ActivityComponent getActivityComponent(Class<?> clazz) {
+        ActivityComponent component = activityComponents.get(clazz);
         if (component == null) {
-            if (activity instanceof MainActivity) {
+            if (clazz.getName().equals(MainActivity.class.getName())) {
                 component = applicationComponent.getMainActivityComponent();
             } else {
                 throw new IllegalArgumentException("Illegal class");
             }
-            activityComponents.put(activity, component);
+            activityComponents.put(clazz, component);
         }
         return component;
     }
 
-    public void releaseActivityComponent(Object activity) {
-        activityComponents.remove(activity);
+    public void releaseActivityComponent(Class<?> clazz) {
+        activityComponents.remove(clazz);
     }
 
     private void initApplicationComponent(Context context) {
