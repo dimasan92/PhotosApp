@@ -1,19 +1,9 @@
 package ru.geekbrains.geekbrainsinstagram.ui.containers.settings;
 
-import ru.geekbrains.domain.model.AppThemeModel;
-import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.INavigator;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerPresenter;
 
-public interface SettingsPresenter extends IBasePresenter<SettingsPresenter.View> {
+public interface SettingsPresenter extends BaseContainerPresenter<SettingsPresenter.View> {
 
-    interface View extends IBasePresenter.IView {
-
-        void setTheme(AppThemeModel theme);
+    interface View extends BaseContainerPresenter.View {
     }
-
-    void setNavigator(INavigator navigator);
-
-    void beforeOnCreate();
-
-    void afterOnCreate();
 }

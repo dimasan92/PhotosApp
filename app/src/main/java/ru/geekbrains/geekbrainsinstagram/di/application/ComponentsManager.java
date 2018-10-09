@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
 
 public final class ComponentsManager {
 
@@ -23,6 +24,8 @@ public final class ComponentsManager {
         if (component == null) {
             if (clazz.getName().equals(MainActivity.class.getName())) {
                 component = applicationComponent.getMainActivityComponent();
+            } else if (clazz.getName().equals(SettingsActivity.class.getName())) {
+                component = applicationComponent.getSettingsActivityComponent();
             } else {
                 throw new IllegalArgumentException("Illegal class");
             }
