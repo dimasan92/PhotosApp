@@ -22,9 +22,9 @@
     <string name="nav_favorites_item">Favorites</string>
     <string name="nav_profile_item">Profile</string>
     <string name="nav_app_theme_item">Application color theme</string>
-    <string name="nav_home_tab_item">Home</string>
+    <string name="nav_search_tab_item">Search</string>
+    <string name="nav_camera_tab_item">Camera</string>
     <string name="nav_favorites_tab_item">Favorites</string>
-    <string name="nav_profile_tab_item">Profile</string>
 
     <string name="delete_from_favorites_action">Delete from favorites</string>
     <string name="delete_from_device_action">Delete from device</string>
