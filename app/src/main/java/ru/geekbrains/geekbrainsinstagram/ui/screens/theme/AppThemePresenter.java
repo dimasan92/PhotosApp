@@ -1,47 +1,17 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import ru.geekbrains.domain.interactor.settings.ShouldChangeThemeUseCase;
-import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
 
-@FragmentScope
-public final class AppThemePresenter extends BasePresenter<IAppThemePresenter.IView>
-        implements IAppThemePresenter {
+public interface AppThemePresenter extends BasePresenter<AppThemePresenter.View> {
 
-    private final ShouldChangeThemeUseCase shouldChangeThemeUseCase;
+    interface View extends BasePresenter.View {
 
-    @Inject
-    AppThemePresenter(ShouldChangeThemeUseCase shouldChangeThemeUseCase, ViewPhotoModelMapper mapper) {
-        this.shouldChangeThemeUseCase = shouldChangeThemeUseCase;
+        void applyTheme();
     }
 
-    @Override
-    public void redThemeSelected() {
-        shouldThemeChange(AppThemeModel.RED_THEME);
-    }
+    void redThemeSelected();
 
-    @Override
-    public void blueThemeSelected() {
-        shouldThemeChange(AppThemeModel.BLUE_THEME);
-    }
+    void blueThemeSelected();
 
-    @Override
-    public void greenThemeSelected() {
-        shouldThemeChange(AppThemeModel.GREEN_THEME);
-    }
-
-    private void shouldThemeChange(AppThemeModel theme) {
-        addDisposable(shouldChangeThemeUseCase.execute(theme)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(shouldChange -> {
-                    if (shouldChange) {
-                        view.applyTheme();
-                    }
-                }, getDefaultErrorHandler()));
-    }
+    void greenThemeSelected();
 }

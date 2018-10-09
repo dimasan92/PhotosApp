@@ -10,18 +10,19 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.apptheme.AppThemeFragmentComponent;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.mediator.SettingsContainerToContentMediator;
 
-public final class AppThemeFragment extends BaseFragment implements IAppThemePresenter.IView {
-
-    @Inject
-    IActivityToFragmentMediator activityToFragmentMediator;
+public final class AppThemeFragment extends Fragment implements AppThemePresenter.View {
 
     @Inject
-    IAppThemePresenter presenter;
+    SettingsContainerToContentMediator mediator;
+
+    @Inject
+    AppThemePresenter presenter;
 
     public static AppThemeFragment newInstance() {
         return new AppThemeFragment();
@@ -29,22 +30,20 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_app_theme, container, false);
+    public android.view.View onCreateView(@NonNull LayoutInflater inflater,
+                                          @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View layout = inflater.inflate(R.layout.fragment_app_theme, container, false);
 
         inject();
-        setListeners(view);
+        setListeners(layout);
 
-//        activityToFragmentMediator.setupToolbar(view.findViewById(R.id.app_theme_toolbar));
-
-        return view;
+        return layout;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        presenter.setView(this);
+        presenter.attachView(this);
         presenter.start();
     }
 
@@ -56,21 +55,18 @@ public final class AppThemeFragment extends BaseFragment implements IAppThemePre
 
     @Override
     public void applyTheme() {
-        activityToFragmentMediator.themeChanged();
+        mediator.themeChanged();
     }
 
     private void inject() {
-        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+        AppThemeFragmentComponent component = (AppThemeFragmentComponent) MainApplication.getApp()
+                .getComponentsManager().getFragmentComponent(AppThemeFragment.class);
+        component.inject(this);
     }
 
-    private void setListeners(View view) {
-        Button redThemeButton = view.findViewById(R.id.btn_red_theme);
-        redThemeButton.setOnClickListener(v -> presenter.redThemeSelected());
-
-        Button blueThemeButton = view.findViewById(R.id.btn_blue_theme);
-        blueThemeButton.setOnClickListener(v -> presenter.blueThemeSelected());
-
-        Button greenThemeButton = view.findViewById(R.id.btn_green_theme);
-        greenThemeButton.setOnClickListener(v -> presenter.greenThemeSelected());
+    private void setListeners(View layout) {
+        layout.findViewById(R.id.btn_red_theme).setOnClickListener(v -> presenter.redThemeSelected());
+        layout.findViewById(R.id.btn_blue_theme).setOnClickListener(v -> presenter.blueThemeSelected());
+        layout.findViewById(R.id.btn_green_theme).setOnClickListener(v -> presenter.greenThemeSelected());
     }
 }
