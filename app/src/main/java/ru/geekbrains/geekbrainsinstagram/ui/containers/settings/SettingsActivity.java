@@ -1,9 +1,11 @@
 package ru.geekbrains.geekbrainsinstagram.ui.containers.settings;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -56,6 +58,17 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                presenter.back();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void close() {
         finish();
     }
@@ -91,6 +104,12 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
                 break;
             default:
                 throw new IllegalArgumentException("Wrong screen type");
+        }
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
