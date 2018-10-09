@@ -13,6 +13,9 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityCo
 import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.mediator.SettingsContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
 
 import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.PREVIOUS_START_INTENT;
 import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.SCREEN_TO_OPEN;
@@ -26,10 +29,27 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     @Inject
     Screens.Mapper mapper;
 
+    @Inject
+    NavigatorHolder navigatorHolder;
+
+    private final Navigator navigator = new SupportAppNavigator(this, R.id.settings_fragment_container);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediator.init(this::recreateActivity);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        navigatorHolder.setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        navigatorHolder.removeNavigator();
+        super.onPause();
     }
 
     @Override
