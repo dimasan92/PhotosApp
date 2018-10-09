@@ -2,7 +2,7 @@ package ru.geekbrains.geekbrainsinstagram;
 
 import android.app.Application;
 
-import ru.geekbrains.geekbrainsinstagram.di.ComponentsManager;
+import ru.geekbrains.geekbrainsinstagram.di.application.ComponentsManager;
 
 public final class MainApplication extends Application {
 

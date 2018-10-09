@@ -6,7 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
+import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.DataModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.MapperModule;
 import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
@@ -15,7 +15,7 @@ import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
 @Component(modules = {DataModule.class, MapperModule.class, UtilsModule.class})
 public interface ApplicationComponent {
 
-    ActivityComponent getActivityComponent();
+    MainActivityComponent getMainActivityComponent();
 
     @Component.Builder
     interface Builder {
