@@ -4,19 +4,25 @@ import android.content.Context;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
+import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 public final class ComponentsManager {
 
     private ApplicationComponent applicationComponent;
     private Map<Class<?>, ActivityComponent> activityComponents;
+    private Map<Class<?>, FragmentComponent> fragmentComponents;
 
     public ComponentsManager(Context context) {
         initApplicationComponent(context);
         activityComponents = new HashMap<>();
+        fragmentComponents = new HashMap<>();
     }
 
     public ActivityComponent getActivityComponent(Class<?> clazz) {
@@ -30,6 +36,21 @@ public final class ComponentsManager {
                 throw new IllegalArgumentException("Illegal class");
             }
             activityComponents.put(clazz, component);
+        }
+        return component;
+    }
+
+    public FragmentComponent getFragmentComponent(Class<?> clazz) {
+        FragmentComponent component = fragmentComponents.get(clazz);
+        if (component == null) {
+            if (clazz.getName().equals(AppThemeFragment.class.getName())) {
+                component = ((SettingsActivityComponent) Objects.
+                        requireNonNull(activityComponents.get(SettingsActivity.class)))
+                        .getAppThemeFragmentComponent();
+            } else {
+                throw new IllegalArgumentException("Illegal class");
+            }
+            fragmentComponents.put(clazz, component);
         }
         return component;
     }
