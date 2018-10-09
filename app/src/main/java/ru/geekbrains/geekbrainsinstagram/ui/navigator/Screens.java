@@ -6,7 +6,9 @@ import android.content.Intent;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import androidx.fragment.app.Fragment;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 import ru.terrakok.cicerone.android.support.SupportAppScreen;
 
 public final class Screens {
@@ -17,8 +19,8 @@ public final class Screens {
 
     public static final class SettingsContainer extends SupportAppScreen {
 
-        private static final String SCREEN_TO_OPEN = "screen_to_open";
-        private static final String PREVIOUS_START_INTENT = "previous_start_intent";
+        public static final String SCREEN_TO_OPEN = "screen_to_open";
+        public static final String PREVIOUS_START_INTENT = "previous_start_intent";
 
         private final Screen screenToOpen;
         private final Intent previousStartIntent;
@@ -41,6 +43,13 @@ public final class Screens {
                 intent.putExtra(PREVIOUS_START_INTENT, PREVIOUS_START_INTENT);
             }
             return intent;
+        }
+    }
+
+    public static final class AppThemeScreen extends SupportAppScreen {
+
+        public Fragment getNewFragment() {
+            return AppThemeFragment.newInstance();
         }
     }
 
