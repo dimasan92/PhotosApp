@@ -21,7 +21,7 @@ public abstract class BasePresenterImpl<V extends BasePresenter.View> implements
 
     @Override
     public void stop() {
-        dettachView();
+        detachView();
         clearSubscriptions();
     }
 
@@ -33,7 +33,7 @@ public abstract class BasePresenterImpl<V extends BasePresenter.View> implements
         return Throwable::printStackTrace;
     }
 
-    private void dettachView() {
+    private void detachView() {
         view = null;
     }
 
