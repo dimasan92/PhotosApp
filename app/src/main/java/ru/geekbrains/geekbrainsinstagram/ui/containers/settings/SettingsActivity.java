@@ -1,12 +1,10 @@
 package ru.geekbrains.geekbrainsinstagram.ui.containers.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import javax.inject.Inject;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.TaskStackBuilder;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
@@ -17,7 +15,6 @@ import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAp
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 
-import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.PREVIOUS_START_INTENT;
 import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.SCREEN_TO_OPEN;
 
 public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresenter.View, SettingsPresenter>
@@ -98,10 +95,6 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     }
 
     private void recreateActivity() {
-        TaskStackBuilder.create(this)
-                .addNextIntent((Intent)(getIntent().getParcelableExtra(PREVIOUS_START_INTENT)))
-                .addNextIntent(new Intent(this, SettingsActivity.class))
-                .startActivities();
-        finish();
+        recreate();
     }
 }
