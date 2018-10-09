@@ -38,6 +38,7 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediator.init(this::recreateActivity);
+        presenter.viewIsReady(mapper.getScreen(getIntent().getStringExtra(SCREEN_TO_OPEN)));
     }
 
     @Override
@@ -50,6 +51,16 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     protected void onPause() {
         navigatorHolder.removeNavigator();
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.back();
+    }
+
+    @Override
+    public void close() {
+        finish();
     }
 
     @Override
@@ -88,7 +99,7 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
 
     private void recreateActivity() {
         TaskStackBuilder.create(this)
-                .addNextIntent(getIntent().getParcelableExtra(PREVIOUS_START_INTENT))
+                .addNextIntent((Intent)(getIntent().getParcelableExtra(PREVIOUS_START_INTENT)))
                 .addNextIntent(new Intent(this, SettingsActivity.class))
                 .startActivities();
         finish();
