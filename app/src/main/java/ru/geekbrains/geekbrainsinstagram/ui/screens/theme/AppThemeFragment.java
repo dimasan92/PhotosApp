@@ -31,7 +31,7 @@ public final class AppThemeFragment extends Fragment implements AppThemePresente
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
-                                          @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_app_theme, container, false);
 
         inject();
