@@ -56,6 +56,9 @@ public final class ComponentsManager {
     }
 
     public void releaseActivityComponent(Class<?> clazz) {
+        if (clazz.getName().equals(SettingsActivity.class.getName())) {
+            fragmentComponents.remove(AppThemeFragment.class);
+        }
         activityComponents.remove(clazz);
     }
 
