@@ -1,33 +1,36 @@
 package ru.geekbrains.geekbrainsinstagram.ui.containers.settings;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import javax.inject.Inject;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.TaskStackBuilder;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.mediator.SettingsContainerToContentMediator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
+
+import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.PREVIOUS_START_INTENT;
+import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SettingsContainer.SCREEN_TO_OPEN;
 
 public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresenter.View, SettingsPresenter>
         implements SettingsPresenter.View {
 
-    private static final String PREVIOUS_START_INTENT = "previous_start_intent";
-    private static final String CURRENT_SCREEN = "current_screen";
+    @Inject
+    SettingsContainerToContentMediator mediator;
 
-
-    public static Intent getStartIntent(Context packageContext, Intent ownStartIntent, String settingsScreen) {
-        Intent startIntent = new Intent(packageContext, SettingsActivity.class);
-        startIntent.putExtra(PREVIOUS_START_INTENT, ownStartIntent);
-        startIntent.putExtra(CURRENT_SCREEN, settingsScreen);
-        return startIntent;
-    }
+    @Inject
+    Screens.Mapper mapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mediator.init(this::recreateActivity);
     }
-
 
     @Override
     protected void inject() {
@@ -51,6 +54,14 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
 
     @Override
     protected void setupView() {
-        setContentView(R.layout.activity_settings);
+
+    }
+
+    private void recreateActivity() {
+        TaskStackBuilder.create(this)
+                .addNextIntent(getIntent().getParcelableExtra(PREVIOUS_START_INTENT))
+                .addNextIntent(new Intent(this, SettingsActivity.class))
+                .startActivities();
+        finish();
     }
 }
