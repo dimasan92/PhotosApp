@@ -18,9 +18,9 @@
 
     <string name="nav_main_title">Main</string>
     <string name="nav_settings_title">Settings</string>
-    <string name="nav_home_item">Personal photos gallery</string>
-    <string name="nav_favorites_item">Favorites</string>
-    <string name="nav_profile_item">Profile</string>
+    <string name="nav_search_item">Search photos online</string>
+    <string name="nav_camera_item">Camera photos</string>
+    <string name="nav_favorites_item">Favorites photos</string>
     <string name="nav_app_theme_item">Application color theme</string>
     <string name="nav_search_tab_item">Search</string>
     <string name="nav_camera_tab_item">Camera</string>

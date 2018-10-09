@@ -2,12 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/bottom_action_home"
+        android:id="@+id/bottom_action_search"
         android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/nav_search_tab_item" />
 
     <item
-        android:id="@+id/bottom_action_profile"
+        android:id="@+id/bottom_action_camera"
         android:icon="@drawable/ic_photo_camera_black_24dp"
         android:title="@string/nav_camera_tab_item" />
 
