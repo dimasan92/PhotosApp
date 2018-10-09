@@ -54,7 +54,16 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
 
     @Override
     protected void setupView() {
-
+        setContentView(R.layout.activity_settings);
+        Toolbar toolbar = findViewById(R.id.settings_toolbar);
+        Screens.Screen screenToOpen = mapper.getScreen(getIntent().getStringExtra(SCREEN_TO_OPEN));
+        switch (screenToOpen) {
+            case APP_THEME_SCREEN:
+                toolbar.setTitle(R.string.appbar_app_theme_title);
+                break;
+            default:
+                throw new IllegalArgumentException("Wrong screen type");
+        }
     }
 
     private void recreateActivity() {
