@@ -13,18 +13,20 @@ public final class SettingsPresenterImpl extends BaseContainerPresenterImpl<Sett
         implements SettingsPresenter {
 
     private final Router router;
+    private final Screens screens;
 
     @Inject
-    SettingsPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router) {
+    SettingsPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router, Screens screens) {
         super(getCurrentThemeUseCase);
         this.router = router;
+        this.screens = screens;
     }
 
     @Override
     public void viewIsReady(Screens.Screen screen) {
         switch (screen) {
             case APP_THEME_SCREEN:
-                router.navigateTo(new Screens.AppThemeScreen());
+                router.navigateTo(screens.getAppThemeScreen());
                 break;
             default:
                 throw new IllegalArgumentException("Wrong screen type");

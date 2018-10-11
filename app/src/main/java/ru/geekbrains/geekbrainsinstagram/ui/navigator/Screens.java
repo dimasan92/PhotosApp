@@ -7,67 +7,51 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppScreen;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
+@Singleton
 public final class Screens {
+
+    public static final String SCREEN_TO_OPEN = "screen_to_open";
 
     public enum Screen {
         APP_THEME_SCREEN
     }
 
-    public static final class SettingsContainer extends SupportAppScreen {
+    private FragmentManager fragmentManager;
 
-        public static final String SCREEN_TO_OPEN = "screen_to_open";
-
-        private final Screen screenToOpen;
-
-        public SettingsContainer(Screen screenToOpen) {
-            this.screenToOpen = screenToOpen;
-        }
-
-        @Override
-        public Intent getActivityIntent(Context context) {
-            Intent intent = new Intent(context, SettingsActivity.class);
-            intent.putExtra(SCREEN_TO_OPEN, screenToOpen);
-            return intent;
-        }
+    @Inject
+    Screens() {
     }
 
-    public static final class AppThemeScreen extends SupportAppScreen {
-
-        @Override
-        public Fragment getFragment() {
-            return AppThemeFragment.newInstance();
-        }
+    public void init(FragmentManager fragmentManager) {
+        this.fragmentManager = fragmentManager;
     }
 
-    @Singleton
-    public static class Mapper {
+    public void release() {
+        fragmentManager = null;
+    }
 
-        private static final String APP_THEME_SCREEN = "app_theme_screen";
-
-        @Inject
-        Mapper() {
-        }
-
-        public Screen getScreen(String screen) {
-            switch (screen) {
-                case APP_THEME_SCREEN:
-                    return Screen.APP_THEME_SCREEN;
-                default:
-                    throw new IllegalArgumentException("Wrong string");
+    public SupportAppScreen getSettingsContainer(Screen screenToOpen) {
+        return new SupportAppScreen() {
+            @Override
+            public Intent getActivityIntent(Context context) {
+                Intent intent = new Intent(context, SettingsActivity.class);
+                intent.putExtra(SCREEN_TO_OPEN, screenToOpen);
+                return intent;
             }
-        }
+        };
+    }
 
-        public String mapScreen(Screen screen) {
-            switch (screen) {
-                case APP_THEME_SCREEN:
-                    return APP_THEME_SCREEN;
-                default:
-                    throw new IllegalArgumentException("Wrong string");
+    public SupportAppScreen getAppThemeScreen() {
+        return new SupportAppScreen() {
+            @Override
+            public Fragment getFragment() {
+                return AppThemeFragment.newInstance();
             }
-        }
+        };
     }
 }
