@@ -12,14 +12,9 @@ import ru.terrakok.cicerone.Router;
 public final class SettingsPresenterImpl extends BaseContainerPresenterImpl<SettingsPresenter.View>
         implements SettingsPresenter {
 
-    private final Router router;
-    private final Screens screens;
-
     @Inject
     SettingsPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router, Screens screens) {
-        super(getCurrentThemeUseCase);
-        this.router = router;
-        this.screens = screens;
+        super(getCurrentThemeUseCase, router, screens);
     }
 
     @Override
