@@ -11,6 +11,7 @@ import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityCo
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 public final class ComponentsManager {
@@ -58,6 +59,8 @@ public final class ComponentsManager {
     public void releaseActivityComponent(Class<?> clazz) {
         if (clazz.getName().equals(SettingsActivity.class.getName())) {
             fragmentComponents.remove(AppThemeFragment.class);
+        } else if (clazz.getName().equals(MainActivity.class.getName())) {
+            fragmentComponents.remove(CameraPhotosFragment.class);
         }
         activityComponents.remove(clazz);
     }
