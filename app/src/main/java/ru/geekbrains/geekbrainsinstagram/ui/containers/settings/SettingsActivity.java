@@ -14,9 +14,6 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.mediator.SettingsContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.ScreenMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
-import ru.terrakok.cicerone.Navigator;
-import ru.terrakok.cicerone.NavigatorHolder;
 
 import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SCREEN_TO_OPEN;
 
