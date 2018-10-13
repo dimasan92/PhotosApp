@@ -29,28 +29,11 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     @Inject
     ScreenMapper mapper;
 
-    @Inject
-    NavigatorHolder navigatorHolder;
-
-    private final Navigator navigator = new SupportAppNavigator(this, R.id.settings_fragment_container);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediator.init(this::recreateActivity);
         presenter.viewIsReady(mapper.getScreen(getIntent().getStringExtra(SCREEN_TO_OPEN)));
-    }
-
-    @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
-        navigatorHolder.setNavigator(navigator);
-    }
-
-    @Override
-    protected void onPause() {
-        navigatorHolder.removeNavigator();
-        super.onPause();
     }
 
     @Override

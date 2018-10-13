@@ -8,14 +8,21 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
 
 public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.View, P extends BaseContainerPresenter<V>>
         extends AppCompatActivity
         implements BaseContainerPresenter.View {
 
     @Inject
+    NavigatorHolder navigatorHolder;
+
+    @Inject
     protected P presenter;
 
+    private final Navigator navigator = new SupportAppNavigator(this, R.id.settings_fragment_container);
     private boolean isViewSet;
 
     @Override
@@ -39,6 +46,19 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
         }
         presenter.start();
     }
+
+    @Override
+    protected void onPause() {
+        navigatorHolder.removeNavigator();
+        super.onPause();
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        navigatorHolder.setNavigator(navigator);
+    }
+
 
     @Override
     protected void onStop() {
