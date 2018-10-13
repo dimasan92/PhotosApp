@@ -10,5 +10,5 @@ public interface CameraPhotosFragmentModule {
 
     @CameraPhotosFragmentScope
     @Binds
-    CameraPhotosPresenter provideAppThemePresenter(CameraPhotosPresenterImpl presenter);
+    CameraPhotosPresenter provideCameraPhotosPresenter(CameraPhotosPresenterImpl presenter);
 }
