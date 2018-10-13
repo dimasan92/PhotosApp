@@ -1,6 +1,5 @@
 package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -11,8 +10,6 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
-import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
 
 public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View, MainPresenter>
         implements MainPresenter.View {
@@ -24,6 +21,7 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     protected void inject() {
         MainActivityComponent component = (MainActivityComponent) MainApplication.getApp()
@@ -62,9 +60,6 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
             switch (menuItem.getItemId()) {
                 case R.id.nav_search:
                     presenter.searchSelected(false);
-                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                    intent.putExtra(Screens.SCREEN_TO_OPEN, "app_theme_screen");
-                    startActivity(intent);
                     break;
                 case R.id.nav_camera:
                     presenter.cameraSelected(false);
