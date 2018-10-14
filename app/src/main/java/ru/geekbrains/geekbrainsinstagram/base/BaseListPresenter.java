@@ -1,11 +1,11 @@
 package ru.geekbrains.geekbrainsinstagram.base;
 
-public interface BaseListPresenter {
+public interface BaseListPresenter<V extends BaseListPresenter.RowView> {
 
     interface RowView {
     }
 
-    void bind(int position, RowView view);
+    void bind(int position, V view);
 
     int getCount();
 }
