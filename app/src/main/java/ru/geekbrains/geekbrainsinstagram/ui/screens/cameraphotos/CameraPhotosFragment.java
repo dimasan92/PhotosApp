@@ -25,6 +25,7 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
     CameraPhotosPresenter presenter;
 
     private CameraPhotosAdapter adapter;
+    private boolean isViewSet;
 
     public static CameraPhotosFragment newInstance() {
         return new CameraPhotosFragment();
@@ -41,6 +42,24 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
 
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!isViewSet) {
+            presenter.attachView(this);
+            isViewSet = true;
+        }
+        presenter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
+        isViewSet = false;
+    }
+
 
     private void inject() {
         CameraPhotosFragmentComponent component = (CameraPhotosFragmentComponent) MainApplication.getApp()
