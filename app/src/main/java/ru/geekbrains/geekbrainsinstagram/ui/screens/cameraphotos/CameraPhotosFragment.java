@@ -63,7 +63,6 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
 
         presenter.setCameraResultOkCode(Activity.RESULT_OK);
         presenter.attachView(this);
-        presenter.attachListView(adapter);
         isViewSet = true;
         presenter.create();
 
