@@ -3,6 +3,7 @@ package ru.geekbrains.geekbrainsinstagram.di.activity.main;
 import dagger.Subcomponent;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.cameraphotos.CameraPhotosFragmentComponent;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.favorites.FavoritesFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 
 @MainActivityScope
@@ -10,4 +11,6 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 public interface MainActivityComponent extends ActivityComponent<MainActivity> {
 
     CameraPhotosFragmentComponent getCameraPhotosFragmentComponent();
+
+    FavoritesFragmentComponent getFavoritesFragmentComponent();
 }
