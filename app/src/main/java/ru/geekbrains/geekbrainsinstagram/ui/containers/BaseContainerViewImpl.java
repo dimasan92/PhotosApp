@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
-import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 
@@ -26,7 +25,7 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
     @Inject
     protected P presenter;
 
-    private final Navigator navigator = new SupportAppNavigator(this, R.id.settings_fragment_container);
+    protected Navigator navigator;
     private boolean isViewSet;
 
     @Override
@@ -38,6 +37,7 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
 
         super.onCreate(savedInstanceState);
 
+        navigator = getNavigator();
         screens.init(getSupportFragmentManager());
         presenter.setScreens(screens);
         setupView();
@@ -102,6 +102,8 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
     protected abstract void inject();
 
     protected abstract void attachView();
+
+    protected abstract Navigator getNavigator();
 
     protected abstract void setupView();
 }

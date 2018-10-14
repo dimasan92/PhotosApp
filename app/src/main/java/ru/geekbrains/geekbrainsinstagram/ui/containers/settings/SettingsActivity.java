@@ -14,6 +14,8 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.mediator.SettingsContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.ScreenMapper;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
+import ru.terrakok.cicerone.Navigator;
 
 import static ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens.SCREEN_TO_OPEN;
 
@@ -72,6 +74,11 @@ public final class SettingsActivity extends BaseContainerViewImpl<SettingsPresen
     @Override
     protected void attachView() {
         presenter.attachView(this);
+    }
+
+    @Override
+    protected Navigator getNavigator() {
+        return new SupportAppNavigator(this, R.id.settings_fragment_container);
     }
 
     @Override

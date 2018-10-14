@@ -11,6 +11,8 @@ import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
+import ru.terrakok.cicerone.Navigator;
 
 public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View, MainPresenter>
         implements MainPresenter.View {
@@ -65,6 +67,11 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
     @Override
     protected void attachView() {
         presenter.attachView(this);
+    }
+
+    @Override
+    protected Navigator getNavigator() {
+        return new SupportAppNavigator(this, R.id.main_fragment_container);
     }
 
     @Override
