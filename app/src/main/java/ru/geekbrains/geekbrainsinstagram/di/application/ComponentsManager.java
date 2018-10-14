@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
+import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
@@ -48,6 +49,10 @@ public final class ComponentsManager {
                 component = ((SettingsActivityComponent) Objects.
                         requireNonNull(activityComponents.get(SettingsActivity.class)))
                         .getAppThemeFragmentComponent();
+            } else if (clazz.getName().equals(CameraPhotosFragment.class.getName())) {
+                component = ((MainActivityComponent) Objects.
+                        requireNonNull(activityComponents.get(MainActivity.class)))
+                        .getCameraPhotosFragmentComponent();
             } else {
                 throw new IllegalArgumentException("Illegal class");
             }
