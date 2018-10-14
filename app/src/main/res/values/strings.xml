@@ -2,6 +2,8 @@
     <string name="app_name">GeekbrainsInstagram</string>
 
     <string name="appbar_home_title">Home</string>
+    <string name="appbar_search_title">Online search</string>
+    <string name="appbar_camera_title">Camera photos</string>
     <string name="appbar_favorites_title">Favorites</string>
     <string name="appbar_profile_title">Profile</string>
     <string name="appbar_app_theme_title">Color theme</string>
@@ -48,6 +50,8 @@
     <string name="error_load_photo_message">Cannot load photo</string>
 
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
+    <string name="delete_photo_dialog_delete">Delete</string>
+    <string name="delete_photo_dialog_cancel">Cancel</string>
 
     <string name="gallery_photo_description">Photo</string>
     <string name="toolbar_photo_description">Toolbar</string>
