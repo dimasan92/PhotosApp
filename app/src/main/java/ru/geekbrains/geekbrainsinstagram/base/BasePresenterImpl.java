@@ -4,7 +4,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public abstract class BasePresenterImpl<V extends BasePresenter.View> implements BasePresenter<V> {
+public abstract class BasePresenterImpl<V extends BasePresenter.BaseView> implements BasePresenter<V> {
 
     protected V view;
 

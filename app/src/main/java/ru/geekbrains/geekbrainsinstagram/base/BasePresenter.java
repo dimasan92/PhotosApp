@@ -1,8 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.base;
 
-public interface BasePresenter<V extends BasePresenter.View> {
+public interface BasePresenter<V extends BasePresenter.BaseView> {
 
-    interface View {
+    interface BaseView {
 
     }
 
