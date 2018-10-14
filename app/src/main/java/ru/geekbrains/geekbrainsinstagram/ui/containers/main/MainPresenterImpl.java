@@ -33,6 +33,12 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
 
     @Override
     public void favoritesSelected(boolean isFromMainPageNavigationMenu) {
+        router.navigateTo(screens.getFavoritesScreen());
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.FAVORITES_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override
