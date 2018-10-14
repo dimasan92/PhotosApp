@@ -2,8 +2,7 @@ package ru.geekbrains.geekbrainsinstagram.ui.containers.main;
 
 public enum MainScreenNavigationState {
 
-    HOME_PAGE_STATE,
-    FAVORITES_PAGE_STATE,
-    PROFILE_PAGE_STATE,
-    INVISIBLE_STATE
+    SEARCH_STATE,
+    CAMERA_PHOTOS_STATE,
+    FAVORITES_STATE,
 }
