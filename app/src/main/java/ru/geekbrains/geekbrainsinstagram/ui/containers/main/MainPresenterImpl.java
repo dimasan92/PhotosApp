@@ -16,12 +16,19 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
     MainPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router) {
         super(getCurrentThemeUseCase, router);
     }
+
     @Override
     public void searchSelected(boolean isFromMainPageNavigationMenu) {
     }
 
     @Override
     public void cameraSelected(boolean isFromMainPageNavigationMenu) {
+        router.navigateTo(screens.getCameraPhotosScreen());
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.CAMERA_PHOTOS_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override

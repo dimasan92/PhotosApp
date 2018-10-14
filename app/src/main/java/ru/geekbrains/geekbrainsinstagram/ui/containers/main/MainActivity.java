@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
@@ -28,6 +29,30 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
                 .getComponentsManager()
                 .getActivityComponent(MainActivity.class);
         component.inject(this);
+    }
+
+    @Override
+    public void setMainScreenNavigationState(MainScreenNavigationState state) {
+        switch (state) {
+            case SEARCH_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_search);
+                break;
+            case CAMERA_PHOTOS_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_camera);
+                break;
+            case FAVORITES_STATE:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_favorites);
+                break;
+            default:
+                throw new IllegalArgumentException("Wrong navigation state argument");
+        }
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     @Override
