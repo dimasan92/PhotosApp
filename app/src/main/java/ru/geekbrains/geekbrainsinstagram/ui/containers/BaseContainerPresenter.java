@@ -6,7 +6,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
 
 public interface BaseContainerPresenter<V extends BaseContainerPresenter.View> extends BasePresenter<V> {
 
-    interface View extends BasePresenter.View {
+    interface View extends BaseView {
 
         void setTheme(AppThemeModel theme);
     }
