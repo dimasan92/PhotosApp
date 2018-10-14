@@ -13,8 +13,8 @@ public final class SettingsPresenterImpl extends BaseContainerPresenterImpl<Sett
         implements SettingsPresenter {
 
     @Inject
-    SettingsPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router, Screens screens) {
-        super(getCurrentThemeUseCase, router, screens);
+    SettingsPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router) {
+        super(getCurrentThemeUseCase, router);
     }
 
     @Override

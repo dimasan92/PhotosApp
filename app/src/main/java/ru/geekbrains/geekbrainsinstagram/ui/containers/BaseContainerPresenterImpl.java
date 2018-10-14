@@ -10,12 +10,15 @@ public abstract class BaseContainerPresenterImpl<V extends BaseContainerPresente
 
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
     protected final Router router;
-    protected final Screens screens;
+    protected Screens screens;
 
-    protected BaseContainerPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase,
-                                         Router router, Screens screens) {
+    protected BaseContainerPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
         this.router = router;
+    }
+
+    @Override
+    public void setScreens(Screens screens) {
         this.screens = screens;
     }
 

@@ -13,8 +13,8 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
         implements MainPresenter {
 
     @Inject
-    MainPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router, Screens screens) {
-        super(getCurrentThemeUseCase, router, screens);
+    MainPresenterImpl(GetCurrentThemeUseCase getCurrentThemeUseCase, Router router) {
+        super(getCurrentThemeUseCase, router);
     }
     @Override
     public void searchSelected(boolean isFromMainPageNavigationMenu) {

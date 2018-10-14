@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.geekbrainsinstagram.R;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
@@ -18,6 +19,9 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
 
     @Inject
     NavigatorHolder navigatorHolder;
+
+    @Inject
+    Screens screens;
 
     @Inject
     protected P presenter;
@@ -34,6 +38,8 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
 
         super.onCreate(savedInstanceState);
 
+        screens.init(getSupportFragmentManager());
+        presenter.setScreens(screens);
         setupView();
     }
 
@@ -70,6 +76,7 @@ public abstract class BaseContainerViewImpl<V extends BaseContainerPresenter.Vie
     @Override
     protected void onDestroy() {
         if (isFinishing()) {
+            screens.release();
             release();
         }
         super.onDestroy();
