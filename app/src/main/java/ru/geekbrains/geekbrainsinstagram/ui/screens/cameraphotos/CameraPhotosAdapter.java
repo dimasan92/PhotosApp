@@ -33,6 +33,18 @@ public final class CameraPhotosAdapter extends RecyclerView.Adapter<CameraPhotos
         return 0;
     }
 
+    void updatePhotos() {
+        notifyDataSetChanged();
+    }
+
+    void updatePhoto(int position) {
+        notifyItemChanged(position);
+    }
+
+    void deletePhoto(int position) {
+        notifyItemRemoved(position);
+    }
+
     static final class PhotoHolder extends RecyclerView.ViewHolder {
 
         PhotoHolder(@NonNull View itemView) {

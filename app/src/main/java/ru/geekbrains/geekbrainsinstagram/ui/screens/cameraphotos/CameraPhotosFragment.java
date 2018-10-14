@@ -60,6 +60,20 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         isViewSet = false;
     }
 
+    @Override
+    public void updatePhotos() {
+        adapter.updatePhotos();
+    }
+
+    @Override
+    public void updatePhoto(int position) {
+        adapter.updatePhoto(position);
+    }
+
+    @Override
+    public void deletePhoto(int position) {
+        adapter.deletePhoto(position);
+    }
 
     private void inject() {
         CameraPhotosFragmentComponent component = (CameraPhotosFragmentComponent) MainApplication.getApp()
