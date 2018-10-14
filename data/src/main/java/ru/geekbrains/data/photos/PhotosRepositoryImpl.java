@@ -31,8 +31,8 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
     }
 
     @Override
-    public Single<List<PhotoModel>> getPersonalPhotos() {
-        return Single.fromCallable(this::getPersonalPhotosTask)
+    public Single<List<PhotoModel>> getCameraPhotos() {
+        return Single.fromCallable(this::getCameraPhotosTask)
                 .subscribeOn(Schedulers.io());
     }
 
@@ -67,11 +67,11 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
         }).subscribeOn(Schedulers.io());
     }
 
-    private List<PhotoModel> getPersonalPhotosTask() {
+    private List<PhotoModel> getCameraPhotosTask() {
         String[] photoIds = filesUtils.getPhotosIdsFromDevice();
         List<FavoritePhotoEntity> favorites = photosDao.getAllFavorites();
 
-        List<PhotoModel> personalPhotos = new ArrayList<>();
+        List<PhotoModel> cameraPhotos = new ArrayList<>();
 
         boolean isFavorite;
         for (String photoId : photoIds) {
@@ -82,8 +82,8 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
                     break;
                 }
             }
-            personalPhotos.add(new PhotoModel(photoId, isFavorite));
+            cameraPhotos.add(new PhotoModel(photoId, isFavorite));
         }
-        return personalPhotos;
+        return cameraPhotos;
     }
 }

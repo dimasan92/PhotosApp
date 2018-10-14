@@ -10,16 +10,16 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
-public final class GetPersonalPhotosUseCase {
+public final class GetCameraPhotosUseCase {
 
     private final PhotosRepository photosRepository;
 
     @Inject
-    GetPersonalPhotosUseCase(PhotosRepository photosRepository) {
+    GetCameraPhotosUseCase(PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
     public Single<List<PhotoModel>> execute() {
-        return photosRepository.getPersonalPhotos();
+        return photosRepository.getCameraPhotos();
     }
 }

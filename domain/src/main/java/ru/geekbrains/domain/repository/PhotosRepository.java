@@ -8,7 +8,7 @@ import ru.geekbrains.domain.model.PhotoModel;
 
 public interface PhotosRepository {
 
-    Single<List<PhotoModel>> getPersonalPhotos();
+    Single<List<PhotoModel>> getCameraPhotos();
 
     Single<List<PhotoModel>> getFavorites();
 
