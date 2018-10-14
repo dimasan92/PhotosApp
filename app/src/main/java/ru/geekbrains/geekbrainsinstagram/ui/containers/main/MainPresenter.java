@@ -5,6 +5,10 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerPresenter;
 public interface MainPresenter extends BaseContainerPresenter<MainPresenter.View> {
 
     interface View extends BaseContainerPresenter.View {
+
+        void setMainScreenNavigationState(MainScreenNavigationState state);
+
+        void closeDrawer();
     }
 
     void searchSelected(boolean isFromMainPageNavigationMenu);
