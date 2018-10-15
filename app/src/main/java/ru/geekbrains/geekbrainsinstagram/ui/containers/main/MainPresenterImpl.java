@@ -18,6 +18,11 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
     }
 
     @Override
+    public void viewFirstCreated() {
+        router.navigateTo(screens.getSearchScreen());
+    }
+
+    @Override
     public void searchSelected(boolean isFromMainPageNavigationMenu) {
         router.navigateTo(screens.getSearchScreen());
         if (!isFromMainPageNavigationMenu) {

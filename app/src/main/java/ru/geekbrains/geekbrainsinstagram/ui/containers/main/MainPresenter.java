@@ -11,6 +11,8 @@ public interface MainPresenter extends BaseContainerPresenter<MainPresenter.View
         void closeDrawer();
     }
 
+    void viewFirstCreated();
+
     void searchSelected(boolean isFromMainPageNavigationMenu);
 
     void cameraSelected(boolean isFromMainPageNavigationMenu);

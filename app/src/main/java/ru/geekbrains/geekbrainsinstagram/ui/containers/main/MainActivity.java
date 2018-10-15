@@ -32,6 +32,9 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediator.init(this::initToolbar);
+        if (savedInstanceState == null) {
+            presenter.viewFirstCreated();
+        }
     }
 
     @Override
