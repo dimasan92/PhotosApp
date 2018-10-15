@@ -5,17 +5,25 @@ import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import javax.inject.Inject;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.BaseContainerViewImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.main.mediator.MainContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.navigator.androidxcicerone.SupportAppNavigator;
 import ru.terrakok.cicerone.Navigator;
 
 public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View, MainPresenter>
         implements MainPresenter.View {
+
+    @Inject
+    MainContainerToContentMediator mediator;
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
@@ -23,6 +31,7 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mediator.init(this::initToolbar);
     }
 
     @Override
@@ -123,5 +132,13 @@ public final class MainActivity extends BaseContainerViewImpl<MainPresenter.View
             }
             return false;
         });
+    }
+
+    private void initToolbar(Toolbar toolbar) {
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.open_drawer, R.string.close_drawer);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
     }
 }
