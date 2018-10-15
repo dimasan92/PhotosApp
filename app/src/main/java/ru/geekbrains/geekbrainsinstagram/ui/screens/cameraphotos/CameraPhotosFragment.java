@@ -23,6 +23,7 @@ import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.cameraphotos.CameraPhotosFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
 import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.main.mediator.MainContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
@@ -39,6 +40,9 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
 
     @Inject
     CameraUtils cameraUtils;
+
+    @Inject
+    MainContainerToContentMediator mediator;
 
     @Inject
     CameraPhotosPresenter presenter;
@@ -175,6 +179,7 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         photosRecyclerView.setLayoutManager(layoutUtils.getAdjustedGridLayoutManager());
         Toolbar toolbar = layout.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appbar_camera_title);
+        mediator.setupToolbar(toolbar);
         layout.findViewById(R.id.camera_fab).setOnClickListener(v -> presenter.takeAPhotoRequest());
     }
 }

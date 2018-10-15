@@ -7,25 +7,18 @@ import android.view.ViewGroup;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenter.BaseView;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.favorites.FavoritesFragmentComponent;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
-import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
+import ru.geekbrains.geekbrainsinstagram.ui.containers.main.mediator.MainContainerToContentMediator;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesPresenter.FavoritesView;
 import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
@@ -37,6 +30,9 @@ public final class FavoritesFragment extends Fragment implements FavoritesView {
 
     @Inject
     PictureUtils pictureUtils;
+
+    @Inject
+    MainContainerToContentMediator mediator;
 
     @Inject
     FavoritesPresenter presenter;
@@ -57,9 +53,7 @@ public final class FavoritesFragment extends Fragment implements FavoritesView {
         View view = inflater.inflate(R.layout.fragment_favorites, container, false);
 
         inject();
-        initRecyclerView(view);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.appbar_favorites_title);
+        initView(view);
 
         presenter.attachView(this);
         isViewSet = true;
@@ -105,7 +99,7 @@ public final class FavoritesFragment extends Fragment implements FavoritesView {
 
     @Override
     public void showErrorDeleteFromFavoritesMessage() {
-        Snackbar.make(mainLayout,R.string.error_delete_photo_from_favorites_message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mainLayout, R.string.error_delete_photo_from_favorites_message, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -119,11 +113,12 @@ public final class FavoritesFragment extends Fragment implements FavoritesView {
         component.inject(this);
     }
 
-    private void initRecyclerView(android.view.View layout) {
+    private void initView(android.view.View layout) {
         mainLayout = layout.findViewById(R.id.cl_main_layout);
         photosRecyclerView = layout.findViewById(R.id.rv_photos);
         photosRecyclerView.setLayoutManager(layoutUtils.getAdjustedGridLayoutManager());
         Toolbar toolbar = layout.findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.appbar_favorites_title);
+        mediator.setupToolbar(toolbar);
     }
 }
