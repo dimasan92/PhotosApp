@@ -10,9 +10,11 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.main.mediator.MainContain
 @Module
 public interface MainActivityModule {
 
+    @MainActivityScope
     @Binds
     MainPresenter provideMainPresenter(MainPresenterImpl mainPresenter);
 
+    @MainActivityScope
     @Binds
     MainContainerToContentMediator provideMediator(MainContainerToContentMediatorImpl mediator);
 }
