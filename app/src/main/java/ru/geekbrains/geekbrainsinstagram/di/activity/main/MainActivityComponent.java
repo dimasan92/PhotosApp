@@ -4,11 +4,14 @@ import dagger.Subcomponent;
 import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.cameraphotos.CameraPhotosFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.di.fragment.favorites.FavoritesFragmentComponent;
+import ru.geekbrains.geekbrainsinstagram.di.fragment.search.SearchFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 
 @MainActivityScope
 @Subcomponent(modules = MainActivityModule.class)
 public interface MainActivityComponent extends ActivityComponent<MainActivity> {
+
+    SearchFragmentComponent getSearchFragmentComponent();
 
     CameraPhotosFragmentComponent getCameraPhotosFragmentComponent();
 

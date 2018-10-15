@@ -14,6 +14,7 @@ import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.home.SearchFragment;
 import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
 
 public final class ComponentsManager {
@@ -58,6 +59,10 @@ public final class ComponentsManager {
                 component = ((MainActivityComponent) Objects.
                         requireNonNull(activityComponents.get(MainActivity.class)))
                         .getFavoritesFragmentComponent();
+            } else if (clazz.getName().equals(SearchFragment.class.getName())) {
+                component = ((MainActivityComponent) Objects.
+                        requireNonNull(activityComponents.get(MainActivity.class)))
+                        .getSearchFragmentComponent();
             } else {
                 throw new IllegalArgumentException("Illegal class");
             }
@@ -70,6 +75,7 @@ public final class ComponentsManager {
         if (clazz.getName().equals(SettingsActivity.class.getName())) {
             fragmentComponents.remove(AppThemeFragment.class);
         } else if (clazz.getName().equals(MainActivity.class.getName())) {
+            fragmentComponents.remove(SearchFragment.class);
             fragmentComponents.remove(CameraPhotosFragment.class);
             fragmentComponents.remove(FavoritesFragment.class);
         }
