@@ -43,5 +43,7 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
 
     @Override
     public void appThemeSelected() {
+        router.navigateTo(screens.getSettingsContainer(Screens.Screen.APP_THEME_SCREEN));
+        view.closeDrawer();
     }
 }
