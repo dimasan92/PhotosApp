@@ -19,6 +19,12 @@ public final class MainPresenterImpl extends BaseContainerPresenterImpl<MainPres
 
     @Override
     public void searchSelected(boolean isFromMainPageNavigationMenu) {
+        router.navigateTo(screens.getSearchScreen());
+        if (!isFromMainPageNavigationMenu) {
+            view.setMainScreenNavigationState(MainScreenNavigationState.SEARCH_STATE);
+        } else {
+            view.closeDrawer();
+        }
     }
 
     @Override
