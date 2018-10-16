@@ -12,7 +12,9 @@ public interface PhotosRepository {
 
     Single<List<PhotoModel>> getFavorites();
 
-    Completable changeFavoritePhotoStatus(final PhotoModel photo);
+    Completable changeFavoritePhotoStatus(final PhotoModel photoModel);
 
-    Completable deletePhoto(final PhotoModel photo);
+    Completable savePhoto(final  PhotoModel photoModel);
+
+    Completable deletePhoto(final PhotoModel photoModel);
 }
