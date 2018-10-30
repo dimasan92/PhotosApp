@@ -12,8 +12,7 @@ public final class GetCurrentThemeUseCase {
 
     private final SettingsRepository settingsRepository;
 
-    @Inject
-    GetCurrentThemeUseCase(SettingsRepository settingsRepository) {
+    @Inject GetCurrentThemeUseCase(final SettingsRepository settingsRepository) {
         this.settingsRepository = settingsRepository;
     }
 
