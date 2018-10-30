@@ -4,10 +4,10 @@ import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
 import ru.geekbrains.domain.interactor.photos.CameraPhotoUpdaterUseCase;
+import ru.geekbrains.domain.interactor.photos.ChangePhotoFavoriteStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetFavoritesUseCase;
 import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
-import ru.geekbrains.domain.interactor.photos.changeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
 import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
@@ -22,8 +22,6 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
         implements FavoritesPresenter {
 
     private final GetFavoritesUseCase getFavoritesUseCase;
-    private final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
-    private final DeletePhotoUseCase deletePhotoUseCase;
     private final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
     private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
 
@@ -32,18 +30,15 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
     private boolean wasPhotosLoad;
 
     @Inject FavoritesPresenterImpl(final GetFavoritesUseCase getFavoritesUseCase,
-                                   final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
-                                   final DeletePhotoUseCase deletePhotoUseCase,
                                    final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase,
                                    final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
+                                   final FavoritesListPresenterImpl listPresenter,
                                    final Scheduler uiScheduler) {
         this.getFavoritesUseCase = getFavoritesUseCase;
-        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
-        this.deletePhotoUseCase = deletePhotoUseCase;
         this.cameraPhotoUpdaterUseCase = cameraPhotoUpdaterUseCase;
         this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
+        this.listPresenter = listPresenter;
         this.uiScheduler = uiScheduler;
-        listPresenter = new FavoritesListPresenterImpl();
     }
 
     @Override public void create() {
@@ -64,7 +59,7 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
     }
 
     @Override public void attachListView(final ListView listView) {
-        listPresenter.attachView(listView);
+        listPresenter.attachView(view, listView);
     }
 
     private void uploadPhotos() {
@@ -77,38 +72,28 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
                         getDefaultErrorHandler()));
     }
 
-    private void changePhotoFavoriteState(final PhotoModel photoModel) {
-        addDisposable(changeFavoritePhotoStatusUseCase
-                .execute(photoModel)
-                .observeOn(uiScheduler)
-                .subscribe(newPhotoModel -> {
-                            listPresenter.deletePhotoModel(photoModel);
-                            if (photoModel.isCameraPhoto()) {
-                                cameraPhotoUpdaterUseCase.execute();
-                            } else {
-                                searchPhotoUpdaterUseCase.execute();
-                            }
-                            view.showSuccessDeletedFromFavoritesMessage();
-                        },
-                        throwable -> view.showErrorDeletingFromFavoritesMessage()));
-    }
+    @HomeScope
+    public static class FavoritesListPresenterImpl extends BaseListPresenterImpl<FavoritesView, RowView>
+            implements FavoritesListPresenter {
 
-    private void deletePhotoFromDevice(final PhotoModel photoModel) {
-        addDisposable(deletePhotoUseCase.execute(photoModel)
-                .observeOn(uiScheduler)
-                .subscribe(() -> {
-                            listPresenter.deletePhotoModel(photoModel);
-                            if (photoModel.isCameraPhoto()) {
-                                cameraPhotoUpdaterUseCase.execute();
-                            } else {
-                                searchPhotoUpdaterUseCase.execute();
-                            }
-                            view.showSuccessDeletedFromDeviceMessage();
-                        },
-                        throwable -> view.showErrorDeletingFromDeviceMessage()));
-    }
+        private final ChangePhotoFavoriteStatusUseCase changePhotoFavoriteStatusUseCase;
+        private final DeletePhotoUseCase deletePhotoUseCase;
+        private final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
+        private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
+        private final Scheduler uiScheduler;
 
-    class FavoritesListPresenterImpl extends BaseListPresenterImpl<RowView> implements FavoritesListPresenter {
+        @Inject FavoritesListPresenterImpl(final ChangePhotoFavoriteStatusUseCase changePhotoFavoriteStatusUseCase,
+                                           final DeletePhotoUseCase deletePhotoUseCase,
+                                           final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase,
+                                           final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
+                                           final Scheduler uiScheduler) {
+            this.changePhotoFavoriteStatusUseCase = changePhotoFavoriteStatusUseCase;
+            this.deletePhotoUseCase = deletePhotoUseCase;
+            this.cameraPhotoUpdaterUseCase = cameraPhotoUpdaterUseCase;
+            this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
+            this.uiScheduler = uiScheduler;
+        }
+
 
         @Override public void bind(final int position, final RowView view) {
             final PhotoModel photoModel = photoModels.get(position);
@@ -122,6 +107,37 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
 
         @Override public void onDeleteFromDeviceClick(final int position) {
             deletePhotoFromDevice(photoModels.get(position));
+        }
+
+        private void changePhotoFavoriteState(final PhotoModel photoModel) {
+            addDisposable(changePhotoFavoriteStatusUseCase
+                    .execute(photoModel)
+                    .observeOn(uiScheduler)
+                    .subscribe(newPhotoModel -> {
+                                deletePhotoModel(photoModel);
+                                if (photoModel.isCameraPhoto()) {
+                                    cameraPhotoUpdaterUseCase.execute();
+                                } else {
+                                    searchPhotoUpdaterUseCase.execute();
+                                }
+                                mainView.showSuccessDeletedFromFavoritesMessage();
+                            },
+                            throwable -> mainView.showErrorDeletingFromFavoritesMessage()));
+        }
+
+        private void deletePhotoFromDevice(final PhotoModel photoModel) {
+            addDisposable(deletePhotoUseCase.execute(photoModel)
+                    .observeOn(uiScheduler)
+                    .subscribe(() -> {
+                                deletePhotoModel(photoModel);
+                                if (photoModel.isCameraPhoto()) {
+                                    cameraPhotoUpdaterUseCase.execute();
+                                } else {
+                                    searchPhotoUpdaterUseCase.execute();
+                                }
+                                mainView.showSuccessDeletedFromDeviceMessage();
+                            },
+                            throwable -> mainView.showErrorDeletingFromDeviceMessage()));
         }
     }
 }

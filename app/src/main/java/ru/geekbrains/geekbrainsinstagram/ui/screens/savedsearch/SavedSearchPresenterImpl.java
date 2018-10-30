@@ -3,10 +3,10 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.savedsearch;
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
+import ru.geekbrains.domain.interactor.photos.ChangePhotoFavoriteStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetSavedSearchPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
-import ru.geekbrains.domain.interactor.photos.changeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
 import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
@@ -20,8 +20,6 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
         implements SavedSearchPresenter {
 
     private final GetSavedSearchPhotosUseCase getSavedSearchPhotosUseCase;
-    private final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
-    private final DeletePhotoUseCase deletePhotoUseCase;
     private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
 
     private final Scheduler uiScheduler;
@@ -30,16 +28,13 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
     private boolean wasPhotosLoad;
 
     @Inject SavedSearchPresenterImpl(final GetSavedSearchPhotosUseCase getSavedSearchPhotosUseCase,
-                                     final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
-                                     final DeletePhotoUseCase deletePhotoUseCase,
                                      final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
+                                     final SavedSearchListPresenterImpl listPresenter,
                                      final Scheduler uiScheduler) {
         this.getSavedSearchPhotosUseCase = getSavedSearchPhotosUseCase;
-        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
-        this.deletePhotoUseCase = deletePhotoUseCase;
         this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
         this.uiScheduler = uiScheduler;
-        listPresenter = new SavedSearchListPresenterImpl();
+        this.listPresenter = listPresenter;
     }
 
     @Override public void create() {
@@ -61,7 +56,7 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
     }
 
     @Override public void attachListView(final ListView listView) {
-        listPresenter.attachView(listView);
+        listPresenter.attachView(view, listView);
     }
 
     private void checkPhotosLoading() {
@@ -78,34 +73,25 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
                         throwable -> wasPhotosLoad = false));
     }
 
-    private void deletePhoto(final PhotoModel photoModel) {
-        addDisposable(deletePhotoUseCase.execute(photoModel)
-                .observeOn(uiScheduler)
-                .subscribe(() -> {
-                            listPresenter.deletePhotoModel(photoModel);
-                            searchPhotoUpdaterUseCase.execute();
-                        },
-                        throwable -> view.showErrorDeletingPhoto()));
-    }
+    @HomeScope
+    static class SavedSearchListPresenterImpl extends BaseListPresenterImpl<SavedSearchView, SavedSearchRowView>
+            implements SavedSearchListPresenter {
 
-    private void changePhotoFavoriteState(final PhotoModel photoModel) {
-        addDisposable(changeFavoritePhotoStatusUseCase
-                .execute(photoModel)
-                .observeOn(uiScheduler)
-                .subscribe(newPhotoModel -> {
-                            listPresenter.updatePhotoModel(newPhotoModel);
-                            searchPhotoUpdaterUseCase.execute();
-                        },
-                        throwable -> {
-                            if (photoModel.isFavorite()) {
-                                view.showErrorDeletingFromFavoritesMessage();
-                            } else {
-                                view.showErrorAddingToFavoritesMessage();
-                            }
-                        }));
-    }
+        private final ChangePhotoFavoriteStatusUseCase changePhotoFavoriteStatusUseCase;
+        private final DeletePhotoUseCase deletePhotoUseCase;
+        private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
+        private final Scheduler uiScheduler;
 
-    class SavedSearchListPresenterImpl extends BaseListPresenterImpl<SavedSearchRowView> implements SavedSearchListPresenter {
+        @Inject SavedSearchListPresenterImpl(final ChangePhotoFavoriteStatusUseCase changePhotoFavoriteStatusUseCase,
+                                             final DeletePhotoUseCase deletePhotoUseCase,
+                                             final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
+                                             final Scheduler uiScheduler) {
+            this.changePhotoFavoriteStatusUseCase = changePhotoFavoriteStatusUseCase;
+            this.deletePhotoUseCase = deletePhotoUseCase;
+            this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
+            this.uiScheduler = uiScheduler;
+        }
+
 
         @Override public void bind(final int position, final SavedSearchRowView rowView) {
             final PhotoModel photoModel = photoModels.get(position);
@@ -120,6 +106,33 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
         @Override public void onIoActionClick(final int position) {
             final PhotoModel photoModel = photoModels.get(position);
             deletePhoto(photoModel);
+        }
+
+        private void changePhotoFavoriteState(final PhotoModel photoModel) {
+            addDisposable(changePhotoFavoriteStatusUseCase
+                    .execute(photoModel)
+                    .observeOn(uiScheduler)
+                    .subscribe(newPhotoModel -> {
+                                updatePhotoModel(newPhotoModel);
+                                searchPhotoUpdaterUseCase.execute();
+                            },
+                            throwable -> {
+                                if (photoModel.isFavorite()) {
+                                    mainView.showErrorDeletingFromFavoritesMessage();
+                                } else {
+                                    mainView.showErrorAddingToFavoritesMessage();
+                                }
+                            }));
+        }
+
+        private void deletePhoto(final PhotoModel photoModel) {
+            addDisposable(deletePhotoUseCase.execute(photoModel)
+                    .observeOn(uiScheduler)
+                    .subscribe(() -> {
+                                deletePhotoModel(photoModel);
+                                searchPhotoUpdaterUseCase.execute();
+                            },
+                            throwable -> mainView.showErrorDeletingPhoto()));
         }
     }
 }

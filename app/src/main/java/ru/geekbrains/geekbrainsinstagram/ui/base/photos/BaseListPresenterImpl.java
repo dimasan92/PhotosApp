@@ -3,24 +3,42 @@ package ru.geekbrains.geekbrainsinstagram.ui.base.photos;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import ru.geekbrains.domain.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.RowView;
 
-public abstract class BaseListPresenterImpl<V extends RowView> implements BaseListPresenter<V> {
+public abstract class BaseListPresenterImpl<V extends BasePresenter.BaseView,
+        RV extends RowView> implements BaseListPresenter<RV> {
 
     protected List<PhotoModel> photoModels = new ArrayList<>();
+    private final CompositeDisposable disposables = new CompositeDisposable();
+    protected V mainView;
     private ListView listView;
 
     @Override public int getCount() {
         return photoModels.size();
     }
 
-    public void attachView(final ListView listView) {
+    public void attachView(final V mainView, final ListView listView) {
+        this.mainView = mainView;
         this.listView = listView;
     }
 
     public void detachView() {
+        mainView = null;
         listView = null;
+        disposables.clear();
+    }
+
+    protected void addDisposable(Disposable disposable) {
+        disposables.add(disposable);
+    }
+
+    protected Consumer<Throwable> getDefaultErrorHandler() {
+        return Throwable::printStackTrace;
     }
 
     public void setPhotoModels(final List<PhotoModel> photoModels) {
@@ -33,7 +51,7 @@ public abstract class BaseListPresenterImpl<V extends RowView> implements BaseLi
         listView.updatePhoto(photoModels.indexOf(photoModel));
     }
 
-    public void updatePhotoModel(final PhotoModel photoModel) {
+    protected void updatePhotoModel(final PhotoModel photoModel) {
         int position = searchItemPosition(photoModel);
         if (position == -1) {
             return;
