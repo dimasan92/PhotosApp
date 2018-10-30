@@ -10,21 +10,21 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
 public final class FullscreenPhotosAdapter extends RecyclerView.Adapter<FullscreenPhotosAdapter.FullscreenPhotoHolder> {
 
     interface FullscreenListener {
 
-        void onDeleteClick(ViewPhotoModel photo);
+        void onDeleteClick(PhotoModel photo);
     }
 
     private final PictureUtils pictureUtils;
     private final FullscreenListener fullscreenListener;
 
-    private List<ViewPhotoModel> photos = Collections.emptyList();
+    private List<PhotoModel> photos = Collections.emptyList();
 
     FullscreenPhotosAdapter(PictureUtils PictureUtils, FullscreenListener fullscreenListener) {
         this.pictureUtils = PictureUtils;
@@ -49,12 +49,12 @@ public final class FullscreenPhotosAdapter extends RecyclerView.Adapter<Fullscre
         return photos.size();
     }
 
-    void updatePhotos(final List<ViewPhotoModel> photos) {
+    void updatePhotos(final List<PhotoModel> photos) {
         this.photos = photos;
         notifyDataSetChanged();
     }
 
-    void deletePhoto(final ViewPhotoModel photo) {
+    void deletePhoto(final PhotoModel photo) {
         notifyItemRemoved(photos.indexOf(photo));
         photos.remove(photo);
     }
@@ -64,7 +64,7 @@ public final class FullscreenPhotosAdapter extends RecyclerView.Adapter<Fullscre
         private final ImageView photoImageView;
         private final PictureUtils pictureUtils;
 
-        private ViewPhotoModel photo;
+        private PhotoModel photo;
 
         FullscreenPhotoHolder(@NonNull View itemView, PictureUtils pictureUtils,
                               FullscreenListener fullscreenListener) {
@@ -76,9 +76,9 @@ public final class FullscreenPhotosAdapter extends RecyclerView.Adapter<Fullscre
                     v -> fullscreenListener.onDeleteClick(photo));
         }
 
-        void bind(final ViewPhotoModel photo) {
+        void bind(final PhotoModel photo) {
             this.photo = photo;
-            pictureUtils.loadImageIntoGridImageView(photo, photoImageView);
+            pictureUtils.loadSavedImageIntoGridCell(photo.getFilePath(), photoImageView);
         }
     }
 }

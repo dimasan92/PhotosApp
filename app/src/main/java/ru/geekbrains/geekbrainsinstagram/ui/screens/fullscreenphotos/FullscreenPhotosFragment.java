@@ -2,7 +2,6 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -10,34 +9,29 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import ru.geekbrains.geekbrainsinstagram.MainApplication;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.base.BaseFragment;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
-import ru.geekbrains.geekbrainsinstagram.ui.mediator.IActivityToFragmentMediator;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
-public final class FullscreenPhotosFragment extends BaseFragment
-        implements FullscreenPhotosPresenter.IView {
+public final class FullscreenPhotosFragment extends Fragment
+        implements FullscreenPhotosPresenter.IView, BasePresenter.BaseView {
 
     private static final String PHOTO_IDS_KEY = "photo_ids_key";
 
-    @Inject
-    IActivityToFragmentMediator activityToFragmentMediator;
 
-    @Inject
+//    @Inject
     PictureUtils pictureUtils;
 
-    @Inject
+//    @Inject
     FullscreenPhotosPresenter presenter;
 
     private ImageView mainImageView;
@@ -53,12 +47,12 @@ public final class FullscreenPhotosFragment extends BaseFragment
 
     @NonNull
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_fullscreen_photos, container, false);
+    public android.view.View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                          @Nullable Bundle savedInstanceState) {
+        android.view.View layout = inflater.inflate(R.layout.fragment_fullscreen_photos, container, false);
 
         inject();
-        initRecyclerView(layout);
+//        initRecyclerView(layout);
 
         return layout;
     }
@@ -66,7 +60,7 @@ public final class FullscreenPhotosFragment extends BaseFragment
     @Override
     public void onStart() {
         super.onStart();
-        presenter.setView(this);
+        presenter.attachView(this);
         if (getArguments() == null) {
             presenter.start();
         } else {
@@ -81,12 +75,12 @@ public final class FullscreenPhotosFragment extends BaseFragment
     }
 
     @Override
-    public void updatePhotos(List<ViewPhotoModel> photos) {
+    public void updatePhotos(List<PhotoModel> photos) {
         adapter.updatePhotos(photos);
     }
 
     @Override
-    public void deletePhoto(ViewPhotoModel photo) {
+    public void deletePhoto(PhotoModel photo) {
         adapter.deletePhoto(photo);
     }
 
@@ -100,10 +94,10 @@ public final class FullscreenPhotosFragment extends BaseFragment
     }
 
     private void inject() {
-        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
+//        MainApplication.getApp().getComponentsManager().getFragmentComponent().inject(this);
     }
 
-    private void initRecyclerView(View layout) {
+    private void initRecyclerView(android.view.View layout) {
         RecyclerView fullscreenRecyclerView = layout.findViewById(R.id.rv_fullscreen_photos);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.HORIZONTAL, false);

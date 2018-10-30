@@ -5,13 +5,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.domain.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
-@FragmentScope
-public final class FullscreenPhotosPresenterImpl extends BasePresenter<FullscreenPhotosPresenter.IView>
+public final class FullscreenPhotosPresenterImpl extends BasePresenterImpl<FullscreenPhotosPresenter.IView>
         implements FullscreenPhotosPresenter {
 
     @Inject
@@ -25,15 +23,15 @@ public final class FullscreenPhotosPresenterImpl extends BasePresenter<Fullscree
 
     @Override
     public void start(String[] photoIds) {
-        List<ViewPhotoModel> photos = new ArrayList<>(photoIds.length);
+        List<PhotoModel> photos = new ArrayList<>(photoIds.length);
         for (String photoId : photoIds) {
-            photos.add(new ViewPhotoModel(photoId));
+//            photos.add(new ViewPhotoModel(photoId));
         }
         view.updatePhotos(photos);
     }
 
     @Override
-    public void deletePhoto(ViewPhotoModel photo) {
+    public void deletePhoto(PhotoModel photo) {
         view.deletePhoto(photo);
     }
 }

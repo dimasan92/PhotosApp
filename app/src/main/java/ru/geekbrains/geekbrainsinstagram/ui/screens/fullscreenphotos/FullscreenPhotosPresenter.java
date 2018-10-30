@@ -2,22 +2,22 @@ package ru.geekbrains.geekbrainsinstagram.ui.screens.fullscreenphotos;
 
 import java.util.List;
 
-import ru.geekbrains.geekbrainsinstagram.base.IBasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.domain.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenter;
 import ru.geekbrains.geekbrainsinstagram.ui.common.NotifyingMessage;
 
-public interface FullscreenPhotosPresenter extends IBasePresenter<FullscreenPhotosPresenter.IView> {
+public interface FullscreenPhotosPresenter extends BasePresenter<FullscreenPhotosPresenter.IView> {
 
-    interface IView extends IBasePresenter.IView {
+    interface IView extends BasePresenter.BaseView {
 
-        void updatePhotos(List<ViewPhotoModel> photos);
+        void updatePhotos(List<PhotoModel> photos);
 
-        void deletePhoto(ViewPhotoModel photo);
+        void deletePhoto(PhotoModel photo);
 
         void showNotifyingMessage(NotifyingMessage message);
     }
 
     void start(String[] photoIds);
 
-    void deletePhoto(ViewPhotoModel photo);
+    void deletePhoto(PhotoModel photo);
 }
