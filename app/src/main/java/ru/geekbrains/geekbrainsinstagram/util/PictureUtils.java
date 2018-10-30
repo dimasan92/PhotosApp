@@ -2,11 +2,17 @@ package ru.geekbrains.geekbrainsinstagram.util;
 
 import android.widget.ImageView;
 
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import io.reactivex.Single;
 
 public interface PictureUtils {
 
-    void loadImageIntoGridImageView(final ViewPhotoModel photo, final ImageView imageView);
+    Single<byte[]> getImageArray(final String url);
 
-    void loadImageIntoFullImageView(final ViewPhotoModel photo, final ImageView imageView);
+    void loadOnlineImageIntoGridCell(final String url, final ImageView imageView);
+
+    void loadSavedImageIntoGridCell(final String filePath, final ImageView imageView);
+
+    void loadOnlineImageIntoFullView(final String url, final ImageView imageView);
+
+    void loadSavedImageIntoFullView(final String filePath, final ImageView imageView);
 }
