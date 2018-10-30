@@ -1,12 +1,16 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.theme;
 
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenter;
 
-public interface AppThemePresenter extends BasePresenter<AppThemePresenter.View> {
+import static ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemePresenter.ThemeView;
 
-    interface View extends BasePresenter.View {
+public interface AppThemePresenter extends BasePresenter<ThemeView> {
+
+    interface ThemeView extends BasePresenter.BaseView {
 
         void applyTheme();
+
+        void release();
     }
 
     void redThemeSelected();
@@ -14,4 +18,6 @@ public interface AppThemePresenter extends BasePresenter<AppThemePresenter.View>
     void blueThemeSelected();
 
     void greenThemeSelected();
+
+    void back();
 }

@@ -1,23 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.favorites;
 
-import ru.geekbrains.geekbrainsinstagram.base.BaseListPresenter;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter;
 
-import static ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesListPresenter.FavoriteView;
-
-interface FavoritesListPresenter extends BaseListPresenter<FavoriteView> {
-
-    interface FavoritesListView {
-
-        void updatePhotos();
-
-        void deletePhoto(final int position);
-    }
-
-    interface FavoriteView extends BaseListPresenter.RowView {
-
-        void loadImage(final ViewPhotoModel photoModel);
-    }
+interface FavoritesListPresenter extends BaseListPresenter<BaseListPresenter.RowView> {
 
     void onDeleteFromFavoritesClick(final int position);
 

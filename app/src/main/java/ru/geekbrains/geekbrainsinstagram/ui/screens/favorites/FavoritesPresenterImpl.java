@@ -1,140 +1,128 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.favorites;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
-import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.interactor.photos.CameraPhotoUpdaterUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetFavoritesUseCase;
+import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
+import ru.geekbrains.domain.interactor.photos.SetFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenterImpl;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.favorites.FavoritesFragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesListPresenter.FavoritesListView;
+import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.ListView;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.RowView;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenterImpl;
 
 import static ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesPresenter.FavoritesView;
 
-@FavoritesFragmentScope
+@HomeScope
 public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesView>
         implements FavoritesPresenter {
 
     private final GetFavoritesUseCase getFavoritesUseCase;
-    private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
+    private final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
+    private final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
+    private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
 
     private final Scheduler uiScheduler;
-    private final ViewPhotoModelMapper photosMapper;
     private final FavoritesListPresenterImpl listPresenter;
+    private boolean wasPhotosLoad;
 
-    @Inject
-    FavoritesPresenterImpl(GetFavoritesUseCase getFavoritesUseCase,
-                           ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
-                           DeletePhotoUseCase deletePhotoUseCase,
-                           Scheduler uiScheduler, ViewPhotoModelMapper photosMapper) {
+    @Inject FavoritesPresenterImpl(final GetFavoritesUseCase getFavoritesUseCase,
+                                   final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase,
+                                   final DeletePhotoUseCase deletePhotoUseCase,
+                                   final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase,
+                                   final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
+                                   final Scheduler uiScheduler) {
         this.getFavoritesUseCase = getFavoritesUseCase;
-        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
+        this.setFavoritePhotoStatusUseCase = setFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
+        this.cameraPhotoUpdaterUseCase = cameraPhotoUpdaterUseCase;
+        this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
         this.uiScheduler = uiScheduler;
-        this.photosMapper = photosMapper;
         listPresenter = new FavoritesListPresenterImpl();
     }
 
-    @Override
-    public void create() {
+    @Override public void create() {
         view.init(listPresenter);
+        cameraPhotoUpdaterUseCase.subscribe(b -> wasPhotosLoad = false);
+        searchPhotoUpdaterUseCase.subscribe(b -> wasPhotosLoad = false);
     }
 
-    @Override
-    public void start() {
-        uploadPhotos();
+    @Override public void start() {
+        if (!wasPhotosLoad) {
+            uploadPhotos();
+        }
     }
 
-    @Override
-    public void stop() {
+    @Override public void stop() {
         super.stop();
         listPresenter.detachView();
     }
 
-    @Override
-    public void attachListView(final FavoritesListView view) {
-        listPresenter.attachView(view);
+    @Override public void attachListView(final ListView listView) {
+        listPresenter.attachView(listView);
     }
 
     private void uploadPhotos() {
         addDisposable(getFavoritesUseCase.execute()
                 .observeOn(uiScheduler)
-                .subscribe(photos -> listPresenter.setPhotos(photosMapper.domainToView(photos)),
+                .subscribe(photoModels -> {
+                            listPresenter.setPhotoModels(photoModels);
+                            wasPhotosLoad = true;
+                        },
                         getDefaultErrorHandler()));
     }
 
-    private void deletePhotoFromFavorites(ViewPhotoModel photo) {
-        PhotoModel photoModel = photosMapper.viewToDomainWithFavoriteChange(photo);
-        addDisposable(changeFavoritePhotoStatusUseCase.execute(photoModel)
+    private void setPhotoFavoriteState(final PhotoModel photoModel) {
+        final PhotoModel newPhotoModel = new PhotoModel(photoModel, false);
+        addDisposable(setFavoritePhotoStatusUseCase
+                .execute(newPhotoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> {
-                            listPresenter.deletePhoto(photo);
-                            view.showSuccessDeleteFromFavoritesMessage();
+                            listPresenter.deletePhotoModel(photoModel);
+                            if (photoModel.isCameraPhoto()) {
+                                cameraPhotoUpdaterUseCase.execute();
+                            } else {
+                                searchPhotoUpdaterUseCase.execute();
+                            }
+                            view.showSuccessDeletedFromFavoritesMessage();
                         },
-                        throwable -> view.showErrorDeleteFromFavoritesMessage()));
+                        throwable -> view.showErrorDeletingFromFavoritesMessage()));
     }
 
-    private void deletePhotoFromDevice(ViewPhotoModel photo) {
-        PhotoModel photoModel = photosMapper.viewToDomain(photo);
+    private void deletePhotoFromDevice(final PhotoModel photoModel) {
         addDisposable(deletePhotoUseCase.execute(photoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> {
-                            listPresenter.deletePhoto(photo);
-                            view.showSuccessDeleteFromDeviceMessage();
+                            listPresenter.deletePhotoModel(photoModel);
+                            if (photoModel.isCameraPhoto()) {
+                                cameraPhotoUpdaterUseCase.execute();
+                            } else {
+                                searchPhotoUpdaterUseCase.execute();
+                            }
+                            view.showSuccessDeletedFromDeviceMessage();
                         },
-                        throwable -> view.showErrorDeleteFromDeviceMessage()));
+                        throwable -> view.showErrorDeletingFromDeviceMessage()));
     }
 
-    class FavoritesListPresenterImpl implements FavoritesListPresenter {
+    class FavoritesListPresenterImpl extends BaseListPresenterImpl<RowView> implements FavoritesListPresenter {
 
-        private List<ViewPhotoModel> photos = new ArrayList<>();
-        private FavoritesListView listView;
-
-        void setPhotos(List<ViewPhotoModel> photos) {
-            this.photos = photos;
-            listView.updatePhotos();
-        }
-
-        void attachView(FavoritesListView listView) {
-            this.listView = listView;
-        }
-
-        void detachView() {
-            listView = null;
-        }
-
-        @Override
-        public void bind(final int position, final FavoriteView view) {
-            final ViewPhotoModel photoModel = photos.get(position);
-            view.loadImage(photoModel);
-        }
-
-        @Override
-        public int getCount() {
-            return photos.size();
+        @Override public void bind(final int position, final RowView view) {
+            final PhotoModel photoModel = photoModels.get(position);
+            view.loadImage(photoModel.getFilePath());
         }
 
         @Override
         public void onDeleteFromFavoritesClick(final int position) {
-            deletePhotoFromFavorites(photos.get(position));
+            setPhotoFavoriteState(photoModels.get(position));
         }
 
-        @Override
-        public void onDeleteFromDeviceClick(final int position) {
-            deletePhotoFromDevice(photos.get(position));
-        }
-
-        void deletePhoto(final ViewPhotoModel photo) {
-            listView.deletePhoto(photos.indexOf(photo));
-            photos.remove(photo);
+        @Override public void onDeleteFromDeviceClick(final int position) {
+            deletePhotoFromDevice(photoModels.get(position));
         }
     }
 }

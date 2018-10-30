@@ -4,16 +4,16 @@
     <item
         android:id="@+id/bottom_action_search"
         android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/nav_search_tab_item" />
+        android:title="@string/bottom_search_item" />
 
     <item
         android:id="@+id/bottom_action_camera"
         android:icon="@drawable/ic_photo_camera_black_24dp"
-        android:title="@string/nav_camera_tab_item" />
+        android:title="@string/bottom_camera_item" />
 
     <item
         android:id="@+id/bottom_action_favorites"
         android:icon="@drawable/ic_star_black_24dp"
-        android:title="@string/nav_favorites_tab_item" />
+        android:title="@string/bottom_favorites_item" />
 
 </menu>

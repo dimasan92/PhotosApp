@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.savedsearch;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,27 +7,28 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import ru.geekbrains.geekbrainsinstagram.R;
 import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.ListView;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoRowView;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
-public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.PhotoHolder>
+import static androidx.recyclerview.widget.RecyclerView.*;
+import static ru.geekbrains.geekbrainsinstagram.ui.screens.savedsearch.SavedSearchListPresenter.*;
+
+public final class SavedSearchAdapter extends Adapter<SavedSearchAdapter.PhotoHolder>
         implements ListView {
 
-    private final CameraPhotoListPresenter presenter;
+    private final SavedSearchListPresenter presenter;
     private final PictureUtils pictureUtils;
 
-    CameraPhotosAdapter(final CameraPhotoListPresenter presenter, final PictureUtils pictureUtils) {
+    SavedSearchAdapter(final SavedSearchListPresenter presenter, final PictureUtils pictureUtils) {
         this.presenter = presenter;
         this.pictureUtils = pictureUtils;
     }
 
     @NonNull @Override public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PhotoHolder(inflater.inflate(R.layout.item_photo, parent, false));
+        return new PhotoHolder(inflater.inflate(R.layout.item_photo,
+                parent, false));
     }
 
     @Override public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
@@ -46,14 +47,15 @@ public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.Photo
         notifyItemChanged(position);
     }
 
-    @Override public void deletePhoto(final int position) {
+    @Override public void deletePhoto(int position) {
         notifyItemRemoved(position);
     }
 
-    final class PhotoHolder extends ViewHolder implements CameraPhotoRowView {
+    final class PhotoHolder extends ViewHolder implements SavedSearchRowView {
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
+        private final ImageView ioActionImageView;
 
         PhotoHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,8 +65,8 @@ public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.Photo
             isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
             isFavoriteImageView.setOnClickListener(v -> presenter.onFavoriteClick(getAdapterPosition()));
 
-            itemView.findViewById(R.id.iv_io_action_photo).setOnClickListener(v ->
-                    presenter.onDeleteClick(getAdapterPosition()));
+            ioActionImageView = itemView.findViewById(R.id.iv_io_action_photo);
+            ioActionImageView.setOnClickListener(v -> presenter.onIoActionClick(getAdapterPosition()));
         }
 
         @Override public void loadImage(final String filePath) {

@@ -3,31 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="@string/nav_main_title">
+    <item android:title="@string/drawer_home_title">
         <menu>
             <item
-                android:id="@+id/nav_search"
+                android:id="@+id/drawer_action_search"
                 android:icon="@drawable/ic_search_black_24dp"
-                android:title="@string/nav_search_item" />
+                android:title="@string/drawer_search_item" />
 
             <item
-                android:id="@+id/nav_camera"
+                android:id="@+id/drawer_action_camera"
                 android:icon="@drawable/ic_photo_camera_black_24dp"
-                android:title="@string/nav_camera_item" />
+                android:title="@string/drawer_camera_item" />
 
             <item
-                android:id="@+id/nav_favorites"
+                android:id="@+id/drawer_action_favorites"
                 android:icon="@drawable/ic_star_filled_24dp"
-                android:title="@string/nav_favorites_item" />
+                android:title="@string/drawer_favorites_item" />
         </menu>
     </item>
 
-    <item android:title="@string/nav_settings_title">
+    <item android:title="@string/drawer_settings_title">
         <menu>
             <item
-                android:id="@+id/nav_app_theme"
+                android:id="@+id/drawer_action_app_theme"
                 android:icon="@drawable/ic_theme_chooser_black_24dp"
-                android:title="@string/nav_app_theme_item" />
+                android:title="@string/drawer_app_theme_item" />
         </menu>
     </item>
 </menu>

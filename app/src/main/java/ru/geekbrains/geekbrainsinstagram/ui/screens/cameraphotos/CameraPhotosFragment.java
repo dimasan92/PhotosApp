@@ -18,34 +18,26 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.MainApplication;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.cameraphotos.CameraPhotosFragmentComponent;
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.ui.containers.main.mediator.MainContainerToContentMediator;
+import ru.geekbrains.geekbrainsinstagram.ui.container.mediator.ContainerToContentMediator;
+import ru.geekbrains.geekbrainsinstagram.ui.navigator.Screens;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosPresenter.CameraPhotosView;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
 import ru.geekbrains.geekbrainsinstagram.util.LayoutUtils;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
-public final class CameraPhotosFragment extends Fragment implements CameraPhotosPresenter.CameraPhotosView {
+public final class CameraPhotosFragment extends Fragment implements CameraPhotosView {
 
     private static final int REQUEST_CAMERA_PHOTO = 1;
 
-    @Inject
-    LayoutUtils layoutUtils;
-
-    @Inject
-    PictureUtils pictureUtils;
-
-    @Inject
-    CameraUtils cameraUtils;
-
-    @Inject
-    MainContainerToContentMediator mediator;
-
-    @Inject
-    CameraPhotosPresenter presenter;
+    @Inject LayoutUtils layoutUtils;
+    @Inject PictureUtils pictureUtils;
+    @Inject CameraUtils cameraUtils;
+    @Inject ContainerToContentMediator mediator;
+    @Inject CameraPhotosPresenter presenter;
 
     private CoordinatorLayout mainLayout;
     private RecyclerView photosRecyclerView;
@@ -56,25 +48,23 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         return new CameraPhotosFragment();
     }
 
-    @NonNull
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+        inject();
+        super.onCreate(savedInstanceState);
+    }
+
+    @NonNull @Override public View onCreateView(@NonNull LayoutInflater inflater,
+                                                @Nullable ViewGroup container,
+                                                @Nullable Bundle savedInstanceState) {
         final View layout = inflater.inflate(R.layout.fragment_camera_photos, container, false);
 
-        inject();
         initView(layout);
-
-        presenter.setCameraResultOkCode(Activity.RESULT_OK);
-        presenter.attachView(this);
-        isViewSet = true;
-        presenter.create();
+        preparePresenter();
 
         return layout;
     }
 
-    @Override
-    public void onStart() {
+    @Override public void onStart() {
         super.onStart();
         if (!isViewSet) {
             presenter.attachView(this);
@@ -84,35 +74,28 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         presenter.start();
     }
 
-    @Override
-    public void onStop() {
+    @Override public void onStop() {
         super.onStop();
         presenter.stop();
         isViewSet = false;
     }
 
-    @Override
-    public void init(final CameraPhotoListPresenter presenter) {
-        adapter = new CameraPhotosAdapter(presenter, pictureUtils);
+    @Override public void init(final CameraPhotoListPresenter listPresenter) {
+        adapter = new CameraPhotosAdapter(listPresenter, pictureUtils);
         photosRecyclerView.setAdapter(adapter);
-        if (photosRecyclerView.getItemAnimator() != null) {
-            photosRecyclerView.getItemAnimator().setChangeDuration(0);
-        }
         this.presenter.attachListView(adapter);
     }
 
-    @Override
-    public void startCamera(ViewPhotoModel photoModel) {
+    @Override public void startCamera(final String filePath) {
         try {
-            Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(photoModel);
+            final Intent cameraIntent = cameraUtils.getAdjustedCameraInvoker(filePath);
             startActivityForResult(cameraIntent, REQUEST_CAMERA_PHOTO);
         } catch (CameraCannotLaunchException e) {
-            presenter.cameraCannotLaunch();
+            presenter.cameraCouldNotLaunch();
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (!isViewSet) {
             presenter.attachView(this);
             presenter.attachListView(adapter);
@@ -123,12 +106,11 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         }
     }
 
-    @Override
-    public void showDeletePhotoDialog(ViewPhotoModel photoModel) {
+    @Override public void showPhotoDeleteDialog(final PhotoModel photoModel) {
         if (getContext() == null) {
             return;
         }
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
+        final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getContext());
         dialogBuilder.setTitle(R.string.delete_photo_dialog_title);
         dialogBuilder.setPositiveButton(R.string.delete_photo_dialog_delete,
                 (dialog, which) -> presenter.deletePhotoConfirm(photoModel));
@@ -137,49 +119,54 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
         dialogBuilder.show();
     }
 
-    @Override
-    public void showCannotLaunchCameraMessage() {
+    @Override public void showCouldNotLaunchCameraMessage() {
         Snackbar.make(mainLayout, R.string.error_camera_open_message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showPhotoSuccessAddMessage() {
+    @Override public void showPhotoSuccessAddedMessage() {
         Snackbar.make(mainLayout, R.string.photo_successfully_added_message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showPhotoSuccessDeleteMessage() {
+    @Override public void showPhotoSuccessDeletedMessage() {
         Snackbar.make(mainLayout, R.string.photo_successfully_deleted_message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showErrorAddToFavoritesMessage() {
+    @Override public void showErrorAddingToFavoritesMessage() {
         Snackbar.make(mainLayout, R.string.error_add_photo_to_favorites_message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showErrorDeleteFromFavoritesMessage() {
+    @Override public void showErrorDeletingFromFavoritesMessage() {
         Snackbar.make(mainLayout, R.string.error_delete_photo_from_favorites_message, Snackbar.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void showErrorPhotoDeletePhotoMessage() {
+    @Override public void showErrorDeletingPhotoMessage() {
         Snackbar.make(mainLayout, R.string.error_delete_photo_message, Snackbar.LENGTH_SHORT).show();
     }
 
     private void inject() {
-        CameraPhotosFragmentComponent component = (CameraPhotosFragmentComponent) MainApplication.getApp()
-                .getComponentsManager().getFragmentComponent(CameraPhotosFragment.class);
-        component.inject(this);
+        MainApplication.getApp()
+                .getComponentsManager()
+                .getHomeComponent()
+                .inject(this);
     }
 
-    private void initView(View layout) {
+    private void initView(final View layout) {
         mainLayout = layout.findViewById(R.id.cl_main_layout);
         photosRecyclerView = layout.findViewById(R.id.rv_photos);
         photosRecyclerView.setLayoutManager(layoutUtils.getAdjustedGridLayoutManager());
-        Toolbar toolbar = layout.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.appbar_camera_title);
-        mediator.setupToolbar(toolbar);
+        if (photosRecyclerView.getItemAnimator() != null) {
+            photosRecyclerView.getItemAnimator().setChangeDuration(0);
+        }
+        final Toolbar toolbar = layout.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.toolbar_camera_title);
+        mediator.setupToolbar(toolbar, Screens.HOME_SCREEN);
         layout.findViewById(R.id.camera_fab).setOnClickListener(v -> presenter.takeAPhotoRequest());
+    }
+
+    private void preparePresenter() {
+        presenter.setCameraResultOkCode(Activity.RESULT_OK);
+        presenter.attachView(this);
+        isViewSet = true;
+        presenter.create();
     }
 }

@@ -1,211 +1,168 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
-import ru.geekbrains.domain.interactor.photos.ChangeFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.interactor.photos.CameraPhotoUpdaterUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetCameraPhotosUseCase;
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenterImpl;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.cameraphotos.CameraPhotosFragmentScope;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.model.mapper.ViewPhotoModelMapper;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotosListView;
+import ru.geekbrains.domain.interactor.photos.GetPlaceForNewCameraPhotoUseCase;
+import ru.geekbrains.domain.interactor.photos.SetFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.ListView;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenterImpl;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoRowView;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosPresenter.CameraPhotosView;
 import ru.geekbrains.geekbrainsinstagram.util.CameraUtils;
 
-@CameraPhotosFragmentScope
-public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPhotosPresenter.CameraPhotosView>
+@HomeScope
+public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPhotosView>
         implements CameraPhotosPresenter {
 
     private final GetCameraPhotosUseCase getCameraPhotosUseCase;
-    private final ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
+    private final GetPlaceForNewCameraPhotoUseCase getPlaceForNewCameraPhotoUseCase;
+    private final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
+    private final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
 
     private final Scheduler uiScheduler;
     private final CameraUtils cameraUtils;
-    private final ViewPhotoModelMapper photosMapper;
     private final CameraPhotosListPresenterImpl listPresenter;
-
     private int resultOk;
-    private ViewPhotoModel newCameraPhoto;
 
-    @Inject
-    CameraPhotosPresenterImpl(GetCameraPhotosUseCase getCameraPhotosUseCase,
-                              ChangeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
-                              DeletePhotoUseCase deletePhotoUseCase, Scheduler uiScheduler,
-                              CameraUtils cameraUtils, ViewPhotoModelMapper photosMapper) {
+    private boolean wasPhotosLoad;
+    private PhotoModel newCameraPhotoModel;
+
+    @Inject CameraPhotosPresenterImpl(final GetCameraPhotosUseCase getCameraPhotosUseCase,
+                                      final GetPlaceForNewCameraPhotoUseCase getPlaceForNewCameraPhotoUseCase,
+                                      final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase,
+                                      final DeletePhotoUseCase deletePhotoUseCase,
+                                      final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase,
+                                      final Scheduler uiScheduler, final CameraUtils cameraUtils) {
         this.getCameraPhotosUseCase = getCameraPhotosUseCase;
-        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
+        this.getPlaceForNewCameraPhotoUseCase = getPlaceForNewCameraPhotoUseCase;
+        this.setFavoritePhotoStatusUseCase = setFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
+        this.cameraPhotoUpdaterUseCase = cameraPhotoUpdaterUseCase;
         this.uiScheduler = uiScheduler;
         this.cameraUtils = cameraUtils;
-        this.photosMapper = photosMapper;
         listPresenter = new CameraPhotosListPresenterImpl();
     }
 
-    @Override
-    public void create() {
+    @Override public void create() {
         view.init(listPresenter);
+        cameraPhotoUpdaterUseCase.subscribe(b -> wasPhotosLoad = false);
     }
 
-    @Override
-    public void start() {
-        uploadPhotos();
+    @Override public void start() {
+        if (!wasPhotosLoad) {
+            uploadPhotos();
+        }
     }
 
-    @Override
-    public void stop() {
+    @Override public void stop() {
         super.stop();
         listPresenter.detachView();
     }
 
-    @Override
-    public void attachListView(final CameraPhotosListView view) {
-        listPresenter.attachView(view);
+    @Override public void attachListView(final ListView listView) {
+        listPresenter.attachView(listView);
     }
 
-
-    @Override
-    public void setCameraResultOkCode(final int resultOkCode) {
+    @Override public void setCameraResultOkCode(final int resultOkCode) {
         resultOk = resultOkCode;
     }
 
-    @Override
-    public void takeAPhotoRequest() {
-        newCameraPhoto = new ViewPhotoModel();
-        view.startCamera(newCameraPhoto);
+    @Override public void takeAPhotoRequest() {
+        addDisposable(getPlaceForNewCameraPhotoUseCase.execute()
+                .subscribeOn(uiScheduler)
+                .subscribe(this::invokeCamera,
+                        throwable -> cameraCouldNotLaunch()));
     }
 
-    @Override
-    public void cameraHasClosed(final int resultCode) {
-        if (newCameraPhoto != null) {
+    @Override public void cameraHasClosed(final int resultCode) {
+        if (newCameraPhotoModel != null) {
             if (resultCode == resultOk) {
-                listPresenter.addPhoto(newCameraPhoto);
-                view.showPhotoSuccessAddMessage();
+                listPresenter.addPhotoModel(newCameraPhotoModel);
+                view.showPhotoSuccessAddedMessage();
             }
-            cameraUtils.revokeCameraPermissions(newCameraPhoto);
+            cameraUtils.revokeCameraPermissions(newCameraPhotoModel.getFilePath());
         }
-        newCameraPhoto = null;
+        newCameraPhotoModel = null;
     }
 
-    @Override
-    public void cameraCannotLaunch() {
-        view.showCannotLaunchCameraMessage();
-        newCameraPhoto = null;
+    @Override public void cameraCouldNotLaunch() {
+        view.showCouldNotLaunchCameraMessage();
+        newCameraPhotoModel = null;
     }
 
-    @Override
-    public void deletePhotoConfirm(final ViewPhotoModel photo) {
-        addDisposable(deletePhotoUseCase
-                .execute(photosMapper.viewToDomain(photo))
+    @Override public void deletePhotoConfirm(final PhotoModel photoModel) {
+        addDisposable(deletePhotoUseCase.execute(photoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> {
-                            listPresenter.deletePhoto(photo);
-                            view.showPhotoSuccessDeleteMessage();
+                            listPresenter.deletePhotoModel(photoModel);
+                            cameraPhotoUpdaterUseCase.execute();
+                            view.showPhotoSuccessDeletedMessage();
                         },
-                        throwable -> view.showErrorPhotoDeletePhotoMessage()));
+                        throwable -> view.showErrorDeletingPhotoMessage()));
     }
 
     private void uploadPhotos() {
         addDisposable(getCameraPhotosUseCase.execute()
                 .observeOn(uiScheduler)
-                .subscribe(photos -> listPresenter.setPhotos(photosMapper.domainToView(photos)),
+                .subscribe(photoModels -> {
+                            listPresenter.setPhotoModels(photoModels);
+                            wasPhotosLoad = true;
+                        },
                         getDefaultErrorHandler()));
     }
 
-    private void changePhotoFavoriteState(final ViewPhotoModel photo) {
-        final ViewPhotoModel photoWithChangedState =
-                new ViewPhotoModel(photo.getId(), !photo.isFavorite());
-        addDisposable(changeFavoritePhotoStatusUseCase
-                .execute(photosMapper.viewToDomain(photoWithChangedState))
+    private void invokeCamera(final PhotoModel newCameraPhotoModel) {
+        this.newCameraPhotoModel = newCameraPhotoModel;
+        view.startCamera(newCameraPhotoModel.getFilePath());
+    }
+
+    private void setPhotoFavoriteState(final PhotoModel photoModel) {
+        addDisposable(setFavoritePhotoStatusUseCase
+                .execute(photoModel)
                 .observeOn(uiScheduler)
-                .subscribe(() -> listPresenter.updatePhoto(photoWithChangedState),
-                        throwable -> errorChangeFavoriteStatus(photo)));
+                .subscribe(() -> {
+                            listPresenter.updatePhotoModel(photoModel);
+                            cameraPhotoUpdaterUseCase.execute();
+                        },
+                        throwable -> errorChangeFavoriteStatus(photoModel)));
     }
 
-    private void errorChangeFavoriteStatus(final ViewPhotoModel photoModel) {
+    private void errorChangeFavoriteStatus(final PhotoModel photoModel) {
         if (photoModel.isFavorite()) {
-            view.showErrorDeleteFromFavoritesMessage();
+            view.showErrorAddingToFavoritesMessage();
         } else {
-            view.showErrorAddToFavoritesMessage();
+            view.showErrorDeletingFromFavoritesMessage();
         }
     }
 
-    private void deleteRequest(final ViewPhotoModel photoModel) {
-        view.showDeletePhotoDialog(photoModel);
+    private void deleteRequest(final PhotoModel photoModel) {
+        view.showPhotoDeleteDialog(photoModel);
     }
 
-    class CameraPhotosListPresenterImpl implements CameraPhotoListPresenter {
+    class CameraPhotosListPresenterImpl extends BaseListPresenterImpl<CameraPhotoRowView> implements CameraPhotoListPresenter {
 
-        private List<ViewPhotoModel> photos = new ArrayList<>();
-        private CameraPhotosListView listView;
-
-        void setPhotos(List<ViewPhotoModel> photos) {
-            this.photos = photos;
-            listView.updatePhotos();
-        }
-
-        void attachView(CameraPhotosListView listView) {
-            this.listView = listView;
-        }
-
-        void detachView() {
-            listView = null;
-        }
-
-        @Override
-        public void bind(final int position, final CameraPhotoView view) {
-            final ViewPhotoModel photoModel = photos.get(position);
-            view.loadImage(photoModel);
+        @Override public void bind(final int position, final CameraPhotoRowView view) {
+            final PhotoModel photoModel = photoModels.get(position);
+            view.loadImage(photoModel.getFilePath());
             view.setFavorite(photoModel.isFavorite());
         }
 
-        @Override
-        public int getCount() {
-            return photos.size();
+        @Override public void onFavoriteClick(final int position) {
+            final PhotoModel oldPhotoModel = photoModels.get(position);
+            final PhotoModel newPhotoModel = new PhotoModel(oldPhotoModel, !oldPhotoModel.isFavorite());
+            setPhotoFavoriteState(newPhotoModel);
         }
 
-        @Override
-        public void onFavoriteClick(final int position) {
-            changePhotoFavoriteState(photos.get(position));
-        }
-
-        @Override
-        public void onDeleteClick(final int position) {
-            deleteRequest(photos.get(position));
-        }
-
-        void addPhoto(ViewPhotoModel photoModel) {
-            photos.add(photoModel);
-            listView.updatePhoto(photos.indexOf(photoModel));
-        }
-
-        void updatePhoto(final ViewPhotoModel photoModel) {
-            int position = searchItemPosition(photoModel);
-            if (position == -1) {
-                return;
-            }
-            photos.set(position, photoModel);
-            listView.updatePhoto(position);
-        }
-
-        void deletePhoto(final ViewPhotoModel photoModel) {
-            listView.deletePhoto(photos.indexOf(photoModel));
-            photos.remove(photoModel);
-        }
-
-        private int searchItemPosition(final ViewPhotoModel photo) {
-            int position = -1;
-            for (int i = 0; i < photos.size(); i++) {
-                if (photos.get(i).getId().equals(photo.getId())) {
-                    position = i;
-                    break;
-                }
-            }
-            return position;
+        @Override public void onDeleteClick(final int position) {
+            deleteRequest(photoModels.get(position));
         }
     }
 }

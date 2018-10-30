@@ -1,24 +1,12 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos;
 
-import ru.geekbrains.geekbrainsinstagram.base.BaseListPresenter;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter;
 
-import static ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoView;
+import static ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoRowView;
 
-interface CameraPhotoListPresenter extends BaseListPresenter<CameraPhotoView> {
+interface CameraPhotoListPresenter extends BaseListPresenter<CameraPhotoRowView> {
 
-    interface CameraPhotosListView {
-
-        void updatePhotos();
-
-        void updatePhoto(final int position);
-
-        void deletePhoto(final int position);
-    }
-
-    interface CameraPhotoView extends BaseListPresenter.RowView {
-
-        void loadImage(final ViewPhotoModel photoModel);
+    interface CameraPhotoRowView extends BaseListPresenter.RowView {
 
         void setFavorite(final boolean isFavorite);
     }

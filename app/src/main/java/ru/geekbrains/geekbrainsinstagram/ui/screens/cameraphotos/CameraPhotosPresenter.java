@@ -1,8 +1,8 @@
 package ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos;
 
-import ru.geekbrains.geekbrainsinstagram.base.BasePresenter;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotosListView;
+import ru.geekbrains.domain.model.PhotoModel;
+import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.ListView;
 
 import static ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosPresenter.CameraPhotosView;
 
@@ -10,26 +10,28 @@ public interface CameraPhotosPresenter extends BasePresenter<CameraPhotosView> {
 
     interface CameraPhotosView extends BasePresenter.BaseView {
 
-        void init(final CameraPhotoListPresenter presenter);
+        void init(final CameraPhotoListPresenter listPresenter);
 
-        void startCamera(final ViewPhotoModel photoModel);
+        void startCamera(final String filePath);
 
-        void showDeletePhotoDialog(final ViewPhotoModel photoModel);
+        void showPhotoDeleteDialog(final PhotoModel photoModel);
 
-        void showCannotLaunchCameraMessage();
+        void showCouldNotLaunchCameraMessage();
 
-        void showPhotoSuccessAddMessage();
+        void showPhotoSuccessAddedMessage();
 
-        void showPhotoSuccessDeleteMessage();
+        void showPhotoSuccessDeletedMessage();
 
-        void showErrorAddToFavoritesMessage();
+        void showErrorAddingToFavoritesMessage();
 
-        void showErrorDeleteFromFavoritesMessage();
+        void showErrorDeletingFromFavoritesMessage();
 
-        void showErrorPhotoDeletePhotoMessage();
+        void showErrorDeletingPhotoMessage();
     }
 
     void create();
+
+    void attachListView(final ListView listVew);
 
     void setCameraResultOkCode(final int resultOkCode);
 
@@ -37,9 +39,7 @@ public interface CameraPhotosPresenter extends BasePresenter<CameraPhotosView> {
 
     void cameraHasClosed(final int resultCode);
 
-    void cameraCannotLaunch();
+    void cameraCouldNotLaunch();
 
-    void attachListView(final CameraPhotosListView view);
-
-    void deletePhotoConfirm(final ViewPhotoModel photoModel);
+    void deletePhotoConfirm(final PhotoModel photoModel);
 }

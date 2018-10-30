@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos;
+package ru.geekbrains.geekbrainsinstagram.ui.screens.onlinesearch;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import ru.geekbrains.geekbrainsinstagram.R;
-import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter.ListView;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoRowView;
+import ru.geekbrains.geekbrainsinstagram.ui.base.photos.BaseListPresenter;
+import ru.geekbrains.geekbrainsinstagram.ui.screens.onlinesearch.OnlineSearchListPresenter.OnlineSearchRowView;
 import ru.geekbrains.geekbrainsinstagram.util.PictureUtils;
 
-public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.PhotoHolder>
-        implements ListView {
+public final class OnlineSearchAdapter extends Adapter<OnlineSearchAdapter.PhotoHolder>
+        implements BaseListPresenter.ListView {
 
-    private final CameraPhotoListPresenter presenter;
+    private final OnlineSearchListPresenter presenter;
     private final PictureUtils pictureUtils;
 
-    CameraPhotosAdapter(final CameraPhotoListPresenter presenter, final PictureUtils pictureUtils) {
+    OnlineSearchAdapter(final OnlineSearchListPresenter presenter, final PictureUtils pictureUtils) {
         this.presenter = presenter;
         this.pictureUtils = pictureUtils;
     }
@@ -50,10 +50,11 @@ public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.Photo
         notifyItemRemoved(position);
     }
 
-    final class PhotoHolder extends ViewHolder implements CameraPhotoRowView {
+    final class PhotoHolder extends ViewHolder implements OnlineSearchRowView {
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
+        private final ImageView ioActionImageView;
 
         PhotoHolder(@NonNull View itemView) {
             super(itemView);
@@ -63,18 +64,32 @@ public final class CameraPhotosAdapter extends Adapter<CameraPhotosAdapter.Photo
             isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
             isFavoriteImageView.setOnClickListener(v -> presenter.onFavoriteClick(getAdapterPosition()));
 
-            itemView.findViewById(R.id.iv_io_action_photo).setOnClickListener(v ->
-                    presenter.onDeleteClick(getAdapterPosition()));
+            ioActionImageView = itemView.findViewById(R.id.iv_io_action_photo);
+            ioActionImageView.setOnClickListener(v -> presenter.onIoActionClick(getAdapterPosition()));
         }
 
-        @Override public void loadImage(final String filePath) {
-            pictureUtils.loadSavedImageIntoGridCell(filePath, photoImageView);
+        @Override public void loadImage(final String url) {
+            pictureUtils.loadOnlineImageIntoGridCell(url, photoImageView);
+        }
+
+        @Override public void favoriteVisibility(boolean isVisible) {
+            if (isVisible) {
+                isFavoriteImageView.setVisibility(View.VISIBLE);
+            } else {
+                isFavoriteImageView.setVisibility(View.GONE);
+            }
         }
 
         @Override public void setFavorite(final boolean isFavorite) {
             isFavoriteImageView.setImageResource(isFavorite ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);
+        }
+
+        @Override public void setSaving(boolean isSaving) {
+            ioActionImageView.setImageResource(isSaving ?
+                    R.drawable.ic_delete_white_24dp :
+                    R.drawable.ic_save_white_24dp);
         }
     }
 }
