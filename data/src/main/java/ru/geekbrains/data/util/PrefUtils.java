@@ -4,5 +4,5 @@ public interface PrefUtils {
 
     void saveCurrentTheme(final String theme);
 
-    String currentTheme(final String defaultTheme);
+    String getCurrentTheme(final String defaultTheme);
 }
