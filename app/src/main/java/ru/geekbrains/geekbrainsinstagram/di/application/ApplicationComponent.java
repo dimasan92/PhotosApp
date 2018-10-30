@@ -6,32 +6,28 @@ import javax.inject.Singleton;
 
 import dagger.BindsInstance;
 import dagger.Component;
-import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.DataModule;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.MapperModule;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.NavigationModule;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.SchedulersModule;
-import ru.geekbrains.geekbrainsinstagram.di.application.module.UtilsModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.modules.DataModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.modules.MapperModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.modules.SchedulersModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.modules.ServiceModule;
+import ru.geekbrains.geekbrainsinstagram.di.application.modules.UtilsModule;
+import ru.geekbrains.geekbrainsinstagram.di.ui.MainComponent;
 
 @Singleton
 @Component(modules = {DataModule.class,
         MapperModule.class,
-        UtilsModule.class,
         SchedulersModule.class,
-        NavigationModule.class})
+        ServiceModule.class,
+        UtilsModule.class})
 public interface ApplicationComponent {
 
-    MainActivityComponent getMainActivityComponent();
-
-    SettingsActivityComponent getSettingsActivityComponent();
+    MainComponent getMainComponent();
 
     @Component.Builder
     interface Builder {
 
         ApplicationComponent build();
 
-        @BindsInstance
-        Builder setContext(Context context);
+        @BindsInstance Builder setContext(final Context context);
     }
 }

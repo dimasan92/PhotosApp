@@ -2,84 +2,54 @@ package ru.geekbrains.geekbrainsinstagram.di.application;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
-import ru.geekbrains.geekbrainsinstagram.di.activity.ActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.activity.main.MainActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.activity.settings.SettingsActivityComponent;
-import ru.geekbrains.geekbrainsinstagram.di.fragment.FragmentComponent;
-import ru.geekbrains.geekbrainsinstagram.ui.containers.main.MainActivity;
-import ru.geekbrains.geekbrainsinstagram.ui.containers.settings.SettingsActivity;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.favorites.FavoritesFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.home.SearchFragment;
-import ru.geekbrains.geekbrainsinstagram.ui.screens.theme.AppThemeFragment;
+import ru.geekbrains.geekbrainsinstagram.di.ui.MainComponent;
+import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeComponent;
+import ru.geekbrains.geekbrainsinstagram.di.ui.settings.SettingsComponent;
 
 public final class ComponentsManager {
 
     private ApplicationComponent applicationComponent;
-    private Map<Class<?>, ActivityComponent> activityComponents;
-    private Map<Class<?>, FragmentComponent> fragmentComponents;
+    private MainComponent mainComponent;
+    private HomeComponent homeComponent;
+    private SettingsComponent settingsComponent;
 
     public ComponentsManager(Context context) {
         initApplicationComponent(context);
-        activityComponents = new HashMap<>();
-        fragmentComponents = new HashMap<>();
     }
 
-    public ActivityComponent getActivityComponent(Class<?> clazz) {
-        ActivityComponent component = activityComponents.get(clazz);
-        if (component == null) {
-            if (clazz.getName().equals(MainActivity.class.getName())) {
-                component = applicationComponent.getMainActivityComponent();
-            } else if (clazz.getName().equals(SettingsActivity.class.getName())) {
-                component = applicationComponent.getSettingsActivityComponent();
-            } else {
-                throw new IllegalArgumentException("Illegal class");
-            }
-            activityComponents.put(clazz, component);
+    public MainComponent getMainComponent() {
+        if (mainComponent == null) {
+            mainComponent = applicationComponent.getMainComponent();
         }
-        return component;
+        return mainComponent;
     }
 
-    public FragmentComponent getFragmentComponent(Class<?> clazz) {
-        FragmentComponent component = fragmentComponents.get(clazz);
-        if (component == null) {
-            if (clazz.getName().equals(AppThemeFragment.class.getName())) {
-                component = ((SettingsActivityComponent) Objects.
-                        requireNonNull(activityComponents.get(SettingsActivity.class)))
-                        .getAppThemeFragmentComponent();
-            } else if (clazz.getName().equals(CameraPhotosFragment.class.getName())) {
-                component = ((MainActivityComponent) Objects.
-                        requireNonNull(activityComponents.get(MainActivity.class)))
-                        .getCameraPhotosFragmentComponent();
-            } else if (clazz.getName().equals(FavoritesFragment.class.getName())) {
-                component = ((MainActivityComponent) Objects.
-                        requireNonNull(activityComponents.get(MainActivity.class)))
-                        .getFavoritesFragmentComponent();
-            } else if (clazz.getName().equals(SearchFragment.class.getName())) {
-                component = ((MainActivityComponent) Objects.
-                        requireNonNull(activityComponents.get(MainActivity.class)))
-                        .getSearchFragmentComponent();
-            } else {
-                throw new IllegalArgumentException("Illegal class");
-            }
-            fragmentComponents.put(clazz, component);
+    public HomeComponent getHomeComponent() {
+        if (homeComponent == null) {
+            homeComponent = getMainComponent().getHomeComponent();
         }
-        return component;
+        return homeComponent;
     }
 
-    public void releaseActivityComponent(Class<?> clazz) {
-        if (clazz.getName().equals(SettingsActivity.class.getName())) {
-            fragmentComponents.remove(AppThemeFragment.class);
-        } else if (clazz.getName().equals(MainActivity.class.getName())) {
-            fragmentComponents.remove(SearchFragment.class);
-            fragmentComponents.remove(CameraPhotosFragment.class);
-            fragmentComponents.remove(FavoritesFragment.class);
+    public SettingsComponent getSettingsComponent() {
+        if (settingsComponent == null) {
+            settingsComponent = getMainComponent().getSettingsComponent();
         }
-        activityComponents.remove(clazz);
+        return settingsComponent;
+    }
+
+    public void releaseMainComponent() {
+        mainComponent = null;
+        releaseHomeComponent();
+        releaseSettingsComponent();
+    }
+
+    private void releaseHomeComponent() {
+        homeComponent = null;
+    }
+
+    public void releaseSettingsComponent() {
+        settingsComponent = null;
     }
 
     private void initApplicationComponent(Context context) {

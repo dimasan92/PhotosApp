@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.di.application.module;
+package ru.geekbrains.geekbrainsinstagram.di.application.modules;
 
 import javax.inject.Singleton;
 
