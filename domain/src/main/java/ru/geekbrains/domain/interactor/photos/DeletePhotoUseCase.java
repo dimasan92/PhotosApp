@@ -12,12 +12,11 @@ public final class DeletePhotoUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject
-    DeletePhotoUseCase(PhotosRepository photosRepository) {
+    @Inject DeletePhotoUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Completable execute(final PhotoModel photo) {
-        return photosRepository.deletePhoto(photo);
+    public Completable execute(final PhotoModel photoModel) {
+        return photosRepository.deletePhoto(photoModel);
     }
 }
