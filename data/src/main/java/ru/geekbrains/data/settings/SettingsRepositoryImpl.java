@@ -17,27 +17,24 @@ public final class SettingsRepositoryImpl implements SettingsRepository {
     private final ThemeMapper themeMapper;
     private final String defaultTheme;
 
-    @Inject
-    SettingsRepositoryImpl(PrefUtils prefUtils, ThemeMapper themeMapper) {
+    @Inject SettingsRepositoryImpl(final PrefUtils prefUtils, final ThemeMapper themeMapper) {
         this.prefUtils = prefUtils;
         this.themeMapper = themeMapper;
         this.defaultTheme = themeMapper.domainToData(AppThemeModel.BLUE_THEME);
     }
 
-    @Override
-    public Single<Boolean> shouldChangeTheme(final AppThemeModel theme) {
-        return Single.fromCallable(() -> shouldThemeBeReplaced(theme))
+    @Override public Single<Boolean> changeTheme(final AppThemeModel theme) {
+        return Single.fromCallable(() -> shouldThemeBeChanged(theme))
                 .observeOn(Schedulers.io());
     }
 
-    @Override
-    public Single<AppThemeModel> getCurrentTheme() {
-        return Single.fromCallable(() -> themeMapper.dataToDomain(prefUtils.currentTheme(defaultTheme)));
+    @Override public Single<AppThemeModel> getCurrentTheme() {
+        return Single.just(themeMapper.dataToDomain(prefUtils.getCurrentTheme(defaultTheme)));
     }
 
-    private boolean shouldThemeBeReplaced(final AppThemeModel theme) {
-        String mappedTheme = themeMapper.domainToData(theme);
-        if (mappedTheme.equals(prefUtils.currentTheme(defaultTheme))) {
+    private boolean shouldThemeBeChanged(final AppThemeModel theme) {
+        final String mappedTheme = themeMapper.domainToData(theme);
+        if (mappedTheme.equals(prefUtils.getCurrentTheme(defaultTheme))) {
             return false;
         }
         prefUtils.saveCurrentTheme(mappedTheme);
