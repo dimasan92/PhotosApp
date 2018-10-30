@@ -3,7 +3,7 @@ package ru.geekbrains.domain.interactor.photos;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Completable;
+import io.reactivex.Single;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.PhotosRepository;
 
@@ -16,7 +16,8 @@ public final class changeFavoritePhotoStatusUseCase {
         this.photosRepository = photosRepository;
     }
 
-    public Completable execute(final PhotoModel photoModel) {
-        return photosRepository.setFavoritePhotoStatus(photoModel);
+    public Single<PhotoModel> execute(final PhotoModel photoModel) {
+        final PhotoModel newPhotoModel = new PhotoModel(photoModel, !photoModel.isFavorite());
+        return photosRepository.setFavoritePhotoStatus(newPhotoModel);
     }
 }

@@ -78,14 +78,15 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override public Completable setFavoritePhotoStatus(final PhotoModel photoModel) {
-        return Completable.fromAction(() -> {
+    @Override public Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel) {
+        return Single.fromCallable(() -> {
             final FavoriteEntity favoriteEntity = photoMapper.mapToFavoriteEntity(photoModel);
             if (photoModel.isFavorite()) {
                 photosDao.addFavorite(favoriteEntity);
             } else {
                 photosDao.deleteFavorite(favoriteEntity);
             }
+            return photoModel;
         }).subscribeOn(Schedulers.io());
     }
 

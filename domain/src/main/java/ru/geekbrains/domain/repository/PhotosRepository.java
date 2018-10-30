@@ -18,7 +18,7 @@ public interface PhotosRepository {
 
     Single<List<PhotoModel>> getFavorites();
 
-    Completable setFavoritePhotoStatus(final PhotoModel photoModel);
+    Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel);
 
     Single<PhotoModel> saveSearchPhoto(final PhotoModel photoModel, final byte[] photoArray);
 
