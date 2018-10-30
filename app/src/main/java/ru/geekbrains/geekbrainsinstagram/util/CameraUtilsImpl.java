@@ -13,7 +13,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import ru.geekbrains.geekbrainsinstagram.exception.CameraCannotLaunchException;
-import ru.geekbrains.geekbrainsinstagram.model.ViewPhotoModel;
 
 @Singleton
 public final class CameraUtilsImpl implements CameraUtils {
@@ -21,18 +20,16 @@ public final class CameraUtilsImpl implements CameraUtils {
     private final Context appContext;
     private final ContentUtils contentUtils;
 
-    @Inject
-    CameraUtilsImpl(Context context, ContentUtils contentUtils) {
+    @Inject CameraUtilsImpl(final Context context, final ContentUtils contentUtils) {
         this.appContext = context.getApplicationContext();
         this.contentUtils = contentUtils;
     }
 
-    @Override
-    public Intent getAdjustedCameraInvoker(final ViewPhotoModel photoModel)
+    @Override public Intent getAdjustedCameraInvoker(final String filePath)
             throws CameraCannotLaunchException {
         final Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (isCameraAvailable(cameraIntent)) {
-            Uri uri = contentUtils.getUriForPhoto(photoModel);
+            final Uri uri = contentUtils.getUri(filePath);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
             setCameraPermissions(cameraIntent, uri);
             return cameraIntent;
@@ -40,9 +37,8 @@ public final class CameraUtilsImpl implements CameraUtils {
         throw new CameraCannotLaunchException();
     }
 
-    @Override
-    public void revokeCameraPermissions(final ViewPhotoModel photoModel) {
-        appContext.revokeUriPermission(contentUtils.getUriForPhoto(photoModel),
+    @Override public void revokeCameraPermissions(final String filePath) {
+        appContext.revokeUriPermission(contentUtils.getUri(filePath),
                 Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
     }
 
@@ -51,9 +47,9 @@ public final class CameraUtilsImpl implements CameraUtils {
     }
 
     private void setCameraPermissions(final Intent cameraIntent, final Uri uri) {
-        List<ResolveInfo> cameraActivities = appContext.getPackageManager()
+        final List<ResolveInfo> cameraActivities = appContext.getPackageManager()
                 .queryIntentActivities(cameraIntent, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo activity : cameraActivities) {
+        for (final ResolveInfo activity : cameraActivities) {
             appContext.grantUriPermission(activity.activityInfo.packageName,
                     uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         }
