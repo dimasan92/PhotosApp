@@ -14,8 +14,7 @@ public final class GetFavoritesUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject
-    GetFavoritesUseCase(PhotosRepository photosRepository) {
+    @Inject GetFavoritesUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 

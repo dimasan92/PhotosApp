@@ -14,8 +14,7 @@ public final class GetCameraPhotosUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject
-    GetCameraPhotosUseCase(PhotosRepository photosRepository) {
+    @Inject GetCameraPhotosUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
