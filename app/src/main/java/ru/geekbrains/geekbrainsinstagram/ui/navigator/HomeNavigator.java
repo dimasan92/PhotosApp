@@ -1,7 +1,6 @@
 package ru.geekbrains.geekbrainsinstagram.ui.navigator;
 
 import androidx.fragment.app.FragmentManager;
-import ru.geekbrains.geekbrainsinstagram.di.ContentDisposer;
 
 public interface HomeNavigator {
 
