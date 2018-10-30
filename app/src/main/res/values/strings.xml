@@ -1,31 +1,34 @@
 <resources>
-    <string name="app_name">GeekbrainsInstagram</string>
+    <string name="app_name">GeekBrainsPhotos</string>
 
-    <string name="appbar_home_title">Home</string>
-    <string name="appbar_search_title">Online search</string>
-    <string name="appbar_camera_title">Camera photos</string>
-    <string name="appbar_favorites_title">Favorites</string>
-    <string name="appbar_app_theme_title">Color theme</string>
-    <string name="appbar_app_photo_details_title">Photo</string>
+    <!--toolbar-->
+    <string name="toolbar_search_title">Search</string>
+    <string name="toolbar_camera_title">Camera photos</string>
+    <string name="toolbar_favorites_title">Favorites</string>
+    <string name="toolbar_app_theme_title">Color theme</string>
 
-    <string name="drawer_title">Instagram</string>
+    <!--navigation-->
+    <string name="drawer_title">PhotosApp</string>
     <string name="drawer_subtitle">geekbrains.ru</string>
 
-    <string-array name="home_tabs">
-        <item>Database</item>
-        <item>Network</item>
-        <item>Camera</item>
-    </string-array>
+    <string name="drawer_home_title">Home</string>
+    <string name="drawer_settings_title">Settings</string>
+    <string name="drawer_search_item">Search photos online</string>
+    <string name="drawer_camera_item">Camera photos</string>
+    <string name="drawer_favorites_item">Favorites photos</string>
+    <string name="drawer_app_theme_item">Application color theme</string>
 
-    <string name="nav_main_title">Main</string>
-    <string name="nav_settings_title">Settings</string>
-    <string name="nav_search_item">Search photos online</string>
-    <string name="nav_camera_item">Camera photos</string>
-    <string name="nav_favorites_item">Favorites photos</string>
-    <string name="nav_app_theme_item">Application color theme</string>
-    <string name="nav_search_tab_item">Search</string>
-    <string name="nav_camera_tab_item">Camera</string>
-    <string name="nav_favorites_tab_item">Favorites</string>
+    <string name="bottom_search_item">Search photos</string>
+    <string name="bottom_camera_item">Camera photos</string>
+    <string name="bottom_favorites_item">Favorites</string>
+
+
+
+    <string name="appbar_app_photo_details_title">Photo</string>
+    <string-array name="home_tabs">
+        <item>Online</item>
+        <item>Saved</item>
+    </string-array>
 
     <string name="delete_from_favorites_action">Delete from favorites</string>
     <string name="delete_from_device_action">Delete from device</string>
@@ -33,6 +36,7 @@
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
 
+    <string name="search_hint">Enter photos theme</string>
     <string name="btn_red_theme">Red Theme</string>
     <string name="btn_blue_theme">Blue Theme</string>
     <string name="btn_green_theme">Green Theme</string>
@@ -42,11 +46,14 @@
     <string name="photo_successfully_deleted_from_favorites_message">Photo successfully deleted from favorites</string>
     <string name="photo_successfully_deleted_from_device_message">Photo successfully deleted from device</string>
     <string name="error_camera_open_message">Cannot open the camera</string>
+    <string name="error_save_photo_message">Error saving photo</string>
     <string name="error_add_photo_to_favorites_message">Cannot add photo to favorites</string>
     <string name="error_delete_photo_from_favorites_message">Cannot delete photo from favorites</string>
     <string name="error_delete_photo_from_device_message">Cannot delete photo from device</string>
     <string name="error_delete_photo_message">Cannot delete photo</string>
     <string name="error_load_photo_message">Cannot load photo</string>
+    <string name="error_network_connection_message">No network</string>
+    <string name="error_download_photos_message">An error occurred while uploading photos</string>
 
     <string name="delete_photo_dialog_title">Do you really want to delete a photo?</string>
     <string name="delete_photo_dialog_delete">Delete</string>
