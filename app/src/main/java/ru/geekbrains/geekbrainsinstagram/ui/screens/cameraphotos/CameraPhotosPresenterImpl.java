@@ -56,6 +56,10 @@ public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPho
         cameraPhotoUpdaterUseCase.subscribe(b -> wasPhotosLoad = false);
     }
 
+    @Override public void attachListView(final ListView listView) {
+        listPresenter.attachView(listView);
+    }
+
     @Override public void start() {
         if (!wasPhotosLoad) {
             uploadPhotos();
@@ -65,10 +69,6 @@ public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPho
     @Override public void stop() {
         super.stop();
         listPresenter.detachView();
-    }
-
-    @Override public void attachListView(final ListView listView) {
-        listPresenter.attachView(listView);
     }
 
     @Override public void setCameraResultOkCode(final int resultOkCode) {
