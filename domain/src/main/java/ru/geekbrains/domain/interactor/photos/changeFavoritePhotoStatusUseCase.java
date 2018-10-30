@@ -8,11 +8,11 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
-public final class SetFavoritePhotoStatusUseCase {
+public final class changeFavoritePhotoStatusUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject SetFavoritePhotoStatusUseCase(final PhotosRepository photosRepository) {
+    @Inject changeFavoritePhotoStatusUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 

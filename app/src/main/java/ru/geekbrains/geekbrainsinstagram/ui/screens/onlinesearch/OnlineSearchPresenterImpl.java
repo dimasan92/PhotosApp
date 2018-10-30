@@ -10,7 +10,7 @@ import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetPhotosBySearchUseCase;
 import ru.geekbrains.domain.interactor.photos.SaveSearchPhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
-import ru.geekbrains.domain.interactor.photos.SetFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.interactor.photos.changeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.interactor.photos.UpdateSearchPhotosUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
@@ -28,7 +28,7 @@ public final class OnlineSearchPresenterImpl extends BasePresenterImpl<OnlineSea
     private static final int PHOTOS_COUNT = 30;
 
     private final GetPhotosBySearchUseCase getPhotosBySearchUseCase;
-    private final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase;
+    private final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final SaveSearchPhotoUseCase saveSearchPhotoUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
     private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
@@ -40,14 +40,14 @@ public final class OnlineSearchPresenterImpl extends BasePresenterImpl<OnlineSea
     private boolean wasPhotosUpdated;
 
     @Inject OnlineSearchPresenterImpl(final GetPhotosBySearchUseCase getPhotosBySearchUseCase,
-                                      final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase,
+                                      final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                                       final SaveSearchPhotoUseCase saveSearchPhotoUseCase,
                                       final DeletePhotoUseCase deletePhotoUseCase,
                                       final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
                                       final UpdateSearchPhotosUseCase updateSearchPhotosUseCase,
                                       final PictureUtils pictureUtils, final Scheduler uiScheduler) {
         this.getPhotosBySearchUseCase = getPhotosBySearchUseCase;
-        this.setFavoritePhotoStatusUseCase = setFavoritePhotoStatusUseCase;
+        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.saveSearchPhotoUseCase = saveSearchPhotoUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
         this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
@@ -127,7 +127,7 @@ public final class OnlineSearchPresenterImpl extends BasePresenterImpl<OnlineSea
     }
 
     private void setPhotoFavoriteState(final PhotoModel photoModel) {
-        addDisposable(setFavoritePhotoStatusUseCase
+        addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> updatePhotoView(photoModel),

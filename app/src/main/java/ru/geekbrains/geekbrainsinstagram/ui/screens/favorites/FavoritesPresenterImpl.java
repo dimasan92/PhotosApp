@@ -7,7 +7,7 @@ import ru.geekbrains.domain.interactor.photos.CameraPhotoUpdaterUseCase;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetFavoritesUseCase;
 import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
-import ru.geekbrains.domain.interactor.photos.SetFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.interactor.photos.changeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
 import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
@@ -22,7 +22,7 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
         implements FavoritesPresenter {
 
     private final GetFavoritesUseCase getFavoritesUseCase;
-    private final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase;
+    private final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
     private final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
     private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
@@ -32,13 +32,13 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
     private boolean wasPhotosLoad;
 
     @Inject FavoritesPresenterImpl(final GetFavoritesUseCase getFavoritesUseCase,
-                                   final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase,
+                                   final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                                    final DeletePhotoUseCase deletePhotoUseCase,
                                    final CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase,
                                    final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
                                    final Scheduler uiScheduler) {
         this.getFavoritesUseCase = getFavoritesUseCase;
-        this.setFavoritePhotoStatusUseCase = setFavoritePhotoStatusUseCase;
+        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
         this.cameraPhotoUpdaterUseCase = cameraPhotoUpdaterUseCase;
         this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
@@ -79,7 +79,7 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
 
     private void setPhotoFavoriteState(final PhotoModel photoModel) {
         final PhotoModel newPhotoModel = new PhotoModel(photoModel, false);
-        addDisposable(setFavoritePhotoStatusUseCase
+        addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(newPhotoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> {

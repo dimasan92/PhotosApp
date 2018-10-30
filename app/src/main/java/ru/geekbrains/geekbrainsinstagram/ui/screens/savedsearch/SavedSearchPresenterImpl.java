@@ -6,7 +6,7 @@ import io.reactivex.Scheduler;
 import ru.geekbrains.domain.interactor.photos.DeletePhotoUseCase;
 import ru.geekbrains.domain.interactor.photos.GetSavedSearchPhotosUseCase;
 import ru.geekbrains.domain.interactor.photos.SearchPhotoUpdaterUseCase;
-import ru.geekbrains.domain.interactor.photos.SetFavoritePhotoStatusUseCase;
+import ru.geekbrains.domain.interactor.photos.changeFavoritePhotoStatusUseCase;
 import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.geekbrainsinstagram.di.ui.home.HomeScope;
 import ru.geekbrains.geekbrainsinstagram.ui.base.BasePresenterImpl;
@@ -20,7 +20,7 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
         implements SavedSearchPresenter {
 
     private final GetSavedSearchPhotosUseCase getSavedSearchPhotosUseCase;
-    private final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase;
+    private final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase;
     private final DeletePhotoUseCase deletePhotoUseCase;
     private final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
 
@@ -30,12 +30,12 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
     private boolean wasPhotosLoad;
 
     @Inject SavedSearchPresenterImpl(final GetSavedSearchPhotosUseCase getSavedSearchPhotosUseCase,
-                                     final SetFavoritePhotoStatusUseCase setFavoritePhotoStatusUseCase,
+                                     final changeFavoritePhotoStatusUseCase changeFavoritePhotoStatusUseCase,
                                      final DeletePhotoUseCase deletePhotoUseCase,
                                      final SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase,
                                      final Scheduler uiScheduler) {
         this.getSavedSearchPhotosUseCase = getSavedSearchPhotosUseCase;
-        this.setFavoritePhotoStatusUseCase = setFavoritePhotoStatusUseCase;
+        this.changeFavoritePhotoStatusUseCase = changeFavoritePhotoStatusUseCase;
         this.deletePhotoUseCase = deletePhotoUseCase;
         this.searchPhotoUpdaterUseCase = searchPhotoUpdaterUseCase;
         this.uiScheduler = uiScheduler;
@@ -89,7 +89,7 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
     }
 
     private void setPhotoFavoriteState(final PhotoModel photoModel) {
-        addDisposable(setFavoritePhotoStatusUseCase
+        addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photoModel)
                 .observeOn(uiScheduler)
                 .subscribe(() -> {
