@@ -8,16 +8,15 @@ import ru.geekbrains.domain.model.PhotoModel;
 import ru.geekbrains.domain.repository.PhotosRepository;
 
 @Singleton
-public final class ChangeFavoritePhotoStatusUseCase {
+public final class SetFavoritePhotoStatusUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject
-    ChangeFavoritePhotoStatusUseCase(PhotosRepository photosRepository) {
+    @Inject SetFavoritePhotoStatusUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Completable execute(final PhotoModel photo) {
-        return photosRepository.changeFavoritePhotoStatus(photo);
+    public Completable execute(final PhotoModel photoModel) {
+        return photosRepository.setFavoritePhotoStatus(photoModel);
     }
 }
