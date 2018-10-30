@@ -32,8 +32,8 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation project(path: ':domain')
     // Rx
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
@@ -43,4 +43,6 @@ dependencies {
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
     // https://mvnrepository.com/artifact/javax.inject/javax.inject
     implementation 'javax.inject:javax.inject:1'
+    //Retrofit service
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 }
