@@ -9,7 +9,5 @@ import ru.geekbrains.geekbrainsinstagram.ui.screens.cameraphotos.CameraPhotosPre
 @Module
 public interface CameraPhotosModule {
 
-    @HomeScope
-    @Binds
-    CameraPhotosPresenter provideCameraPhotosPresenter(final CameraPhotosPresenterImpl presenter);
+    @HomeScope @Binds CameraPhotosPresenter provideCameraPhotosPresenter(final CameraPhotosPresenterImpl presenter);
 }
