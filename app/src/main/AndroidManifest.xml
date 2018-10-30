@@ -7,7 +7,9 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MainApplication"
@@ -19,8 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/RedAppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.containers.settings.SettingsActivity"></activity>
-        <activity android:name=".ui.containers.main.MainActivity">
+        <activity
+            android:name=".ui.container.MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
