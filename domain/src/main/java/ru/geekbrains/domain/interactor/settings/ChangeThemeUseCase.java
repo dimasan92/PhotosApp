@@ -8,16 +8,16 @@ import ru.geekbrains.domain.model.AppThemeModel;
 import ru.geekbrains.domain.repository.SettingsRepository;
 
 @Singleton
-public final class ShouldChangeThemeUseCase {
+public final class ChangeThemeUseCase {
 
     private final SettingsRepository settingsRepository;
 
     @Inject
-    ShouldChangeThemeUseCase(SettingsRepository settingsRepository) {
+    ChangeThemeUseCase(final SettingsRepository settingsRepository) {
         this.settingsRepository = settingsRepository;
     }
 
-    public Single<Boolean> execute(final AppThemeModel theme) {
-        return settingsRepository.shouldChangeTheme(theme);
+    public Single<Boolean> execute(final AppThemeModel themeModel) {
+        return settingsRepository.changeTheme(themeModel);
     }
 }
