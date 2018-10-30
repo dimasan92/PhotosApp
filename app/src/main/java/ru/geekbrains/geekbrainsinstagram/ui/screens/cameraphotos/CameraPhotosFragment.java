@@ -83,7 +83,7 @@ public final class CameraPhotosFragment extends Fragment implements CameraPhotos
     @Override public void init(final CameraPhotoListPresenter listPresenter) {
         adapter = new CameraPhotosAdapter(listPresenter, pictureUtils);
         photosRecyclerView.setAdapter(adapter);
-        this.presenter.attachListView(adapter);
+        presenter.attachListView(adapter);
     }
 
     @Override public void startCamera(final String filePath) {
