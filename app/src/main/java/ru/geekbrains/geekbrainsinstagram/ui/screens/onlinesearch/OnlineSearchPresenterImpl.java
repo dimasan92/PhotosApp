@@ -130,12 +130,12 @@ public final class OnlineSearchPresenterImpl extends BasePresenterImpl<OnlineSea
         addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photoModel)
                 .observeOn(uiScheduler)
-                .subscribe(() -> updatePhotoView(photoModel),
+                .subscribe(this::updatePhotoView,
                         throwable -> {
                             if (photoModel.isFavorite()) {
-                                view.showErrorAddingToFavoritesMessage();
-                            } else {
                                 view.showErrorDeletingFromFavoritesMessage();
+                            } else {
+                                view.showErrorAddingToFavoritesMessage();
                             }
                         }));
     }
@@ -159,9 +159,7 @@ public final class OnlineSearchPresenterImpl extends BasePresenterImpl<OnlineSea
         }
 
         @Override public void onFavoriteClick(final int position) {
-            final PhotoModel photoModel = photoModels.get(position);
-            final PhotoModel photoWithChangedState = new PhotoModel(photoModel, !photoModel.isFavorite());
-            setPhotoFavoriteState(photoWithChangedState);
+            setPhotoFavoriteState(photoModels.get(position));
         }
 
         @Override public void onIoActionClick(final int position) {

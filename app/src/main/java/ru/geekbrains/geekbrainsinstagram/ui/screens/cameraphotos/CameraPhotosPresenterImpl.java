@@ -124,11 +124,11 @@ public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPho
         view.startCamera(newCameraPhotoModel.getFilePath());
     }
 
-    private void setPhotoFavoriteState(final PhotoModel photoModel) {
+    private void changePhotoFavoriteState(final PhotoModel photoModel) {
         addDisposable(changeFavoritePhotoStatusUseCase.execute(photoModel)
                 .observeOn(uiScheduler)
-                .subscribe(() -> {
-                            listPresenter.updatePhotoModel(photoModel);
+                .subscribe(newPhotoModel -> {
+                            listPresenter.updatePhotoModel(newPhotoModel);
                             cameraPhotoUpdaterUseCase.execute();
                         },
                         throwable -> errorChangeFavoriteStatus(photoModel)));
@@ -136,9 +136,9 @@ public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPho
 
     private void errorChangeFavoriteStatus(final PhotoModel photoModel) {
         if (photoModel.isFavorite()) {
-            view.showErrorAddingToFavoritesMessage();
-        } else {
             view.showErrorDeletingFromFavoritesMessage();
+        } else {
+            view.showErrorAddingToFavoritesMessage();
         }
     }
 
@@ -155,9 +155,7 @@ public final class CameraPhotosPresenterImpl extends BasePresenterImpl<CameraPho
         }
 
         @Override public void onFavoriteClick(final int position) {
-            final PhotoModel oldPhotoModel = photoModels.get(position);
-            final PhotoModel newPhotoModel = new PhotoModel(oldPhotoModel, !oldPhotoModel.isFavorite());
-            setPhotoFavoriteState(newPhotoModel);
+            changePhotoFavoriteState(photoModels.get(position));
         }
 
         @Override public void onDeleteClick(final int position) {

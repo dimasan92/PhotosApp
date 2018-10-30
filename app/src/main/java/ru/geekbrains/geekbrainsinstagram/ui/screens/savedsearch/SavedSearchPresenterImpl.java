@@ -88,19 +88,19 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
                         throwable -> view.showErrorDeletingPhoto()));
     }
 
-    private void setPhotoFavoriteState(final PhotoModel photoModel) {
+    private void changePhotoFavoriteState(final PhotoModel photoModel) {
         addDisposable(changeFavoritePhotoStatusUseCase
                 .execute(photoModel)
                 .observeOn(uiScheduler)
-                .subscribe(() -> {
-                            listPresenter.updatePhotoModel(photoModel);
+                .subscribe(newPhotoModel -> {
+                            listPresenter.updatePhotoModel(newPhotoModel);
                             searchPhotoUpdaterUseCase.execute();
                         },
                         throwable -> {
                             if (photoModel.isFavorite()) {
-                                view.showErrorAddingToFavoritesMessage();
-                            } else {
                                 view.showErrorDeletingFromFavoritesMessage();
+                            } else {
+                                view.showErrorAddingToFavoritesMessage();
                             }
                         }));
     }
@@ -114,9 +114,7 @@ public final class SavedSearchPresenterImpl extends BasePresenterImpl<SavedSearc
         }
 
         @Override public void onFavoriteClick(final int position) {
-            final PhotoModel photoModel = photoModels.get(position);
-            final PhotoModel photoWithChangedState = new PhotoModel(photoModel, !photoModel.isFavorite());
-            setPhotoFavoriteState(photoWithChangedState);
+            changePhotoFavoriteState(photoModels.get(position));
         }
 
         @Override public void onIoActionClick(final int position) {

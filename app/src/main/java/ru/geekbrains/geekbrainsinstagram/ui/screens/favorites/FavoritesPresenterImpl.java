@@ -77,12 +77,11 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
                         getDefaultErrorHandler()));
     }
 
-    private void setPhotoFavoriteState(final PhotoModel photoModel) {
-        final PhotoModel newPhotoModel = new PhotoModel(photoModel, false);
+    private void changePhotoFavoriteState(final PhotoModel photoModel) {
         addDisposable(changeFavoritePhotoStatusUseCase
-                .execute(newPhotoModel)
+                .execute(photoModel)
                 .observeOn(uiScheduler)
-                .subscribe(() -> {
+                .subscribe(newPhotoModel -> {
                             listPresenter.deletePhotoModel(photoModel);
                             if (photoModel.isCameraPhoto()) {
                                 cameraPhotoUpdaterUseCase.execute();
@@ -118,7 +117,7 @@ public final class FavoritesPresenterImpl extends BasePresenterImpl<FavoritesVie
 
         @Override
         public void onDeleteFromFavoritesClick(final int position) {
-            setPhotoFavoriteState(photoModels.get(position));
+            changePhotoFavoriteState(photoModels.get(position));
         }
 
         @Override public void onDeleteFromDeviceClick(final int position) {
