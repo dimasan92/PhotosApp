@@ -1,4 +1,4 @@
-package ru.geekbrains.geekbrainsinstagram.base;
+package ru.geekbrains.geekbrainsinstagram.ui.base;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
