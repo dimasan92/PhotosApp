@@ -5,7 +5,7 @@ import ru.geekbrains.domain.model.AppThemeModel;
 
 public interface SettingsRepository {
 
-    Single<Boolean> shouldChangeTheme(final AppThemeModel theme);
+    Single<Boolean> changeTheme(final AppThemeModel themeModel);
 
     Single<AppThemeModel> getCurrentTheme();
 }
