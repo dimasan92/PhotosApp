@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.domain.interactor.photos;
+package ru.geekbrains.pictureapp.domain.interactor.photos.search;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package ru.geekbrains.pictureapp.domain.interactor.photos;
+package ru.geekbrains.pictureapp.domain.interactor.photos.search;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -8,15 +10,15 @@ import ru.geekbrains.pictureapp.domain.model.PhotoModel;
 import ru.geekbrains.pictureapp.domain.repository.PhotosRepository;
 
 @Singleton
-public final class GetPlaceForNewCameraPhotoUseCase {
+public final class GetSavedSearchPhotosUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject GetPlaceForNewCameraPhotoUseCase(final PhotosRepository photosRepository) {
+    @Inject GetSavedSearchPhotosUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Single<PhotoModel> execute() {
-        return photosRepository.getPlaceForNewCameraPhoto();
+    public Single<List<PhotoModel>> execute() {
+        return photosRepository.getSavedSearchPhotos();
     }
 }

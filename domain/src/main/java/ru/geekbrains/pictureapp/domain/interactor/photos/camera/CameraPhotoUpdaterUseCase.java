@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.domain.interactor.photos;
+package ru.geekbrains.pictureapp.domain.interactor.photos.camera;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -9,12 +9,12 @@ import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 
 @Singleton
-public final class SearchPhotoUpdaterUseCase {
+public final class CameraPhotoUpdaterUseCase {
 
     private final Subject<Boolean> updater;
     private CompositeDisposable disposables;
 
-    @Inject SearchPhotoUpdaterUseCase() {
+    @Inject CameraPhotoUpdaterUseCase() {
         disposables = new CompositeDisposable();
         updater = PublishSubject.create();
     }
