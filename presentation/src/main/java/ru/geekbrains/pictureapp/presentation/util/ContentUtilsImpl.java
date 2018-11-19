@@ -17,17 +17,19 @@ public final class ContentUtilsImpl implements ContentUtils {
     private final String authority;
     private final Context appContext;
 
-    @Inject ContentUtilsImpl(final Context context) {
+    @Inject
+    ContentUtilsImpl(final Context context) {
         appContext = context.getApplicationContext();
         authority = context.getResources().getString(R.string.authority);
     }
 
-    @Override public Uri getUri(final String filePath) {
-        System.out.println("!!!!!!!!!"+filePath);
+    @Override
+    public Uri getUri(final String filePath) {
         return FileProvider.getUriForFile(appContext, authority, new File(filePath));
     }
 
-    @Override public String getExtensionForUnsplashPhoto(final String url) {
+    @Override
+    public String getExtensionForUnsplashPhoto(final String url) {
         return Uri.parse(url).getQueryParameter("fm");
     }
 }
