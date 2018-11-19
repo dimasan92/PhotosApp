@@ -8,12 +8,13 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import ru.geekbrains.pictureapp.R;
 import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
-import static androidx.recyclerview.widget.RecyclerView.*;
-import static ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchListPresenter.*;
+import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import static ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchListPresenter.SavedSearchRowView;
 
-public final class SavedSearchAdapter extends Adapter<SavedSearchAdapter.PhotoHolder>
+public final class SavedSearchAdapter extends BasePhotosAdapter<SavedSearchAdapter.PhotoHolder>
         implements ListView {
 
     private final SavedSearchListPresenter presenter;
@@ -24,30 +25,22 @@ public final class SavedSearchAdapter extends Adapter<SavedSearchAdapter.PhotoHo
         this.pictureUtils = pictureUtils;
     }
 
-    @NonNull @Override public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    @NonNull
+    @Override
+    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new PhotoHolder(inflater.inflate(R.layout.item_photo,
                 parent, false));
     }
 
-    @Override public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
         presenter.bind(position, holder);
     }
 
-    @Override public final int getItemCount() {
+    @Override
+    public final int getItemCount() {
         return presenter.getCount();
-    }
-
-    @Override public void updatePhotos() {
-        notifyDataSetChanged();
-    }
-
-    @Override public void updatePhoto(final int position) {
-        notifyItemChanged(position);
-    }
-
-    @Override public void deletePhoto(int position) {
-        notifyItemRemoved(position);
     }
 
     final class PhotoHolder extends ViewHolder implements SavedSearchRowView {
@@ -68,11 +61,13 @@ public final class SavedSearchAdapter extends Adapter<SavedSearchAdapter.PhotoHo
             ioActionImageView.setOnClickListener(v -> presenter.onIoActionClick(getAdapterPosition()));
         }
 
-        @Override public void loadImage(final String filePath) {
+        @Override
+        public void loadImage(final String filePath) {
             pictureUtils.loadSavedImageIntoGridCell(filePath, photoImageView);
         }
 
-        @Override public void setFavorite(final boolean isFavorite) {
+        @Override
+        public void setFavorite(final boolean isFavorite) {
             isFavoriteImageView.setImageResource(isFavorite ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);

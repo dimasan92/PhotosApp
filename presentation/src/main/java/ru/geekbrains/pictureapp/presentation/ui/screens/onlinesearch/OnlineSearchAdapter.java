@@ -6,14 +6,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import ru.geekbrains.pictureapp.R;
 import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
 import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearchListPresenter.OnlineSearchRowView;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
-public final class OnlineSearchAdapter extends Adapter<OnlineSearchAdapter.PhotoHolder>
+public final class OnlineSearchAdapter extends BasePhotosAdapter<OnlineSearchAdapter.PhotoHolder>
         implements BaseListPresenter.ListView {
 
     private final OnlineSearchListPresenter presenter;
@@ -24,29 +24,21 @@ public final class OnlineSearchAdapter extends Adapter<OnlineSearchAdapter.Photo
         this.pictureUtils = pictureUtils;
     }
 
-    @NonNull @Override public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    @NonNull
+    @Override
+    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new PhotoHolder(inflater.inflate(R.layout.item_photo, parent, false));
     }
 
-    @Override public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
         presenter.bind(position, holder);
     }
 
-    @Override public final int getItemCount() {
+    @Override
+    public final int getItemCount() {
         return presenter.getCount();
-    }
-
-    @Override public void updatePhotos() {
-        notifyDataSetChanged();
-    }
-
-    @Override public void updatePhoto(final int position) {
-        notifyItemChanged(position);
-    }
-
-    @Override public void deletePhoto(final int position) {
-        notifyItemRemoved(position);
     }
 
     final class PhotoHolder extends ViewHolder implements OnlineSearchRowView {
@@ -67,11 +59,13 @@ public final class OnlineSearchAdapter extends Adapter<OnlineSearchAdapter.Photo
             ioActionImageView.setOnClickListener(v -> presenter.onIoActionClick(getAdapterPosition()));
         }
 
-        @Override public void loadImage(final String url) {
+        @Override
+        public void loadImage(final String url) {
             pictureUtils.loadOnlineImageIntoGridCell(url, photoImageView);
         }
 
-        @Override public void favoriteVisibility(boolean isVisible) {
+        @Override
+        public void favoriteVisibility(boolean isVisible) {
             if (isVisible) {
                 isFavoriteImageView.setVisibility(View.VISIBLE);
             } else {
@@ -79,13 +73,15 @@ public final class OnlineSearchAdapter extends Adapter<OnlineSearchAdapter.Photo
             }
         }
 
-        @Override public void setFavorite(final boolean isFavorite) {
+        @Override
+        public void setFavorite(final boolean isFavorite) {
             isFavoriteImageView.setImageResource(isFavorite ?
                     R.drawable.ic_star_filled_24dp :
                     R.drawable.ic_star_border_24dp);
         }
 
-        @Override public void setSaving(boolean isSaving) {
+        @Override
+        public void setSaving(boolean isSaving) {
             ioActionImageView.setImageResource(isSaving ?
                     R.drawable.ic_delete_white_24dp :
                     R.drawable.ic_save_white_24dp);
