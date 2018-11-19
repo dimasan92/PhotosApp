@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.data.settings;
+package ru.geekbrains.pictureapp.data.repository;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

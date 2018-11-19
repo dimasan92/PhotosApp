@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.data.photos;
+package ru.geekbrains.pictureapp.data.repository;
 
 import java.io.IOException;
 import java.util.List;

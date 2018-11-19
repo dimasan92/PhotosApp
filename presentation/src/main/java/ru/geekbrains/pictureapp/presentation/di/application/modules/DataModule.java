@@ -14,8 +14,8 @@ import dagger.Module;
 import dagger.Provides;
 import ru.geekbrains.pictureapp.data.database.AppDatabase;
 import ru.geekbrains.pictureapp.data.database.PhotosDao;
-import ru.geekbrains.pictureapp.data.photos.PhotosRepositoryImpl;
-import ru.geekbrains.pictureapp.data.settings.SettingsRepositoryImpl;
+import ru.geekbrains.pictureapp.data.repository.PhotosRepositoryImpl;
+import ru.geekbrains.pictureapp.data.repository.SettingsRepositoryImpl;
 import ru.geekbrains.pictureapp.domain.repository.PhotosRepository;
 import ru.geekbrains.pictureapp.domain.repository.SettingsRepository;
 
