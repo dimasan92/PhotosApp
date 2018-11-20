@@ -16,6 +16,8 @@ import ru.geekbrains.pictureapp.presentation.util.ContentUtilsImpl;
 import ru.geekbrains.pictureapp.presentation.util.LayoutUtils;
 import ru.geekbrains.pictureapp.presentation.util.LayoutUtilsImpl;
 import ru.geekbrains.pictureapp.presentation.util.NetworkUtilsImpl;
+import ru.geekbrains.pictureapp.presentation.util.ParseUtils;
+import ru.geekbrains.pictureapp.presentation.util.ParseUtilsImpl;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtilsImpl;
 
@@ -49,4 +51,8 @@ public interface UtilsModule {
     @Singleton
     @Binds
     NetworkUtils provideNetworkUtils(final NetworkUtilsImpl networkUtils);
+
+    @Singleton
+    @Binds
+    ParseUtils provideParseUtils(final ParseUtilsImpl parseUtils);
 }
