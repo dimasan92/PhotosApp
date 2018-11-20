@@ -3,6 +3,7 @@ package ru.geekbrains.pictureapp.presentation.di.ui.home;
 import dagger.Subcomponent;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.CameraPhotosModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.FavoritesModule;
+import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.FullscreenPhotosModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.HomeModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.OnlineSearchModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.SavedSearchModule;
@@ -14,11 +15,14 @@ import ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchF
 import ru.geekbrains.pictureapp.presentation.ui.screens.search.SearchFragment;
 
 @HomeScope
-@Subcomponent(modules = {HomeModule.class,
-        OnlineSearchModule.class,
-        SavedSearchModule.class,
+@Subcomponent(modules = {
         CameraPhotosModule.class,
-        FavoritesModule.class})
+        FavoritesModule.class,
+        FullscreenPhotosModule.class,
+        HomeModule.class,
+        OnlineSearchModule.class,
+        SavedSearchModule.class
+})
 public interface HomeComponent {
 
     void inject(final HomeFragment homeFragment);
