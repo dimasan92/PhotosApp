@@ -23,38 +23,46 @@ public final class FileUtilsImpl implements FileUtils {
     private final File searchPhotosDir;
     private final File cameraPhotosDir;
 
-    @Inject FileUtilsImpl(@Named("search_photos_dir") final File searchPhotosDir,
-                          @Named("camera_photos_dir") final File cameraPhotosDir) {
+    @Inject
+    FileUtilsImpl(@Named("search_photos_dir") final File searchPhotosDir,
+                  @Named("camera_photos_dir") final File cameraPhotosDir) {
         this.searchPhotosDir = searchPhotosDir;
         this.cameraPhotosDir = cameraPhotosDir;
     }
 
-    @Override public List<String> getSearchPhotosNamesFromStorage() {
+    @Override
+    public List<String> getSearchPhotosNamesFromStorage() {
         return getPhotosNamesFromStorage(searchPhotosDir);
     }
 
-    @Override public List<String> getCameraPhotosNamesFromStorage() {
+    @Override
+    public List<String> getCameraPhotosNamesFromStorage() {
         return getPhotosNamesFromStorage(cameraPhotosDir);
     }
 
-    @Override public String getIdFromFilename(final String filename) {
+    @Override
+    public String getIdFromFilename(final String filename) {
         return filename.split("_")[1].split("\\.")[0];
     }
 
-    @Override public String getFilenameForId(final String id, final String ext) {
+    @Override
+    public String getFilenameForId(final String id, final String ext) {
         return PHOTO_FILENAME_PREFIX + id + "." + ext;
     }
 
-    @Override public String getSearchPhotoFilePath(final String filename) {
+    @Override
+    public String getSearchPhotoFilePath(final String filename) {
         return searchPhotosDir.getAbsolutePath() + File.separator + filename;
     }
 
-    @Override public String getCameraPhotoFilePath(final String filename) {
+    @Override
+    public String getCameraPhotoFilePath(final String filename) {
         return cameraPhotosDir.getAbsolutePath() + File.separator + filename;
     }
 
-    @Override public PhotoModel writeSearchPhotoToDevice(final PhotoModel photoModel,
-                                                         final byte[] photoArray) throws IOException {
+    @Override
+    public PhotoModel writeSearchPhotoToDevice(final PhotoModel photoModel,
+                                               final byte[] photoArray) throws IOException {
         final String filename = getFilenameForId(photoModel.getId(), photoModel.getPhotoExt());
         final String filePath = getSearchPhotoFilePath(filename);
         final File photoFile = new File(filePath);
@@ -65,19 +73,23 @@ public final class FileUtilsImpl implements FileUtils {
         return new PhotoModel(photoModel, filePath);
     }
 
-    @Override public boolean deletePhotoFromDevice(final PhotoModel photoModel) {
+    @Override
+    public boolean deletePhotoFromDevice(final PhotoModel photoModel) {
         return new File(photoModel.getFilePath()).delete();
     }
 
-    @Override public String getSearchPhotoExt(final String url) {
+    @Override
+    public String getSearchPhotoExt(final String url) {
         return Uri.parse(url).getQueryParameter("fm");
     }
 
-    @Override public String getCameraPhotoExt() {
+    @Override
+    public String getCameraPhotoExt() {
         return "jpg";
     }
 
-    @Override public String getPhotoExt(final String filename) {
+    @Override
+    public String getPhotoExt(final String filename) {
         return filename.split("\\.")[1];
     }
 

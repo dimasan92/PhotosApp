@@ -31,9 +31,10 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
     private final FileUtils fileUtils;
     private final NetworkUtils networkUtils;
 
-    @Inject PhotosRepositoryImpl(final PhotosDao photosDao, final ApiPhotosService photosService,
-                                 final PhotoMapper photoMapper,
-                                 final FileUtils fileUtils, final NetworkUtils networkUtils) {
+    @Inject
+    PhotosRepositoryImpl(final PhotosDao photosDao, final ApiPhotosService photosService,
+                         final PhotoMapper photoMapper,
+                         final FileUtils fileUtils, final NetworkUtils networkUtils) {
         this.photosDao = photosDao;
         this.photosService = photosService;
         this.photoMapper = photoMapper;
@@ -41,7 +42,8 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
         this.networkUtils = networkUtils;
     }
 
-    @Override public Single<List<PhotoModel>> getPhotosBySearch(final String query, final int count) {
+    @Override
+    public Single<List<PhotoModel>> getPhotosBySearch(final String query, final int count) {
         if (networkUtils.isOnline()) {
             return getPhotosBySearchTask(query, count);
         } else {
@@ -49,15 +51,18 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
         }
     }
 
-    @Override public Single<List<PhotoModel>> getSavedSearchPhotos() {
+    @Override
+    public Single<List<PhotoModel>> getSavedSearchPhotos() {
         return getSavedSearchPhotosTask();
     }
 
-    @Override public Single<List<PhotoModel>> updateSearchPhotos(List<PhotoModel> photoModels) {
+    @Override
+    public Single<List<PhotoModel>> updateSearchPhotos(List<PhotoModel> photoModels) {
         return updateSearchPhotosTask(photoModels);
     }
 
-    @Override public Single<PhotoModel> getPlaceForNewCameraPhoto() {
+    @Override
+    public Single<PhotoModel> getPlaceForNewCameraPhoto() {
         return Single.fromCallable(() -> {
             final String id = UUID.randomUUID().toString();
             final String photoExt = fileUtils.getCameraPhotoExt();
@@ -68,17 +73,20 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override public Single<List<PhotoModel>> getCameraPhotos() {
+    @Override
+    public Single<List<PhotoModel>> getCameraPhotos() {
         return getCameraPhotosTask();
     }
 
-    @Override public Single<List<PhotoModel>> getFavorites() {
+    @Override
+    public Single<List<PhotoModel>> getFavorites() {
         return photosDao.getAllFavorites()
                 .map(photoMapper::mapFavorites)
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override public Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel) {
+    @Override
+    public Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel) {
         return Single.fromCallable(() -> {
             final FavoriteEntity favoriteEntity = photoMapper.mapToFavoriteEntity(photoModel);
             if (photoModel.isFavorite()) {
@@ -90,12 +98,14 @@ public final class PhotosRepositoryImpl implements PhotosRepository {
         }).subscribeOn(Schedulers.io());
     }
 
-    @Override public Single<PhotoModel> saveSearchPhoto(final PhotoModel photoModel, final byte[] photoArray) {
+    @Override
+    public Single<PhotoModel> saveSearchPhoto(final PhotoModel photoModel, final byte[] photoArray) {
         return Single.fromCallable(() -> fileUtils.writeSearchPhotoToDevice(photoModel, photoArray))
                 .subscribeOn(Schedulers.io());
     }
 
-    @Override public Completable deletePhoto(final PhotoModel photoModel) {
+    @Override
+    public Completable deletePhoto(final PhotoModel photoModel) {
         return Completable.fromAction(() -> {
             if (photoModel.isFavorite()) {
                 photosDao.deleteFavorite(photoMapper.mapToFavoriteEntity(photoModel));

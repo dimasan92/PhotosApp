@@ -12,10 +12,12 @@ import ru.geekbrains.pictureapp.domain.model.PhotoModel;
 @Singleton
 public final class PhotoMapperImpl implements PhotoMapper {
 
-    @Inject PhotoMapperImpl() {
+    @Inject
+    PhotoMapperImpl() {
     }
 
-    @Override public List<PhotoModel> mapFavorites(final List<FavoriteEntity> photos) {
+    @Override
+    public List<PhotoModel> mapFavorites(final List<FavoriteEntity> photos) {
         final List<PhotoModel> list = new ArrayList<>(photos.size());
         for (FavoriteEntity photo : photos) {
             list.add(mapFavorite(photo));
@@ -23,7 +25,8 @@ public final class PhotoMapperImpl implements PhotoMapper {
         return list;
     }
 
-    @Override public FavoriteEntity mapToFavoriteEntity(final PhotoModel photoModel) {
+    @Override
+    public FavoriteEntity mapToFavoriteEntity(final PhotoModel photoModel) {
         return new FavoriteEntity(photoModel.getId(), photoModel.getFilePath());
     }
 

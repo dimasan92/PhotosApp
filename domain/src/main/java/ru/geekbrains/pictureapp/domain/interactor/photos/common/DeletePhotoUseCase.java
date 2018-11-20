@@ -12,7 +12,8 @@ public final class DeletePhotoUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject DeletePhotoUseCase(final PhotosRepository photosRepository) {
+    @Inject
+    DeletePhotoUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 

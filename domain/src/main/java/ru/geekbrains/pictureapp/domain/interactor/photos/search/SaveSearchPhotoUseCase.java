@@ -12,7 +12,8 @@ public final class SaveSearchPhotoUseCase {
 
     private final PhotosRepository photosRepository;
 
-    @Inject SaveSearchPhotoUseCase(final PhotosRepository photosRepository) {
+    @Inject
+    SaveSearchPhotoUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 

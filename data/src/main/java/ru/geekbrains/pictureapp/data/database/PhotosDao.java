@@ -13,9 +13,12 @@ import ru.geekbrains.pictureapp.data.database.entities.FavoriteEntity;
 @Dao
 public interface PhotosDao {
 
-    @Query("SELECT * FROM favorites") Single<List<FavoriteEntity>> getAllFavorites();
+    @Query("SELECT * FROM favorites")
+    Single<List<FavoriteEntity>> getAllFavorites();
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE) void addFavorite(final FavoriteEntity entity);
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void addFavorite(final FavoriteEntity entity);
 
-    @Delete void deleteFavorite(final FavoriteEntity entity);
+    @Delete
+    void deleteFavorite(final FavoriteEntity entity);
 }
