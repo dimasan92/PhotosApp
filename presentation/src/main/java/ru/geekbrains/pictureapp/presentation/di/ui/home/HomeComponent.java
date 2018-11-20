@@ -9,6 +9,7 @@ import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.OnlineSearchModu
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.SavedSearchModule;
 import ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos.CameraPhotosFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.favorites.FavoritesFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.fullscreenphotos.FullscreenPhotosFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.home.HomeFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearchFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchFragment;
@@ -36,4 +37,6 @@ public interface HomeComponent {
     void inject(final CameraPhotosFragment cameraPhotosFragment);
 
     void inject(final FavoritesFragment favoritesFragment);
+
+    void inject(final FullscreenPhotosFragment fullscreenPhotosFragment);
 }
