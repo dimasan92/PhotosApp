@@ -15,6 +15,7 @@
         android:contentDescription="@string/gallery_photo_description" />
 
     <ImageView
+        android:id="@+id/iv_is_photo_favorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_margin"
