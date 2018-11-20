@@ -9,5 +9,7 @@ import ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos.CameraPhoto
 @Module
 public interface CameraPhotosModule {
 
-    @HomeScope @Binds CameraPhotosPresenter provideCameraPhotosPresenter(final CameraPhotosPresenterImpl presenter);
+    @HomeScope
+    @Binds
+    CameraPhotosPresenter provideCameraPhotosPresenter(final CameraPhotosPresenterImpl presenter);
 }

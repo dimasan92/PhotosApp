@@ -9,5 +9,7 @@ import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearc
 @Module
 public interface OnlineSearchModule {
 
-    @HomeScope @Binds OnlineSearchPresenter provideCameraPhotosPresenter(final OnlineSearchPresenterImpl presenter);
+    @HomeScope
+    @Binds
+    OnlineSearchPresenter provideCameraPhotosPresenter(final OnlineSearchPresenterImpl presenter);
 }

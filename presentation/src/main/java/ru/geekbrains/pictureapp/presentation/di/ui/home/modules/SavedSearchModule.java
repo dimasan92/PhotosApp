@@ -9,5 +9,7 @@ import ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchP
 @Module
 public interface SavedSearchModule {
 
-    @HomeScope @Binds SavedSearchPresenter provideCameraPhotosPresenter(final SavedSearchPresenterImpl presenter);
+    @HomeScope
+    @Binds
+    SavedSearchPresenter provideCameraPhotosPresenter(final SavedSearchPresenterImpl presenter);
 }

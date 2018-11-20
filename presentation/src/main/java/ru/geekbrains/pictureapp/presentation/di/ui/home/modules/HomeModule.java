@@ -11,7 +11,11 @@ import ru.geekbrains.pictureapp.presentation.ui.screens.home.HomePresenterImpl;
 @Module
 public interface HomeModule {
 
-    @HomeScope @Binds HomeNavigator provideHomeNavigator(final HomeNavigatorImpl navigator);
+    @HomeScope
+    @Binds
+    HomeNavigator provideHomeNavigator(final HomeNavigatorImpl navigator);
 
-    @HomeScope @Binds HomePresenter provideAppThemePresenter(final HomePresenterImpl presenter);
+    @HomeScope
+    @Binds
+    HomePresenter provideAppThemePresenter(final HomePresenterImpl presenter);
 }
