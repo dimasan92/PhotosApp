@@ -1,6 +1,7 @@
 package ru.geekbrains.pictureapp.presentation.util;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ public final class ParseUtilsImpl implements ParseUtils {
     }
 
     @Override
-    public String[] parseObjects(List<PhotoModel> photoModels) {
+    public String[] parseObjects(final List<PhotoModel> photoModels) {
         final String[] jsons = new String[photoModels.size()];
         for (int i = 0; i < photoModels.size(); i++) {
             final String json = gson.toJson(photoModels.get(i));
@@ -31,12 +32,14 @@ public final class ParseUtilsImpl implements ParseUtils {
     }
 
     @Override
-    public List<PhotoModel> parseToObjects(String[] jsons) {
+    public List<PhotoModel> parseToObjects(final String[] jsons) {
         final List<PhotoModel> photoModels = new ArrayList<>(jsons.length);
-        for (String json : jsons) {
-            final PhotoModel photoModel = gson.fromJson(json, PhotoModel.class);
-            photoModels.add(photoModel);
-        }
+        try {
+            for (String json : jsons) {
+                final PhotoModel photoModel = gson.fromJson(json, PhotoModel.class);
+                photoModels.add(photoModel);
+            }
+        } catch (final JsonSyntaxException ignored) {}
         return photoModels;
     }
 }
