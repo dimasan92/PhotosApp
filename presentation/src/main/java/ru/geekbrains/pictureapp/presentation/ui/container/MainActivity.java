@@ -2,35 +2,35 @@ package ru.geekbrains.pictureapp.presentation.ui.container;
 
 import android.os.Bundle;
 
-import javax.inject.Inject;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import ru.geekbrains.pictureapp.domain.interactor.photos.camera.CameraPhotoUpdaterUseCase;
-import ru.geekbrains.pictureapp.domain.interactor.photos.search.SearchPhotoUpdaterUseCase;
+
+import javax.inject.Inject;
+
+import ru.geekbrains.pictureapp.R;
 import ru.geekbrains.pictureapp.domain.model.AppThemeModel;
 import ru.geekbrains.pictureapp.presentation.MainApplication;
-import ru.geekbrains.pictureapp.R;
 import ru.geekbrains.pictureapp.presentation.ui.container.MainPresenter.MainView;
 import ru.geekbrains.pictureapp.presentation.ui.container.mediator.ContainerToContentMediator;
 import ru.geekbrains.pictureapp.presentation.ui.container.mediator.ContainerToContentMediator.EventHandler;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.MainNavigator;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.Screens;
 import ru.geekbrains.pictureapp.presentation.ui.screens.BackListener;
+import ru.geekbrains.pictureapp.presentation.ui.updater.Updater;
 
 public final class MainActivity extends AppCompatActivity implements MainView {
 
-    @Inject CameraPhotoUpdaterUseCase cameraPhotoUpdaterUseCase;
-    @Inject SearchPhotoUpdaterUseCase searchPhotoUpdaterUseCase;
+    @Inject Updater updater;
     @Inject ContainerToContentMediator mediator;
     @Inject MainNavigator navigator;
     @Inject MainPresenter presenter;
 
     private boolean isViewSet;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         inject();
         presenter.attachView(this);
         isViewSet = true;
@@ -49,7 +49,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override protected void onStart() {
+    @Override
+    protected void onStart() {
         super.onStart();
         if (!isViewSet) {
             presenter.attachView(this);
@@ -58,20 +59,23 @@ public final class MainActivity extends AppCompatActivity implements MainView {
         presenter.start();
     }
 
-    @Override protected void onStop() {
+    @Override
+    protected void onStop() {
         super.onStop();
         presenter.stop();
         isViewSet = false;
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         if (isFinishing()) {
             release();
         }
         super.onDestroy();
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_fragment_container);
         if (fragment instanceof BackListener) {
             ((BackListener) fragment).onBackPressed();
@@ -80,7 +84,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override public void setTheme(final AppThemeModel theme) {
+    @Override
+    public void setTheme(final AppThemeModel theme) {
         switch (theme) {
             case RED_THEME:
                 setTheme(R.style.RedAppTheme);
@@ -94,7 +99,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override public void exit() {
+    @Override
+    public void exit() {
         finish();
     }
 
@@ -106,8 +112,7 @@ public final class MainActivity extends AppCompatActivity implements MainView {
     }
 
     private void release() {
-        searchPhotoUpdaterUseCase.dispose();
-        cameraPhotoUpdaterUseCase.dispose();
+        updater.dispose();
         MainApplication.getApp()
                 .getComponentsManager()
                 .releaseMainComponent();
@@ -115,7 +120,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
 
     private EventHandler getEventHandler() {
         return new EventHandler() {
-            @Override public void setToolbar(final Toolbar toolbar, final Screens screen) {
+            @Override
+            public void setToolbar(final Toolbar toolbar, final Screens screen) {
                 MainActivity.this.setSupportActionBar(toolbar);
                 final ActionBar actionBar = MainActivity.this.getSupportActionBar();
                 if (actionBar != null) {
@@ -128,7 +134,8 @@ public final class MainActivity extends AppCompatActivity implements MainView {
                 }
             }
 
-            @Override public void recreate() {
+            @Override
+            public void recreate() {
                 MainActivity.this.recreate();
             }
         };

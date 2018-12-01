@@ -3,8 +3,8 @@ package ru.geekbrains.pictureapp.presentation.ui.container;
 import javax.inject.Inject;
 
 import ru.geekbrains.pictureapp.domain.interactor.settings.GetCurrentThemeUseCase;
-import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenterImpl;
 import ru.geekbrains.pictureapp.presentation.di.ui.MainScope;
+import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenterImpl;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.BackStackListener;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.MainNavigator;
 
@@ -15,22 +15,26 @@ public final class MainPresenterImpl extends BasePresenterImpl<MainPresenter.Mai
     private final GetCurrentThemeUseCase getCurrentThemeUseCase;
     private MainNavigator navigator;
 
-    @Inject MainPresenterImpl(final GetCurrentThemeUseCase getCurrentThemeUseCase) {
+    @Inject
+    MainPresenterImpl(final GetCurrentThemeUseCase getCurrentThemeUseCase) {
         this.getCurrentThemeUseCase = getCurrentThemeUseCase;
     }
 
-    @Override public void setNavigator(final MainNavigator navigator) {
+    @Override
+    public void setNavigator(final MainNavigator navigator) {
         this.navigator = navigator;
         this.navigator.setupBackStackListener(getBackStackListener());
     }
 
-    @Override public void beforeOnCreate() {
+    @Override
+    public void beforeOnCreate() {
         addDisposable(getCurrentThemeUseCase.execute()
                 .subscribe(view::setTheme,
                         getDefaultErrorHandler()));
     }
 
-    @Override public void viewFirstCreated() {
+    @Override
+    public void viewFirstCreated() {
         navigator.navigateToHome();
     }
 
