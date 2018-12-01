@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import static ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
 
-public abstract class BasePhotosAdapter<VH extends ViewHolder>
+public abstract class BaseImagesAdapter<VH extends ViewHolder>
         extends RecyclerView.Adapter<VH> implements ListView {
 
     @Override
