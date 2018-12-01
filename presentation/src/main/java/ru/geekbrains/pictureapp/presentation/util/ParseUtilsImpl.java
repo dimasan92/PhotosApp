@@ -9,7 +9,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 
 @Singleton
 public final class ParseUtilsImpl implements ParseUtils {
@@ -22,24 +22,24 @@ public final class ParseUtilsImpl implements ParseUtils {
     }
 
     @Override
-    public String[] parseObjects(final List<PhotoModel> photoModels) {
-        final String[] jsons = new String[photoModels.size()];
-        for (int i = 0; i < photoModels.size(); i++) {
-            final String json = gson.toJson(photoModels.get(i));
+    public String[] parseObjects(final List<ImageModel> imageModels) {
+        final String[] jsons = new String[imageModels.size()];
+        for (int i = 0; i < imageModels.size(); i++) {
+            final String json = gson.toJson(imageModels.get(i));
             jsons[i] = json;
         }
         return jsons;
     }
 
     @Override
-    public List<PhotoModel> parseToObjects(final String[] jsons) {
-        final List<PhotoModel> photoModels = new ArrayList<>(jsons.length);
+    public List<ImageModel> parseToObjects(final String[] jsons) {
+        final List<ImageModel> imageModels = new ArrayList<>(jsons.length);
         try {
             for (String json : jsons) {
-                final PhotoModel photoModel = gson.fromJson(json, PhotoModel.class);
-                photoModels.add(photoModel);
+                final ImageModel imageModel = gson.fromJson(json, ImageModel.class);
+                imageModels.add(imageModel);
             }
         } catch (final JsonSyntaxException ignored) {}
-        return photoModels;
+        return imageModels;
     }
 }

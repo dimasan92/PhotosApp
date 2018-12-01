@@ -2,11 +2,11 @@ package ru.geekbrains.pictureapp.presentation.util;
 
 import java.util.List;
 
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 
 public interface ParseUtils {
 
-    String[] parseObjects(final List<PhotoModel> photoModels);
+    String[] parseObjects(final List<ImageModel> imageModels);
 
-    List<PhotoModel> parseToObjects(final String[] jsons);
+    List<ImageModel> parseToObjects(final String[] jsons);
 }
