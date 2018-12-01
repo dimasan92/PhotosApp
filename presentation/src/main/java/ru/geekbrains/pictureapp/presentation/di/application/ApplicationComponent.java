@@ -10,6 +10,7 @@ import ru.geekbrains.pictureapp.presentation.di.application.modules.DataModule;
 import ru.geekbrains.pictureapp.presentation.di.application.modules.MapperModule;
 import ru.geekbrains.pictureapp.presentation.di.application.modules.SchedulersModule;
 import ru.geekbrains.pictureapp.presentation.di.application.modules.ServiceModule;
+import ru.geekbrains.pictureapp.presentation.di.application.modules.UpdaterModule;
 import ru.geekbrains.pictureapp.presentation.di.application.modules.UtilsModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.MainComponent;
 
@@ -18,6 +19,7 @@ import ru.geekbrains.pictureapp.presentation.di.ui.MainComponent;
         MapperModule.class,
         SchedulersModule.class,
         ServiceModule.class,
+        UpdaterModule.class,
         UtilsModule.class})
 public interface ApplicationComponent {
 
@@ -28,6 +30,7 @@ public interface ApplicationComponent {
 
         ApplicationComponent build();
 
-        @BindsInstance Builder setContext(final Context context);
+        @BindsInstance
+        Builder setContext(final Context context);
     }
 }
