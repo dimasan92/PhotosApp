@@ -12,175 +12,175 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import ru.geekbrains.pictureapp.data.database.PhotosDao;
+import ru.geekbrains.pictureapp.data.database.ImagesDao;
 import ru.geekbrains.pictureapp.data.database.entities.FavoriteEntity;
-import ru.geekbrains.pictureapp.data.exception.NoNetworkConnectionException;
-import ru.geekbrains.pictureapp.data.mapper.PhotoMapper;
+import ru.geekbrains.pictureapp.data.exception.NetworkConnectionException;
+import ru.geekbrains.pictureapp.data.mapper.ImageMapper;
 import ru.geekbrains.pictureapp.data.service.api.ApiPhotosService;
 import ru.geekbrains.pictureapp.data.util.FileUtils;
 import ru.geekbrains.pictureapp.data.util.NetworkUtils;
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 import ru.geekbrains.pictureapp.domain.repository.PhotosRepository;
 
 @Singleton
 public final class PhotosRepositoryImpl implements PhotosRepository {
 
-    private final PhotosDao photosDao;
+    private final ImagesDao imagesDao;
     private final ApiPhotosService photosService;
-    private final PhotoMapper photoMapper;
+    private final ImageMapper imageMapper;
     private final FileUtils fileUtils;
     private final NetworkUtils networkUtils;
 
     @Inject
-    PhotosRepositoryImpl(final PhotosDao photosDao, final ApiPhotosService photosService,
-                         final PhotoMapper photoMapper,
-                         final FileUtils fileUtils, final NetworkUtils networkUtils) {
-        this.photosDao = photosDao;
+    PhotosRepositoryImpl(final ImagesDao imagesDao, final ApiPhotosService photosService,
+                         final ImageMapper imageMapper, final FileUtils fileUtils,
+                         final NetworkUtils networkUtils) {
+        this.imagesDao = imagesDao;
         this.photosService = photosService;
-        this.photoMapper = photoMapper;
+        this.imageMapper = imageMapper;
         this.fileUtils = fileUtils;
         this.networkUtils = networkUtils;
     }
 
     @Override
-    public Single<List<PhotoModel>> getPhotosBySearch(final String query, final int count) {
+    public Single<List<ImageModel>> getPicturesByQuery(final String query, final int count) {
         if (networkUtils.isOnline()) {
-            return getPhotosBySearchTask(query, count);
+            return getPicturesByQueryTask(query, count);
         } else {
-            return Single.error(new NoNetworkConnectionException());
+            return Single.error(new NetworkConnectionException());
         }
     }
 
-    @Override
-    public Single<List<PhotoModel>> getSavedSearchPhotos() {
-        return getSavedSearchPhotosTask();
-    }
-
-    @Override
-    public Single<List<PhotoModel>> updateSearchPhotos(List<PhotoModel> photoModels) {
-        return updateSearchPhotosTask(photoModels);
-    }
-
-    @Override
-    public Single<PhotoModel> getPlaceForNewCameraPhoto() {
-        return Single.fromCallable(() -> {
-            final String id = UUID.randomUUID().toString();
-            final String photoExt = fileUtils.getCameraPhotoExt();
-            final String filename = fileUtils.getFilenameForId(id, photoExt);
-            final String filePath = fileUtils.getCameraPhotoFilePath(filename);
-            return new PhotoModel(id, filePath, photoExt);
-        })
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Single<List<PhotoModel>> getCameraPhotos() {
-        return getCameraPhotosTask();
-    }
-
-    @Override
-    public Single<List<PhotoModel>> getFavorites() {
-        return photosDao.getAllFavorites()
-                .map(photoMapper::mapFavorites)
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel) {
-        return Single.fromCallable(() -> {
-            final FavoriteEntity favoriteEntity = photoMapper.mapToFavoriteEntity(photoModel);
-            if (photoModel.isFavorite()) {
-                photosDao.addFavorite(favoriteEntity);
-            } else {
-                photosDao.deleteFavorite(favoriteEntity);
-            }
-            return photoModel;
-        }).subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Single<PhotoModel> saveSearchPhoto(final PhotoModel photoModel, final byte[] photoArray) {
-        return Single.fromCallable(() -> fileUtils.writeSearchPhotoToDevice(photoModel, photoArray))
-                .subscribeOn(Schedulers.io());
-    }
-
-    @Override
-    public Completable deletePhoto(final PhotoModel photoModel) {
-        return Completable.fromAction(() -> {
-            if (photoModel.isFavorite()) {
-                photosDao.deleteFavorite(photoMapper.mapToFavoriteEntity(photoModel));
-            }
-            if (fileUtils.deletePhotoFromDevice(photoModel)) {
-                return;
-            }
-            throw new IOException("Photo is not been deleted");
-        }).subscribeOn(Schedulers.io());
-    }
-
-    private Single<List<PhotoModel>> getPhotosBySearchTask(final String query, final int count) {
+    private Single<List<ImageModel>> getPicturesByQueryTask(final String query, final int count) {
         return photosService.getSquarishRandomQueryPhoto(query, count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable(models -> models)
                 .map(model -> {
-                    final String ext = fileUtils.getSearchPhotoExt(model.getUrls().getRegular());
-                    final String filename = fileUtils.getFilenameForId(model.getId(), ext);
+                    final String pictureExt = fileUtils.getPictureExt(model.getUrls().getRegular());
+                    final String filename = fileUtils.getFilenameForId(model.getId(), pictureExt);
                     final boolean isFavorite = isFavorite(model.getId());
-                    final String filePath = isSearchSaved(filename) ?
-                            fileUtils.getSearchPhotoFilePath(filename) : "";
-                    return new PhotoModel(model.getId(), isFavorite, filePath,
-                            model.getUrls().getRegular(), model.getUrls().getSmall(), ext);
+                    final String filePath = isPictureSaved(filename) ?
+                            fileUtils.getPictureFilePath(filename) : "";
+                    return new ImageModel(model.getId(), isFavorite, filePath,
+                            model.getUrls().getRegular(), model.getUrls().getSmall(), pictureExt);
                 }).toList();
     }
 
-    private Single<List<PhotoModel>> updateSearchPhotosTask(final List<PhotoModel> photoModels) {
-        return Observable.fromIterable(photoModels)
+    @Override
+    public Single<List<ImageModel>> getSavedPictures() {
+        return getSavedPicturesTask();
+    }
+
+    private Single<List<ImageModel>> getSavedPicturesTask() {
+        return Single.fromCallable(fileUtils::getPicturesNamesFromStorage)
+                .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
+                .flattenAsObservable(entities -> entities)
+                .map(mapFilenameToModel(fileUtils::getPictureFilePath))
+                .toList();
+    }
+
+    @Override
+    public Single<List<ImageModel>> updatePictures(final List<ImageModel> imageModels) {
+        return updatePicturesTask(imageModels);
+    }
+
+    private Single<List<ImageModel>> updatePicturesTask(final List<ImageModel> imageModels) {
+        return Observable.fromIterable(imageModels)
+                .subscribeOn(Schedulers.computation())
                 .map(model -> {
-                    final String filename = fileUtils.getFilenameForId(model.getId(), model.getPhotoExt());
+                    final String filename = fileUtils.getFilenameForId(model.getId(), model.getExtension());
                     final boolean isFavorite = isFavorite(model.getId());
-                    final String filePath = isSearchSaved(filename) ?
-                            fileUtils.getSearchPhotoFilePath(filename) : "";
-                    return new PhotoModel(model, isFavorite, filePath);
+                    final String filePath = isPictureSaved(filename) ?
+                            fileUtils.getPictureFilePath(filename) : "";
+                    return new ImageModel(model, isFavorite, filePath);
                 }).toList();
     }
 
-    private Single<List<PhotoModel>> getSavedSearchPhotosTask() {
-        return Single.fromCallable(fileUtils::getSearchPhotosNamesFromStorage)
+    private boolean isPictureSaved(final String filename) {
+        return fileUtils.getPicturesNamesFromStorage().contains(filename);
+    }
+
+    @Override
+    public Single<ImageModel> savePicture(final ImageModel imageModel, final byte[] photoArray) {
+        return Single.fromCallable(() -> fileUtils.writePictureToDevice(imageModel, photoArray))
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<ImageModel> getPlaceForNewPhoto() {
+        return Single.fromCallable(() -> {
+            final String id = UUID.randomUUID().toString();
+            final String photoExt = fileUtils.getPhotoExt();
+            final String filename = fileUtils.getFilenameForId(id, photoExt);
+            final String filePath = fileUtils.getPhotoFilePath(filename);
+            return new ImageModel(id, filePath, photoExt);
+        })
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<List<ImageModel>> getPhotos() {
+        return getPhotosTask();
+    }
+
+    private Single<List<ImageModel>> getPhotosTask() {
+        return Single.fromCallable(fileUtils::getPhotosNamesFromStorage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.computation())
                 .flattenAsObservable(entities -> entities)
-                .map(mapFilenameToModel(fileUtils::getSearchPhotoFilePath))
+                .map(mapFilenameToModel(fileUtils::getPhotoFilePath))
                 .toList();
     }
 
-    private Single<List<PhotoModel>> getCameraPhotosTask() {
-        return Single.fromCallable(fileUtils::getCameraPhotosNamesFromStorage)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.computation())
-                .flattenAsObservable(entities -> entities)
-                .map(mapFilenameToModel(fileUtils::getCameraPhotoFilePath))
-                .toList();
-    }
-
-    private Function<String, PhotoModel> mapFilenameToModel(final Function<String, String> pathConverter) {
+    private Function<String, ImageModel> mapFilenameToModel(final Function<String, String> pathConverter) {
         return filename -> {
             final String id = fileUtils.getIdFromFilename(filename);
             final boolean isFavorite = isFavorite(id);
             final String ext = fileUtils.getPhotoExt(filename);
-            return new PhotoModel(id, isFavorite, pathConverter.apply(filename), ext);
+            return new ImageModel(id, isFavorite, pathConverter.apply(filename), ext);
         };
     }
 
     private boolean isFavorite(final String id) {
-        return photosDao.getAllFavorites()
+        return imagesDao.getAllFavorites()
                 .flattenAsObservable(entities -> entities)
                 .map(FavoriteEntity::getId)
                 .contains(id)
                 .as(Single::blockingGet);
     }
 
-    private boolean isSearchSaved(final String filename) {
-        return fileUtils.getSearchPhotosNamesFromStorage().contains(filename);
+    @Override
+    public Single<List<ImageModel>> getFavorites() {
+        return imagesDao.getAllFavorites()
+                .map(imageMapper::mapFavorites)
+                .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Single<ImageModel> setFavoriteStatus(final ImageModel imageModel) {
+        return Single.fromCallable(() -> {
+            final FavoriteEntity favoriteEntity = imageMapper.mapToFavoriteEntity(imageModel);
+            if (imageModel.isFavorite()) {
+                imagesDao.addFavorite(favoriteEntity);
+            } else {
+                imagesDao.deleteFavorite(favoriteEntity);
+            }
+            return imageModel;
+        }).subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Completable deleteImage(final ImageModel imageModel) {
+        return Completable.fromAction(() -> {
+            if (imageModel.isFavorite()) {
+                imagesDao.deleteFavorite(imageMapper.mapToFavoriteEntity(imageModel));
+            }
+            if (fileUtils.deletePhotoFromDevice(imageModel)) {
+                return;
+            }
+            throw new IOException("Photo is not been deleted");
+        }).subscribeOn(Schedulers.io());
     }
 }
