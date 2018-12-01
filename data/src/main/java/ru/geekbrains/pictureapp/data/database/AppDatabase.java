@@ -7,5 +7,5 @@ import ru.geekbrains.pictureapp.data.database.entities.FavoriteEntity;
 @Database(entities = {FavoriteEntity.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
-    public abstract PhotosDao photosDao();
+    public abstract ImagesDao getImagesDao();
 }
