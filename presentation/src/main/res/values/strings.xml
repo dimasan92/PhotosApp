@@ -2,7 +2,7 @@
     <string name="app_name">GeekBrainsPhotos</string>
 
     <!--toolbar-->
-    <string name="toolbar_search_title">Search</string>
+    <string name="toolbar_pictures_title">Search</string>
     <string name="toolbar_camera_title">Camera photos</string>
     <string name="toolbar_favorites_title">Favorites</string>
     <string name="toolbar_app_theme_title">Color theme</string>
@@ -60,6 +60,6 @@
     <string name="delete_photo_dialog_cancel">Cancel</string>
 
     <string name="gallery_photo_description">Photo</string>
-    <string name="favorite_icon_description">Favorite</string>
+    <string name="icon_description">Icon</string>
     <string name="toolbar_photo_description">Toolbar</string>
 </resources>
