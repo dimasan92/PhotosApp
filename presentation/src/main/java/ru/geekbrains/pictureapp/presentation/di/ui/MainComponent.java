@@ -1,6 +1,7 @@
 package ru.geekbrains.pictureapp.presentation.di.ui;
 
 import dagger.Subcomponent;
+import ru.geekbrains.pictureapp.presentation.di.ui.details.DetailsComponent;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.HomeComponent;
 import ru.geekbrains.pictureapp.presentation.di.ui.settings.SettingsComponent;
 import ru.geekbrains.pictureapp.presentation.ui.container.MainActivity;
@@ -13,5 +14,7 @@ public interface MainComponent {
 
     SettingsComponent getSettingsComponent();
 
-    void inject(MainActivity mainActivity);
+    DetailsComponent getDetailsComponent();
+
+    void inject(final MainActivity mainActivity);
 }
