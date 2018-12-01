@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.presentation.util;
+package ru.geekbrains.pictureapp.data.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -7,8 +7,6 @@ import android.net.NetworkInfo;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import ru.geekbrains.pictureapp.data.util.NetworkUtils;
 
 @Singleton
 public final class NetworkUtilsImpl implements NetworkUtils {
@@ -35,27 +33,7 @@ public final class NetworkUtilsImpl implements NetworkUtils {
                 currentState.equals(NetworkState.ETHERNET);
     }
 
-    @Override
-    public boolean isOffline() {
-        return NetworkState.OFFLINE.equals(getState());
-    }
-
-    @Override
-    public boolean isMobile() {
-        return NetworkState.MOBILE.equals(getState());
-    }
-
-    @Override
-    public boolean isWiFi() {
-        return NetworkState.WIFI.equals(getState());
-    }
-
-    @Override
-    public boolean isEthernet() {
-        return NetworkState.ETHERNET.equals(getState());
-    }
-
-    private NetworkState getState() {
+    private void getState() {
         currentState = NetworkState.OFFLINE;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             final NetworkCapabilities networkCapabilities =
@@ -87,6 +65,5 @@ public final class NetworkUtilsImpl implements NetworkUtils {
                 }
             }
         }
-        return currentState;
     }
 }
