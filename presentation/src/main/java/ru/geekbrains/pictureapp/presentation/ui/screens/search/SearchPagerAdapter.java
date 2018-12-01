@@ -5,9 +5,10 @@ import android.content.Context;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+
 import ru.geekbrains.pictureapp.R;
-import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearchFragment;
-import ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.onlinepictures.OnlinePicturesFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures.SavedPicturesFragment;
 
 public final class SearchPagerAdapter extends FragmentPagerAdapter {
 
@@ -19,22 +20,24 @@ public final class SearchPagerAdapter extends FragmentPagerAdapter {
         tabTitles = appContext.getResources().getStringArray(R.array.home_tabs);
     }
 
-    @Override public Fragment getItem(int position) {
+    @Override
+    public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return OnlineSearchFragment.newInstance();
+                return OnlinePicturesFragment.newInstance();
             case 1:
-                return SavedSearchFragment.newInstance();
             default:
-                throw new IllegalArgumentException("Illegal position " + position);
+                return SavedPicturesFragment.newInstance();
         }
     }
 
-    @Override public int getCount() {
+    @Override
+    public int getCount() {
         return tabTitles.length;
     }
 
-    @Override public CharSequence getPageTitle(int position) {
+    @Override
+    public CharSequence getPageTitle(int position) {
         return tabTitles[position];
     }
 }
