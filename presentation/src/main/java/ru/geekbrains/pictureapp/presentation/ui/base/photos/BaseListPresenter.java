@@ -1,5 +1,7 @@
 package ru.geekbrains.pictureapp.presentation.ui.base.photos;
 
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
+
 public interface BaseListPresenter<V extends BaseListPresenter.RowView> {
 
     interface ListView {
@@ -13,7 +15,7 @@ public interface BaseListPresenter<V extends BaseListPresenter.RowView> {
 
     interface RowView {
 
-        void loadImage(final String source);
+        void loadImage(final ImageModel imageModel);
     }
 
     void bind(int position, V view);
