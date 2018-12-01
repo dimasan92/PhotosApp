@@ -1,28 +1,25 @@
 package ru.geekbrains.pictureapp.presentation.di.ui.home;
 
 import dagger.Subcomponent;
-import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.CameraPhotosModule;
+import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.PhotosModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.FavoritesModule;
-import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.FullscreenPhotosModule;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.HomeModule;
-import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.OnlineSearchModule;
-import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.SavedSearchModule;
-import ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos.CameraPhotosFragment;
+import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.OnlinePicturesModule;
+import ru.geekbrains.pictureapp.presentation.di.ui.home.modules.SavedPicturesModule;
+import ru.geekbrains.pictureapp.presentation.ui.screens.onlinepictures.OnlinePicturesFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.photos.PhotosFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.favorites.FavoritesFragment;
-import ru.geekbrains.pictureapp.presentation.ui.screens.fullscreenphotos.FullscreenPhotosFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.home.HomeFragment;
-import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearchFragment;
-import ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures.SavedPicturesFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.search.SearchFragment;
 
 @HomeScope
 @Subcomponent(modules = {
-        CameraPhotosModule.class,
+        PhotosModule.class,
         FavoritesModule.class,
-        FullscreenPhotosModule.class,
         HomeModule.class,
-        OnlineSearchModule.class,
-        SavedSearchModule.class
+        OnlinePicturesModule.class,
+        SavedPicturesModule.class
 })
 public interface HomeComponent {
 
@@ -30,13 +27,11 @@ public interface HomeComponent {
 
     void inject(final SearchFragment searchFragment);
 
-    void inject(final OnlineSearchFragment onlineSearchFragment);
+    void inject(final OnlinePicturesFragment onlinePicturesFragment);
 
-    void inject(final SavedSearchFragment savedSearchFragment);
+    void inject(final SavedPicturesFragment savedPicturesFragment);
 
-    void inject(final CameraPhotosFragment cameraPhotosFragment);
+    void inject(final PhotosFragment photosFragment);
 
     void inject(final FavoritesFragment favoritesFragment);
-
-    void inject(final FullscreenPhotosFragment fullscreenPhotosFragment);
 }
