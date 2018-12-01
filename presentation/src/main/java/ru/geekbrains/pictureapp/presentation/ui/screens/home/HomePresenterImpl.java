@@ -2,8 +2,8 @@ package ru.geekbrains.pictureapp.presentation.ui.screens.home;
 
 import javax.inject.Inject;
 
-import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenterImpl;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.HomeScope;
+import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenterImpl;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.BackStackListener;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.HomeNavigator;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.MainNavigator;
@@ -16,53 +16,15 @@ public final class HomePresenterImpl extends BasePresenterImpl<HomeView> impleme
     private final MainNavigator mainNavigator;
     private HomeNavigator homeNavigator;
 
-    @Inject HomePresenterImpl(final MainNavigator mainNavigator) {
+    @Inject
+    HomePresenterImpl(final MainNavigator mainNavigator) {
         this.mainNavigator = mainNavigator;
     }
 
-    @Override public void setNavigator(final HomeNavigator navigator) {
+    @Override
+    public void setNavigator(final HomeNavigator navigator) {
         homeNavigator = navigator;
         homeNavigator.setupBackStackListener(getBackStackListener());
-    }
-
-    @Override public void firstCreated() {
-        homeNavigator.navigateToSearch();
-    }
-
-    @Override public void searchSelected(final boolean isFromHomePageNavigationMenu) {
-        if (!isFromHomePageNavigationMenu) {
-            view.setNavigationState(Screens.SEARCH_SCREEN);
-        } else {
-            view.closeDrawer();
-        }
-        homeNavigator.navigateToSearch();
-    }
-
-    @Override public void cameraSelected(boolean isFromHomePageNavigationMenu) {
-        if (!isFromHomePageNavigationMenu) {
-            view.setNavigationState(Screens.CAMERA_PHOTOS_SCREEN);
-        } else {
-            view.closeDrawer();
-        }
-        homeNavigator.navigateToCamera();
-    }
-
-    @Override public void favoritesSelected(boolean isFromHomePageNavigationMenu) {
-        if (!isFromHomePageNavigationMenu) {
-            view.setNavigationState(Screens.FAVORITES_SCREEN);
-        } else {
-            view.closeDrawer();
-        }
-        homeNavigator.navigateToFavorites();
-    }
-
-    @Override public void appThemeSelected() {
-        view.closeDrawer();
-        mainNavigator.navigateToAppTheme();
-    }
-
-    @Override public void back() {
-        homeNavigator.navigateBack();
     }
 
     private BackStackListener getBackStackListener() {
@@ -73,5 +35,51 @@ public final class HomePresenterImpl extends BasePresenterImpl<HomeView> impleme
             }
             view.setNavigationState(screen);
         };
+    }
+
+    @Override
+    public void firstCreated() {
+        homeNavigator.navigateToSearch();
+    }
+
+    @Override
+    public void searchSelected(final boolean isFromHomePageNavigationMenu) {
+        if (isFromHomePageNavigationMenu) {
+            view.closeDrawer();
+        } else {
+            view.setNavigationState(Screens.SEARCH_SCREEN);
+        }
+        homeNavigator.navigateToSearch();
+    }
+
+    @Override
+    public void cameraSelected(boolean isFromHomePageNavigationMenu) {
+        if (isFromHomePageNavigationMenu) {
+            view.closeDrawer();
+        } else {
+            view.setNavigationState(Screens.CAMERA_PHOTOS_SCREEN);
+        }
+        homeNavigator.navigateToCamera();
+    }
+
+    @Override
+    public void favoritesSelected(boolean isFromHomePageNavigationMenu) {
+        if (isFromHomePageNavigationMenu) {
+            view.closeDrawer();
+        } else {
+            view.setNavigationState(Screens.FAVORITES_SCREEN);
+        }
+        homeNavigator.navigateToFavorites();
+    }
+
+    @Override
+    public void appThemeSelected() {
+        view.closeDrawer();
+        mainNavigator.navigateToAppTheme();
+    }
+
+    @Override
+    public void back() {
+        homeNavigator.navigateBack();
     }
 }

@@ -6,18 +6,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import ru.geekbrains.pictureapp.presentation.MainApplication;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomnavigation.BottomNavigationView.OnNavigationItemSelectedListener;
+import com.google.android.material.navigation.NavigationView;
+
+import javax.inject.Inject;
+
 import ru.geekbrains.pictureapp.R;
+import ru.geekbrains.pictureapp.presentation.MainApplication;
 import ru.geekbrains.pictureapp.presentation.ui.container.mediator.ContainerToContentMediator;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.HomeNavigator;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.Screens;
@@ -38,77 +40,12 @@ public final class HomeFragment extends Fragment implements HomeView, BackListen
         return new HomeFragment();
     }
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    //region overrides Fragment methods
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         inject();
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-    }
-
-    @NonNull @Override public View onCreateView(@NonNull LayoutInflater inflater,
-                                                @Nullable ViewGroup container,
-                                                @Nullable Bundle savedInstanceState) {
-        final View layout = inflater.inflate(R.layout.fragment_container_home, container, false);
-
-        setupView(layout);
-
-        navigator.init(getChildFragmentManager());
-        presenter.setNavigator(navigator);
-        if (savedInstanceState == null && firstCreated) {
-            presenter.firstCreated();
-            firstCreated = false;
-        }
-
-        return layout;
-    }
-
-    @Override public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override public void onResume() {
-        super.onResume();
-    }
-
-    @Override public void onStart() {
-        super.onStart();
-        presenter.attachView(this);
-        presenter.start();
-    }
-
-    @Override public void onStop() {
-        super.onStop();
-        presenter.stop();
-    }
-
-    @Override public void onBackPressed() {
-        presenter.back();
-    }
-
-    @Override public void setNavigationState(final Screens screen) {
-        switch (screen) {
-            case SEARCH_SCREEN:
-                bottomNavigationView.setSelectedItemId(R.id.bottom_action_search);
-                break;
-            case CAMERA_PHOTOS_SCREEN:
-                bottomNavigationView.setSelectedItemId(R.id.bottom_action_camera);
-                break;
-            case FAVORITES_SCREEN:
-                bottomNavigationView.setSelectedItemId(R.id.bottom_action_favorites);
-                break;
-            default:
-                throw new IllegalArgumentException("Wrong screen parameter");
-        }
-    }
-
-    @Override public void closeDrawer() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
     }
 
     private void inject() {
@@ -118,15 +55,25 @@ public final class HomeFragment extends Fragment implements HomeView, BackListen
                 .inject(this);
     }
 
-    private void setupView(final View layout) {
-        setupDrawer(layout);
-        setupBottomNavigation(layout);
+    @NonNull
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        final View layout = inflater.inflate(R.layout.fragment_container_home, container, false);
+
+        setupView(layout);
+        preparePresenter(savedInstanceState == null && firstCreated);
+
+        return layout;
     }
 
-    private void setupDrawer(final View layout) {
+    private void setupView(final View layout) {
         drawerLayout = layout.findViewById(R.id.home_drawer_navigation_layout);
-        NavigationView navigationView = layout.findViewById(R.id.home_drawer_navigation);
+        final NavigationView navigationView = layout.findViewById(R.id.home_drawer_navigation);
         navigationView.setNavigationItemSelectedListener(getDrawerListener());
+
+        bottomNavigationView = layout.findViewById(R.id.home_bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(getBottomNavigationListener());
     }
 
     private NavigationView.OnNavigationItemSelectedListener getDrawerListener() {
@@ -149,9 +96,8 @@ public final class HomeFragment extends Fragment implements HomeView, BackListen
         };
     }
 
-    private void setupBottomNavigation(final View layout) {
-        bottomNavigationView = layout.findViewById(R.id.home_bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuItem -> {
+    private OnNavigationItemSelectedListener getBottomNavigationListener() {
+        return menuItem -> {
             switch (menuItem.getItemId()) {
                 case R.id.bottom_action_search:
                     presenter.searchSelected(true);
@@ -164,6 +110,74 @@ public final class HomeFragment extends Fragment implements HomeView, BackListen
                     return true;
             }
             return false;
-        });
+        };
     }
+
+    private void preparePresenter(final boolean isFirstCreated) {
+        navigator.init(getChildFragmentManager());
+        presenter.setNavigator(navigator);
+        if (isFirstCreated) {
+            presenter.firstCreated();
+            firstCreated = false;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+        presenter.start();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.stop();
+    }
+    //endregion
+
+    //region implements BackListener
+    @Override
+    public void onBackPressed() {
+        presenter.back();
+    }
+    //endregion
+
+    //region implements HomeView
+    @Override
+    public void setNavigationState(final Screens screen) {
+        switch (screen) {
+            case SEARCH_SCREEN:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_search);
+                break;
+            case CAMERA_PHOTOS_SCREEN:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_camera);
+                break;
+            case FAVORITES_SCREEN:
+                bottomNavigationView.setSelectedItemId(R.id.bottom_action_favorites);
+                break;
+        }
+    }
+
+    @Override
+    public void closeDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+    //endregion
 }
