@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import ru.geekbrains.pictureapp.R;
 import ru.geekbrains.pictureapp.presentation.di.ui.home.HomeScope;
-import ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos.CameraPhotosFragment;
+import ru.geekbrains.pictureapp.presentation.ui.screens.photos.PhotosFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.favorites.FavoritesFragment;
 import ru.geekbrains.pictureapp.presentation.ui.screens.search.SearchFragment;
 
@@ -41,7 +41,7 @@ public final class HomeNavigatorImpl implements HomeNavigator {
     }
 
     @Override public void navigateToCamera() {
-        open(CAMERA_TAG, CameraPhotosFragment::newInstance);
+        open(CAMERA_TAG, PhotosFragment::newInstance);
     }
 
     @Override public void navigateToFavorites() {

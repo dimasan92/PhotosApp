@@ -12,5 +12,7 @@ public interface MainNavigator {
 
     void navigateToAppTheme();
 
+    void navigateToDetails(final String[] jsons, final int initPosition);
+
     void navigateBack();
 }
