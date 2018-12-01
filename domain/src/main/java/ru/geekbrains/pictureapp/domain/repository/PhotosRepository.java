@@ -4,25 +4,25 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 
 public interface PhotosRepository {
 
-    Single<List<PhotoModel>> getPhotosBySearch(final String query, final int count);
+    Single<List<ImageModel>> getPicturesByQuery(final String query, final int count);
 
-    Single<List<PhotoModel>> getSavedSearchPhotos();
+    Single<List<ImageModel>> getSavedPictures();
 
-    Single<PhotoModel> getPlaceForNewCameraPhoto();
+    Single<ImageModel> savePicture(final ImageModel imageModel, final byte[] photoArray);
 
-    Single<List<PhotoModel>> getCameraPhotos();
+    Single<List<ImageModel>> updatePictures(final List<ImageModel> imageModels);
 
-    Single<List<PhotoModel>> getFavorites();
+    Single<ImageModel> getPlaceForNewPhoto();
 
-    Single<PhotoModel> setFavoritePhotoStatus(final PhotoModel photoModel);
+    Single<List<ImageModel>> getPhotos();
 
-    Single<PhotoModel> saveSearchPhoto(final PhotoModel photoModel, final byte[] photoArray);
+    Single<List<ImageModel>> getFavorites();
 
-    Completable deletePhoto(final PhotoModel photoModel);
+    Single<ImageModel> setFavoriteStatus(final ImageModel imageModel);
 
-    Single<List<PhotoModel>> updateSearchPhotos(final List<PhotoModel> photoModels);
+    Completable deleteImage(final ImageModel imageModel);
 }
