@@ -1,17 +1,18 @@
 package ru.geekbrains.pictureapp.data.database;
 
-import java.util.List;
-
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+
+import java.util.List;
+
 import io.reactivex.Single;
 import ru.geekbrains.pictureapp.data.database.entities.FavoriteEntity;
 
 @Dao
-public interface PhotosDao {
+public interface ImagesDao {
 
     @Query("SELECT * FROM favorites")
     Single<List<FavoriteEntity>> getAllFavorites();
