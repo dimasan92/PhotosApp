@@ -1,6 +1,4 @@
-package ru.geekbrains.pictureapp.domain.interactor.photos.favorites;
-
-import java.util.List;
+package ru.geekbrains.pictureapp.domain.interactor.photos.pictures;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,16 +8,16 @@ import ru.geekbrains.pictureapp.domain.model.ImageModel;
 import ru.geekbrains.pictureapp.domain.repository.PhotosRepository;
 
 @Singleton
-public final class GetFavoritesUseCase {
+public final class SavePictureUseCase {
 
     private final PhotosRepository photosRepository;
 
     @Inject
-    GetFavoritesUseCase(final PhotosRepository photosRepository) {
+    SavePictureUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Single<List<ImageModel>> execute() {
-        return photosRepository.getFavorites();
+    public Single<ImageModel> execute(final ImageModel imageModel, final byte[] photoArray) {
+        return photosRepository.savePicture(imageModel, photoArray);
     }
 }

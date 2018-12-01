@@ -1,7 +1,5 @@
 package ru.geekbrains.pictureapp.domain.interactor.photos.favorites;
 
-import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -10,16 +8,17 @@ import ru.geekbrains.pictureapp.domain.model.ImageModel;
 import ru.geekbrains.pictureapp.domain.repository.PhotosRepository;
 
 @Singleton
-public final class GetFavoritesUseCase {
+public final class ChangeFavoriteStatusUseCase {
 
     private final PhotosRepository photosRepository;
 
     @Inject
-    GetFavoritesUseCase(final PhotosRepository photosRepository) {
+    ChangeFavoriteStatusUseCase(final PhotosRepository photosRepository) {
         this.photosRepository = photosRepository;
     }
 
-    public Single<List<ImageModel>> execute() {
-        return photosRepository.getFavorites();
+    public Single<ImageModel> execute(final ImageModel imageModel) {
+        final ImageModel newImageModel = new ImageModel(imageModel, !imageModel.isFavorite());
+        return photosRepository.setFavoriteStatus(newImageModel);
     }
 }
