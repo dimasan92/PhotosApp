@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import ru.geekbrains.pictureapp.presentation.MainApplication;
 import ru.geekbrains.pictureapp.R;
+import ru.geekbrains.pictureapp.presentation.MainApplication;
 import ru.geekbrains.pictureapp.presentation.ui.container.mediator.ContainerToContentMediator;
 import ru.geekbrains.pictureapp.presentation.ui.navigator.Screens;
 import ru.geekbrains.pictureapp.presentation.ui.screens.BackListener;
@@ -27,14 +27,17 @@ public final class AppThemeFragment extends Fragment implements ThemeView, BackL
         return new AppThemeFragment();
     }
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         inject();
         super.onCreate(savedInstanceState);
     }
 
-    @NonNull @Override public View onCreateView(@NonNull LayoutInflater inflater,
-                                                @Nullable ViewGroup container,
-                                                @Nullable Bundle savedInstanceState) {
+    @NonNull
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         final View layout = inflater.inflate(R.layout.fragment_app_theme, container, false);
 
         final Toolbar toolbar = layout.findViewById(R.id.app_theme_toolbar);
@@ -44,26 +47,31 @@ public final class AppThemeFragment extends Fragment implements ThemeView, BackL
         return layout;
     }
 
-    @Override public void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
         presenter.attachView(this);
         presenter.start();
     }
 
-    @Override public void onStop() {
+    @Override
+    public void onStop() {
         super.onStop();
         presenter.stop();
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         presenter.back();
     }
 
-    @Override public void applyTheme() {
+    @Override
+    public void applyTheme() {
         mediator.applyTheme();
     }
 
-    @Override public void release() {
+    @Override
+    public void release() {
         MainApplication.getApp()
                 .getComponentsManager()
                 .releaseSettingsComponent();
