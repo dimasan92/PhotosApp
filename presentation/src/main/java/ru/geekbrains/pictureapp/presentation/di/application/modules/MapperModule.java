@@ -4,15 +4,19 @@ import javax.inject.Singleton;
 
 import dagger.Binds;
 import dagger.Module;
-import ru.geekbrains.pictureapp.data.mapper.PhotoMapper;
-import ru.geekbrains.pictureapp.data.mapper.PhotoMapperImpl;
+import ru.geekbrains.pictureapp.data.mapper.ImageMapper;
+import ru.geekbrains.pictureapp.data.mapper.ImageMapperImpl;
 import ru.geekbrains.pictureapp.data.mapper.ThemeMapper;
 import ru.geekbrains.pictureapp.data.mapper.ThemeMapperImpl;
 
 @Module
 public interface MapperModule {
 
-    @Singleton @Binds PhotoMapper provideEntityPhotoMapper(final PhotoMapperImpl entityPhotoMapper);
+    @Singleton
+    @Binds
+    ImageMapper provideEntityPhotoMapper(final ImageMapperImpl entityPhotoMapper);
 
-    @Singleton @Binds ThemeMapper provideThemeMapper(final ThemeMapperImpl themeMapperImpl);
+    @Singleton
+    @Binds
+    ThemeMapper provideThemeMapper(final ThemeMapperImpl themeMapperImpl);
 }
