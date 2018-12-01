@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 
 @Singleton
 public final class FileUtilsImpl implements FileUtils {
@@ -31,13 +31,23 @@ public final class FileUtilsImpl implements FileUtils {
     }
 
     @Override
-    public List<String> getSearchPhotosNamesFromStorage() {
+    public List<String> getPicturesNamesFromStorage() {
         return getPhotosNamesFromStorage(searchPhotosDir);
     }
 
     @Override
-    public List<String> getCameraPhotosNamesFromStorage() {
+    public List<String> getPhotosNamesFromStorage() {
         return getPhotosNamesFromStorage(cameraPhotosDir);
+    }
+
+    private List<String> getPhotosNamesFromStorage(final File dir) {
+        final List<String> names = new ArrayList<>();
+        for (final File file : dir.listFiles()) {
+            if (file.isFile()) {
+                names.add(file.getName());
+            }
+        }
+        return names;
     }
 
     @Override
@@ -51,55 +61,45 @@ public final class FileUtilsImpl implements FileUtils {
     }
 
     @Override
-    public String getSearchPhotoFilePath(final String filename) {
+    public String getPictureFilePath(final String filename) {
         return searchPhotosDir.getAbsolutePath() + File.separator + filename;
     }
 
     @Override
-    public String getCameraPhotoFilePath(final String filename) {
+    public String getPhotoFilePath(final String filename) {
         return cameraPhotosDir.getAbsolutePath() + File.separator + filename;
     }
 
     @Override
-    public PhotoModel writeSearchPhotoToDevice(final PhotoModel photoModel,
-                                               final byte[] photoArray) throws IOException {
-        final String filename = getFilenameForId(photoModel.getId(), photoModel.getPhotoExt());
-        final String filePath = getSearchPhotoFilePath(filename);
+    public ImageModel writePictureToDevice(final ImageModel imageModel,
+                                           final byte[] photoArray) throws IOException {
+        final String filename = getFilenameForId(imageModel.getId(), imageModel.getExtension());
+        final String filePath = getPictureFilePath(filename);
         final File photoFile = new File(filePath);
         try (final BufferedOutputStream outputStream = new BufferedOutputStream(
                 new FileOutputStream(photoFile))) {
             outputStream.write(photoArray);
         }
-        return new PhotoModel(photoModel, filePath);
+        return new ImageModel(imageModel, filePath);
     }
 
     @Override
-    public boolean deletePhotoFromDevice(final PhotoModel photoModel) {
-        return new File(photoModel.getFilePath()).delete();
+    public boolean deletePhotoFromDevice(final ImageModel imageModel) {
+        return new File(imageModel.getFilePath()).delete();
     }
 
     @Override
-    public String getSearchPhotoExt(final String url) {
+    public String getPictureExt(final String url) {
         return Uri.parse(url).getQueryParameter("fm");
     }
 
     @Override
-    public String getCameraPhotoExt() {
+    public String getPhotoExt() {
         return "jpg";
     }
 
     @Override
     public String getPhotoExt(final String filename) {
         return filename.split("\\.")[1];
-    }
-
-    private List<String> getPhotosNamesFromStorage(final File dir) {
-        final List<String> names = new ArrayList<>();
-        for (final File file : dir.listFiles()) {
-            if (file.isFile()) {
-                names.add(file.getName());
-            }
-        }
-        return names;
     }
 }

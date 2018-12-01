@@ -3,30 +3,30 @@ package ru.geekbrains.pictureapp.data.util;
 import java.io.IOException;
 import java.util.List;
 
-import ru.geekbrains.pictureapp.domain.model.PhotoModel;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
 
 public interface FileUtils {
 
-    List<String> getSearchPhotosNamesFromStorage();
+    List<String> getPicturesNamesFromStorage();
 
-    List<String> getCameraPhotosNamesFromStorage();
+    List<String> getPhotosNamesFromStorage();
 
     String getIdFromFilename(final String filename);
 
     String getFilenameForId(final String id, final String ext);
 
-    String getSearchPhotoFilePath(final String filename);
+    String getPictureFilePath(final String filename);
 
-    String getCameraPhotoFilePath(final String filename);
+    String getPhotoFilePath(final String filename);
 
-    PhotoModel writeSearchPhotoToDevice(final PhotoModel photoModel, final byte[] photoArray)
+    ImageModel writePictureToDevice(final ImageModel imageModel, final byte[] photoArray)
             throws IOException;
 
-    boolean deletePhotoFromDevice(final PhotoModel photoModel);
+    boolean deletePhotoFromDevice(final ImageModel imageModel);
 
-    String getSearchPhotoExt(final String url);
+    String getPictureExt(final String url);
 
-    String getCameraPhotoExt();
+    String getPhotoExt();
 
     String getPhotoExt(final String filename);
 }
