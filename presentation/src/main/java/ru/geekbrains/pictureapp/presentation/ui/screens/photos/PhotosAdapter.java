@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos;
+package ru.geekbrains.pictureapp.presentation.ui.screens.photos;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,30 +7,32 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import ru.geekbrains.pictureapp.R;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
-import ru.geekbrains.pictureapp.presentation.ui.screens.cameraphotos.CameraPhotoListPresenter.CameraPhotoRowView;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseImagesAdapter;
+import ru.geekbrains.pictureapp.presentation.ui.screens.photos.PhotosListPresenter.PhotoRowView;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
-public final class CameraPhotosAdapter extends BasePhotosAdapter<CameraPhotosAdapter.PhotoHolder> {
+public final class PhotosAdapter extends BaseImagesAdapter<PhotosAdapter.Holder> {
 
-    private final CameraPhotoListPresenter presenter;
+    private final PhotosListPresenter presenter;
     private final PictureUtils pictureUtils;
 
-    CameraPhotosAdapter(final CameraPhotoListPresenter presenter, final PictureUtils pictureUtils) {
+    PhotosAdapter(final PhotosListPresenter presenter, final PictureUtils pictureUtils) {
         this.presenter = presenter;
         this.pictureUtils = pictureUtils;
     }
 
     @NonNull
     @Override
-    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PhotoHolder(inflater.inflate(R.layout.item_photo, parent, false));
+        return new Holder(inflater.inflate(R.layout.item_photo, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         presenter.bind(position, holder);
     }
 
@@ -39,17 +41,18 @@ public final class CameraPhotosAdapter extends BasePhotosAdapter<CameraPhotosAda
         return presenter.getCount();
     }
 
-    final class PhotoHolder extends ViewHolder implements CameraPhotoRowView {
+    final class Holder extends ViewHolder implements PhotoRowView {
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
 
-        PhotoHolder(@NonNull View itemView) {
+        Holder(@NonNull View itemView) {
             super(itemView);
 
-            photoImageView = itemView.findViewById(R.id.iv_camera_photo);
+            photoImageView = itemView.findViewById(R.id.iv_photo);
+            photoImageView.setOnClickListener(v -> presenter.onFullClick(getAdapterPosition()));
 
-            isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
+            isFavoriteImageView = itemView.findViewById(R.id.iv_is_favorite);
             isFavoriteImageView.setOnClickListener(v -> presenter.onFavoriteClick(getAdapterPosition()));
 
             itemView.findViewById(R.id.iv_io_action_photo).setOnClickListener(v ->
@@ -57,8 +60,8 @@ public final class CameraPhotosAdapter extends BasePhotosAdapter<CameraPhotosAda
         }
 
         @Override
-        public void loadImage(final String filePath) {
-            pictureUtils.loadSavedImageIntoGridCell(filePath, photoImageView);
+        public void loadImage(final ImageModel imageModel) {
+            pictureUtils.loadImageIntoGridCell(imageModel, photoImageView);
         }
 
         @Override
