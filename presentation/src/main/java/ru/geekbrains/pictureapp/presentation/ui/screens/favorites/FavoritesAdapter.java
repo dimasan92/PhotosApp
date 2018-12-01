@@ -8,14 +8,14 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import ru.geekbrains.pictureapp.R;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseImagesAdapter;
 import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.RowView;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
-final class FavoritesAdapter extends BasePhotosAdapter<FavoritesAdapter.FavoritesHolder>
-        implements ListView {
+final class FavoritesAdapter extends BaseImagesAdapter<FavoritesAdapter.FavoritesHolder> {
 
     private final PictureUtils pictureUtils;
     private final FavoritesListPresenter presenter;
@@ -51,14 +51,10 @@ final class FavoritesAdapter extends BasePhotosAdapter<FavoritesAdapter.Favorite
         FavoritesHolder(@NonNull View itemView) {
             super(itemView);
             photoImageView = itemView.findViewById(R.id.iv_favorite_photo);
+            photoImageView.setOnClickListener(v -> presenter.onFullClick(getAdapterPosition()));
 
             moreImageView = itemView.findViewById(R.id.iv_more_menu);
             moreImageView.setOnClickListener(this::showMoreMenu);
-        }
-
-        @Override
-        public void loadImage(final String filePath) {
-            pictureUtils.loadSavedImageIntoGridCell(filePath, photoImageView);
         }
 
         private void showMoreMenu(final View view) {
@@ -78,6 +74,11 @@ final class FavoritesAdapter extends BasePhotosAdapter<FavoritesAdapter.Favorite
                 }
             });
             menu.show();
+        }
+
+        @Override
+        public void loadImage(final ImageModel imageModel) {
+            pictureUtils.loadImageIntoGridCell(imageModel, photoImageView);
         }
     }
 }

@@ -7,4 +7,6 @@ interface FavoritesListPresenter extends BaseListPresenter<BaseListPresenter.Row
     void onDeleteFromFavoritesClick(final int position);
 
     void onDeleteFromDeviceClick(final int position);
+
+    void onFullClick(final int position);
 }

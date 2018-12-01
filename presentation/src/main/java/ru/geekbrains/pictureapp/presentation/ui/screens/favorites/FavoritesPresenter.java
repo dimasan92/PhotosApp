@@ -11,10 +11,6 @@ public interface FavoritesPresenter extends BasePresenter<FavoritesView> {
 
         void init(final FavoritesListPresenter listPresenter);
 
-        void showSuccessDeletedFromFavoritesMessage();
-
-        void showSuccessDeletedFromDeviceMessage();
-
         void showErrorDeletingFromFavoritesMessage();
 
         void showErrorDeletingFromDeviceMessage();
