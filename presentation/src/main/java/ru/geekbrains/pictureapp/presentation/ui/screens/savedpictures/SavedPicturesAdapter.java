@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch;
+package ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,21 +6,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+
 import ru.geekbrains.pictureapp.R;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseImagesAdapter;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
 import static androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import static ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch.SavedSearchListPresenter.SavedSearchRowView;
+import static ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures.SavedPicturesListPresenter.SavedPicturesRowView;
 
-public final class SavedSearchAdapter extends BasePhotosAdapter<SavedSearchAdapter.PhotoHolder>
-        implements ListView {
+public final class SavedPicturesAdapter extends BaseImagesAdapter<SavedPicturesAdapter.PhotoHolder> {
 
-    private final SavedSearchListPresenter presenter;
+    private final SavedPicturesListPresenter presenter;
     private final PictureUtils pictureUtils;
 
-    SavedSearchAdapter(final SavedSearchListPresenter presenter, final PictureUtils pictureUtils) {
+    SavedPicturesAdapter(final SavedPicturesListPresenter presenter, final PictureUtils pictureUtils) {
         this.presenter = presenter;
         this.pictureUtils = pictureUtils;
     }
@@ -43,7 +43,7 @@ public final class SavedSearchAdapter extends BasePhotosAdapter<SavedSearchAdapt
         return presenter.getCount();
     }
 
-    final class PhotoHolder extends ViewHolder implements SavedSearchRowView {
+    final class PhotoHolder extends ViewHolder implements SavedPicturesRowView {
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
@@ -52,9 +52,10 @@ public final class SavedSearchAdapter extends BasePhotosAdapter<SavedSearchAdapt
         PhotoHolder(@NonNull View itemView) {
             super(itemView);
 
-            photoImageView = itemView.findViewById(R.id.iv_camera_photo);
+            photoImageView = itemView.findViewById(R.id.iv_photo);
+            photoImageView.setOnClickListener(v -> presenter.onFullClick(getAdapterPosition()));
 
-            isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
+            isFavoriteImageView = itemView.findViewById(R.id.iv_is_favorite);
             isFavoriteImageView.setOnClickListener(v -> presenter.onFavoriteClick(getAdapterPosition()));
 
             ioActionImageView = itemView.findViewById(R.id.iv_io_action_photo);
@@ -62,8 +63,8 @@ public final class SavedSearchAdapter extends BasePhotosAdapter<SavedSearchAdapt
         }
 
         @Override
-        public void loadImage(final String filePath) {
-            pictureUtils.loadSavedImageIntoGridCell(filePath, photoImageView);
+        public void loadImage(final ImageModel imageModel) {
+            pictureUtils.loadImageIntoGridCell(imageModel, photoImageView);
         }
 
         @Override

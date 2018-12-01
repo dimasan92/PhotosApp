@@ -1,20 +1,21 @@
-package ru.geekbrains.pictureapp.presentation.ui.screens.savedsearch;
+package ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures;
 
 import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenter;
 import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
 
-public interface SavedSearchPresenter extends BasePresenter<SavedSearchPresenter.SavedSearchView> {
+import static ru.geekbrains.pictureapp.presentation.ui.screens.savedpictures.SavedPicturesPresenter.SavedPicturesView;
 
-    interface SavedSearchView extends BasePresenter.BaseView {
+public interface SavedPicturesPresenter extends BasePresenter<SavedPicturesView> {
 
-        void init(final SavedSearchListPresenter presenter);
+    interface SavedPicturesView extends BasePresenter.BaseView {
+
+        void init(final SavedPicturesListPresenter presenter);
 
         void showErrorAddingToFavoritesMessage();
 
         void showErrorDeletingFromFavoritesMessage();
 
         void showErrorDeletingPhoto();
-
     }
 
     void userVisibleHint();
