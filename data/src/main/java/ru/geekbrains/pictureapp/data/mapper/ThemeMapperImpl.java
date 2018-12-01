@@ -17,8 +17,8 @@ public final class ThemeMapperImpl implements ThemeMapper {
     }
 
     @Override
-    public String domainToData(AppThemeModel appTheme) {
-        switch (appTheme) {
+    public String mapFromModel(final AppThemeModel appThemeModel) {
+        switch (appThemeModel) {
             case RED_THEME:
                 return RED_THEME;
             case BLUE_THEME:
@@ -26,12 +26,12 @@ public final class ThemeMapperImpl implements ThemeMapper {
             case GREEN_THEME:
                 return GREEN_THEME;
             default:
-                throw new IllegalArgumentException("Wrong theme");
+                return BLUE_THEME;
         }
     }
 
     @Override
-    public AppThemeModel dataToDomain(String appTheme) {
+    public AppThemeModel mapToModel(final String appTheme) {
         switch (appTheme) {
             case RED_THEME:
                 return AppThemeModel.RED_THEME;
@@ -40,7 +40,7 @@ public final class ThemeMapperImpl implements ThemeMapper {
             case GREEN_THEME:
                 return AppThemeModel.GREEN_THEME;
             default:
-                throw new IllegalArgumentException("Wrong theme");
+                return AppThemeModel.BLUE_THEME;
         }
     }
 }

@@ -4,7 +4,7 @@ import ru.geekbrains.pictureapp.domain.model.AppThemeModel;
 
 public interface ThemeMapper {
 
-    String domainToData(final AppThemeModel appTheme);
+    String mapFromModel(final AppThemeModel appThemeModel);
 
-    AppThemeModel dataToDomain(final String appTheme);
+    AppThemeModel mapToModel(final String appTheme);
 }
