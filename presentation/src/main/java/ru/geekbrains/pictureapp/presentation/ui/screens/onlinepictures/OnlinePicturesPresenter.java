@@ -1,13 +1,13 @@
-package ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch;
+package ru.geekbrains.pictureapp.presentation.ui.screens.onlinepictures;
 
 import ru.geekbrains.pictureapp.presentation.ui.base.BasePresenter;
 import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter.ListView;
 
-public interface OnlineSearchPresenter extends BasePresenter<OnlineSearchPresenter.OnlineSearchView> {
+public interface OnlinePicturesPresenter extends BasePresenter<OnlinePicturesPresenter.OnlinePicturesView> {
 
-    interface OnlineSearchView extends BasePresenter.BaseView {
+    interface OnlinePicturesView extends BasePresenter.BaseView {
 
-        void init(final OnlineSearchListPresenter listPresenter);
+        void init(final OnlinePicturesListPresenter listPresenter);
 
         void showErrorNetworkMessage();
 

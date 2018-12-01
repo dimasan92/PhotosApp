@@ -1,4 +1,4 @@
-package ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch;
+package ru.geekbrains.pictureapp.presentation.ui.screens.onlinepictures;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,32 +7,32 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import ru.geekbrains.pictureapp.R;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseListPresenter;
-import ru.geekbrains.pictureapp.presentation.ui.base.photos.BasePhotosAdapter;
-import ru.geekbrains.pictureapp.presentation.ui.screens.onlinesearch.OnlineSearchListPresenter.OnlineSearchRowView;
+import ru.geekbrains.pictureapp.domain.model.ImageModel;
+import ru.geekbrains.pictureapp.presentation.ui.base.photos.BaseImagesAdapter;
+import ru.geekbrains.pictureapp.presentation.ui.screens.onlinepictures.OnlinePicturesListPresenter.OnlineSearchRowView;
 import ru.geekbrains.pictureapp.presentation.util.PictureUtils;
 
-public final class OnlineSearchAdapter extends BasePhotosAdapter<OnlineSearchAdapter.PhotoHolder>
-        implements BaseListPresenter.ListView {
+public final class OnlinePicturesAdapter extends BaseImagesAdapter<OnlinePicturesAdapter.Holder> {
 
-    private final OnlineSearchListPresenter presenter;
+    private final OnlinePicturesListPresenter presenter;
     private final PictureUtils pictureUtils;
 
-    OnlineSearchAdapter(final OnlineSearchListPresenter presenter, final PictureUtils pictureUtils) {
+    OnlinePicturesAdapter(final OnlinePicturesListPresenter presenter, final PictureUtils pictureUtils) {
         this.presenter = presenter;
         this.pictureUtils = pictureUtils;
     }
 
     @NonNull
     @Override
-    public PhotoHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new PhotoHolder(inflater.inflate(R.layout.item_photo, parent, false));
+        return new Holder(inflater.inflate(R.layout.item_photo, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhotoHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         presenter.bind(position, holder);
     }
 
@@ -41,18 +41,19 @@ public final class OnlineSearchAdapter extends BasePhotosAdapter<OnlineSearchAda
         return presenter.getCount();
     }
 
-    final class PhotoHolder extends ViewHolder implements OnlineSearchRowView {
+    final class Holder extends ViewHolder implements OnlineSearchRowView {
 
         private final ImageView photoImageView;
         private final ImageView isFavoriteImageView;
         private final ImageView ioActionImageView;
 
-        PhotoHolder(@NonNull View itemView) {
+        Holder(@NonNull View itemView) {
             super(itemView);
 
-            photoImageView = itemView.findViewById(R.id.iv_camera_photo);
+            photoImageView = itemView.findViewById(R.id.iv_photo);
+            photoImageView.setOnClickListener(v -> presenter.onFullClick(getAdapterPosition()));
 
-            isFavoriteImageView = itemView.findViewById(R.id.iv_is_photo_favorite);
+            isFavoriteImageView = itemView.findViewById(R.id.iv_is_favorite);
             isFavoriteImageView.setOnClickListener(v -> presenter.onFavoriteClick(getAdapterPosition()));
 
             ioActionImageView = itemView.findViewById(R.id.iv_io_action_photo);
@@ -60,8 +61,8 @@ public final class OnlineSearchAdapter extends BasePhotosAdapter<OnlineSearchAda
         }
 
         @Override
-        public void loadImage(final String url) {
-            pictureUtils.loadOnlineImageIntoGridCell(url, photoImageView);
+        public void loadImage(final ImageModel imageModel) {
+            pictureUtils.loadImageIntoGridCell(imageModel, photoImageView);
         }
 
         @Override
