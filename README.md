@@ -1,6 +1,6 @@
 # PhotosApp
 
-Application for working with pictures. 
+Application for working with pictures. The project created on the GeekBrains course.
 
 # Basic functionality
 * Take a photo with the system camera and save to your device
