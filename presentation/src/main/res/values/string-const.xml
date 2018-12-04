@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authority">ru.geekbrains.pictureapp.fileprovider</string>
+    <string name="custom_fab_behaviour">ru.geekbrains.pictureapp.presentation.ui.common.CustomFabBehavior</string>
+</resources>
