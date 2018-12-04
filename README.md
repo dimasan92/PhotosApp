@@ -8,6 +8,7 @@ Application for working with pictures.
 * Save pictures to device
 * Add photos and pictures to favorites
 * Detailed image viewing
+* Change application theme
 
 # Used technology stack
 * Clean architecture
